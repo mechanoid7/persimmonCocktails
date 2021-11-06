@@ -1,0 +1,153 @@
+CREATE TABLE KITCHENWARE (
+	kitchenware_id SERIAL NOT NULL  PRIMARY KEY,
+	name VARCHAR(256) NOT NULL,
+	type VARCHAR(256),
+	kitchenware_category_id INTEGER,
+	image_url VARCHAR(1000)
+);
+
+
+CREATE TABLE EVENT (
+	event_id SERIAL NOT NULL  PRIMARY KEY,
+	name VARCHAR(256) NOT NULL,
+	description VARCHAR(2000),
+	date DATE,
+	place VARCHAR(256),
+	creator_id INTEGER
+);
+
+
+CREATE TABLE INGRIDIENT (
+	ingridient_id SERIAL NOT NULL  PRIMARY KEY,
+	name VARCHAR(256) NOT NULL,
+	type VARCHAR(256),
+	ingridient_category_id INTEGER,
+	image_url VARCHAR(1000)
+);
+
+
+CREATE TABLE DISH (
+	dish_id SERIAL NOT NULL  PRIMARY KEY,
+	name VARCHAR(256) NOT NULL,
+	description VARCHAR(2000),
+	type VARCHAR(256),
+	dish_category_id INTEGER,
+	label VARCHAR(256),
+	receipt VARCHAR(2000) NOT NULL,
+	average_rate REAL,
+	volume REAL
+);
+
+
+CREATE TABLE PERSON (
+	person_id SERIAL NOT NULL  PRIMARY KEY,
+	name VARCHAR(256) NOT NULL,
+	email VARCHAR(256) NOT NULL UNIQUE,
+	password VARCHAR(256) NOT NULL,
+	photo_url VARCHAR(1000),
+	blog_id INTEGER,
+	role_id INTEGER
+);
+
+
+CREATE TABLE PERSON_IN_EVENT (
+	person_in_event_id SERIAL NOT NULL  PRIMARY KEY,
+	event_id INTEGER,
+	person_id INTEGER
+
+);
+
+
+CREATE TABLE BLOG (
+	blog_id SERIAL NOT NULL  PRIMARY KEY,
+	person_id INTEGER
+);
+
+
+CREATE TABLE STOCK (
+	stock_id SERIAL NOT NULL  PRIMARY KEY,
+	person_id INTEGER,
+	ingridient_id INTEGER,
+	amount INTEGER,
+	measure_type VARCHAR(256)
+);
+
+
+CREATE TABLE RATE (
+	rate_id SERIAL NOT NULL  PRIMARY KEY,
+	comment VARCHAR(2000),
+	rate REAL,
+	person_id INTEGER,
+	dish_id INTEGER
+);
+
+
+CREATE TABLE ROLE (
+	role_id SERIAL NOT NULL  PRIMARY KEY,
+	name VARCHAR(256) NOT NULL
+);
+
+
+CREATE TABLE FRIENDSHIP (
+	friendship_id SERIAL NOT NULL  PRIMARY KEY,
+	person_id_reciever INTEGER,
+	person_id_initiator INTEGER,
+	status VARCHAR(256)
+);
+
+
+CREATE TABLE POST (
+	post_id SERIAL NOT NULL  PRIMARY KEY,
+	name VARCHAR(256) NOT NULL,
+	content TEXT NOT NULL,
+	blog_id INTEGER
+);
+
+
+CREATE TABLE FAVOURITE_DISH (
+	favourite_dish_id SERIAL NOT NULL  PRIMARY KEY,
+	person_id INTEGER,
+	dish_id INTEGER
+);
+
+
+CREATE TABLE DISHES_IN_EVENT (
+	dishes_in_event_id SERIAL NOT NULL  PRIMARY KEY,
+	event_id INTEGER,
+	dish_id INTEGER,
+	amount INTEGER
+);
+
+
+CREATE TABLE INGRIDIENT_DISH (
+	ingridient_dish_id SERIAL NOT NULL  PRIMARY KEY,
+	dish_id INTEGER,
+	ingridient_id INTEGER,
+	amount INTEGER,
+	measure_type VARCHAR(256)
+);
+
+
+CREATE TABLE KITCHENWARE_DISH (
+	kitchenware_dish_id SERIAL NOT NULL  PRIMARY KEY,
+	dish_id INTEGER,
+	kitchenware_id INTEGER
+);
+
+
+CREATE TABLE INGRIDIENT_CATEGORY (
+	ingridient_category_id SERIAL NOT NULL  PRIMARY KEY,
+	name VARCHAR(256)
+);
+
+
+CREATE TABLE KITCHENWARE_CATEGORY (
+	kitchenware_category_id SERIAL NOT NULL  PRIMARY KEY,
+	name VARCHAR(256)
+);
+
+
+CREATE TABLE DISH_CATEGORY (
+	dish_category_id SERIAL NOT NULL  PRIMARY KEY,
+	name VARCHAR(256)
+);
