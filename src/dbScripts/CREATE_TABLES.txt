@@ -1,7 +1,6 @@
 CREATE TABLE KITCHENWARE (
 	kitchenware_id SERIAL NOT NULL  PRIMARY KEY,
 	name VARCHAR(256) NOT NULL,
-	type VARCHAR(256),
 	kitchenware_category_id INTEGER,
 	image_url VARCHAR(1000)
 );
@@ -20,7 +19,6 @@ CREATE TABLE EVENT (
 CREATE TABLE INGRIDIENT (
 	ingridient_id SERIAL NOT NULL  PRIMARY KEY,
 	name VARCHAR(256) NOT NULL,
-	type VARCHAR(256),
 	ingridient_category_id INTEGER,
 	image_url VARCHAR(1000)
 );
@@ -30,7 +28,6 @@ CREATE TABLE DISH (
 	dish_id SERIAL NOT NULL  PRIMARY KEY,
 	name VARCHAR(256) NOT NULL,
 	description VARCHAR(2000),
-	type VARCHAR(256),
 	dish_category_id INTEGER,
 	label VARCHAR(256),
 	receipt VARCHAR(2000) NOT NULL,

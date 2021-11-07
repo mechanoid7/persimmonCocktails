@@ -8,9 +8,9 @@ INSERT INTO kitchenware_category(name) VALUES('jar');
 
 INSERT INTO dish_category(name) VALUES('alcoholic'), ('non-alcoholic');
 
-INSERT INTO ingridient(name, type, ingridient_category_id) VALUES('orange', 'food', '1') ;
-INSERT INTO ingridient(name, type, ingridient_category_id) VALUES('lemon','food',  '1') ;
-INSERT INTO ingridient(name, type, ingridient_category_id) VALUES('water', 'drinks', '5') ;
+INSERT INTO ingridient(name,  ingridient_category_id) VALUES('orange',  '1') ;
+INSERT INTO ingridient(name,  ingridient_category_id) VALUES('lemon',  '1') ;
+INSERT INTO ingridient(name,  ingridient_category_id) VALUES('water',  '5') ;
 
 INSERT INTO kitchenware(name, kitchenware_category_id) VALUES('wineglass', 1);
 INSERT INTO kitchenware(name, kitchenware_category_id) VALUES('jug', 3);
