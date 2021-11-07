@@ -17,7 +17,7 @@ public class AuthorizationService {
 
     public ResponseEntity authorizeUser(String username, String password){  //change ResponseEntity on user
         //check credentials in DB
-        return ResponseEntity.ok("user authorized"); //return user
+        return ResponseEntity.ok("user authorized"); //return UserDto
     }
 
     public ResponseEntity registerUser(String username, String password, String email) {
@@ -34,7 +34,8 @@ public class AuthorizationService {
             //return message "password should contain ... "
         }
 
-        return ResponseEntity.ok("successful registration");  //return user
+        //create UserDto
+        return ResponseEntity.ok("successful registration");  //return UserDto
     }
 
     public ResponseEntity logoutUser() {
