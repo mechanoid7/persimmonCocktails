@@ -9,10 +9,9 @@ import java.util.regex.Pattern;
 
 @Service
 public class AuthorizationService {
-    private final MailService mailService;
 
-    public AuthorizationService(MailService mailService) {
-        this.mailService = mailService;
+    public AuthorizationService() {
+
     }
 
     public ResponseEntity authorizeUser(String username, String password){  //change ResponseEntity on user
@@ -21,14 +20,6 @@ public class AuthorizationService {
     }
 
     public ResponseEntity registerUser(String username, String password, String email) {
-
-        try {
-            mailService.sendEmail();           //email validation
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-
-        //validate entered email verification code
 
         if(!passwordIsValid(password)) {
             //return message "password should contain ... "

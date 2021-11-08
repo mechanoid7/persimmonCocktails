@@ -1,7 +1,6 @@
 package com.example.persimmoncocktails.controllers;
 
 import com.example.persimmoncocktails.services.AuthorizationService;
-import com.example.persimmoncocktails.services.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,12 +12,10 @@ import javax.mail.MessagingException;
 @RestController
 public class AuthorizationController {
     private final AuthorizationService authorizationService;
-    private final MailService mailService;
 
     @Autowired
-    public AuthorizationController(AuthorizationService authorizationService, MailService mailService) {
+    public AuthorizationController(AuthorizationService authorizationService) {
         this.authorizationService = authorizationService;
-        this.mailService = mailService;
     }
 
     @PostMapping(path = "/login")
@@ -41,15 +38,6 @@ public class AuthorizationController {
         return authorizationService.logoutUser();
     }
 
-    @PostMapping(path="/test")
-    public ResponseEntity<String> testMailSender() {
-        try {
-            mailService.sendEmail();
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     @PostMapping(path = "/recover")
     public ResponseEntity<String> recoverPassword(@RequestParam String email) {
