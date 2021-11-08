@@ -14,7 +14,7 @@
     <name>persimmonCocktails</name>
     <description>persimmonCocktails</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <repackage.classifier/>
         <spring-native.version>0.10.5</spring-native.version>
     </properties>
@@ -164,6 +164,10 @@
                                 </goals>
                             </execution>
                         </executions>
+                        <configuration>
+                            <source>17</source>
+                            <target>17</target>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
