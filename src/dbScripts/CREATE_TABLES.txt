@@ -43,7 +43,7 @@ CREATE TABLE PERSON (
 	password VARCHAR(256) NOT NULL,
 	photo_id BIGINT,
 	blog_id BIGINT,
-	role_id BIGINT
+	role_id INTEGER
 );
 
 
@@ -80,7 +80,7 @@ CREATE TABLE RATE (
 
 
 CREATE TABLE ROLE (
-	role_id BIGSERIAL NOT NULL  PRIMARY KEY,
+	role_id SERIAL NOT NULL  PRIMARY KEY,
 	name VARCHAR(256) NOT NULL
 );
 
