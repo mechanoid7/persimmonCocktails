@@ -2,7 +2,7 @@ CREATE TABLE KITCHENWARE (
 	kitchenware_id BIGSERIAL NOT NULL  PRIMARY KEY,
 	name VARCHAR(256) NOT NULL,
 	kitchenware_category_id INTEGER,
-	image_url VARCHAR(1000)
+	photo_id BIGINT
 );
 
 
@@ -20,7 +20,7 @@ CREATE TABLE INGRIDIENT (
 	ingridient_id BIGSERIAL NOT NULL  PRIMARY KEY,
 	name VARCHAR(256) NOT NULL,
 	ingridient_category_id BIGINT,
-	image_url VARCHAR(1000)
+	photo_id BIGINT
 );
 
 
@@ -41,7 +41,7 @@ CREATE TABLE PERSON (
 	name VARCHAR(256) NOT NULL,
 	email VARCHAR(256) NOT NULL UNIQUE,
 	password VARCHAR(256) NOT NULL,
-	photo_url VARCHAR(1000),
+	photo_id BIGINT,
 	blog_id BIGINT,
 	role_id BIGINT
 );
@@ -149,3 +149,7 @@ CREATE TABLE DISH_CATEGORY (
 	name VARCHAR(256)
 );
 
+CREATE TABLE PHOTO (
+	photo_id BIGSERIAL NOT NULL  PRIMARY KEY,
+	url VARCHAR(256)
+);
