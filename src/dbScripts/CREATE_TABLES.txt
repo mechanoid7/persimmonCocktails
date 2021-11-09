@@ -1,5 +1,5 @@
 CREATE TABLE KITCHENWARE (
-	kitchenware_id SERIAL NOT NULL  PRIMARY KEY,
+	kitchenware_id BIGSERIAL NOT NULL  PRIMARY KEY,
 	name VARCHAR(256) NOT NULL,
 	kitchenware_category_id INTEGER,
 	image_url VARCHAR(1000)
@@ -7,28 +7,28 @@ CREATE TABLE KITCHENWARE (
 
 
 CREATE TABLE EVENT (
-	event_id SERIAL NOT NULL  PRIMARY KEY,
+	event_id BIGSERIAL NOT NULL  PRIMARY KEY,
 	name VARCHAR(256) NOT NULL,
 	description VARCHAR(2000),
 	date DATE,
 	place VARCHAR(256),
-	creator_id INTEGER
+	creator_id BIGINT
 );
 
 
 CREATE TABLE INGRIDIENT (
-	ingridient_id SERIAL NOT NULL  PRIMARY KEY,
+	ingridient_id BIGSERIAL NOT NULL  PRIMARY KEY,
 	name VARCHAR(256) NOT NULL,
-	ingridient_category_id INTEGER,
+	ingridient_category_id BIGINT,
 	image_url VARCHAR(1000)
 );
 
 
 CREATE TABLE DISH (
-	dish_id SERIAL NOT NULL  PRIMARY KEY,
+	dish_id BIGSERIAL NOT NULL  PRIMARY KEY,
 	name VARCHAR(256) NOT NULL,
 	description VARCHAR(2000),
-	dish_category_id INTEGER,
+	dish_category_id BIGINT,
 	label VARCHAR(256),
 	receipt VARCHAR(2000) NOT NULL,
 	average_rate REAL,
@@ -37,114 +37,115 @@ CREATE TABLE DISH (
 
 
 CREATE TABLE PERSON (
-	person_id SERIAL NOT NULL  PRIMARY KEY,
+	person_id BIGSERIAL NOT NULL  PRIMARY KEY,
 	name VARCHAR(256) NOT NULL,
 	email VARCHAR(256) NOT NULL UNIQUE,
 	password VARCHAR(256) NOT NULL,
 	photo_url VARCHAR(1000),
-	blog_id INTEGER,
-	role_id INTEGER
+	blog_id BIGINT,
+	role_id BIGINT
 );
 
 
 CREATE TABLE PERSON_IN_EVENT (
-	person_in_event_id SERIAL NOT NULL  PRIMARY KEY,
-	event_id INTEGER,
-	person_id INTEGER
+	person_in_event_id BIGSERIAL NOT NULL  PRIMARY KEY,
+	event_id BIGINT,
+	person_id BIGINT
 
 );
 
 
 CREATE TABLE BLOG (
-	blog_id SERIAL NOT NULL  PRIMARY KEY,
-	person_id INTEGER
+	blog_id BIGSERIAL NOT NULL  PRIMARY KEY,
+	person_id BIGINT
 );
 
 
 CREATE TABLE STOCK (
-	stock_id SERIAL NOT NULL  PRIMARY KEY,
-	person_id INTEGER,
-	ingridient_id INTEGER,
+	stock_id BIGSERIAL NOT NULL  PRIMARY KEY,
+	person_id BIGINT,
+	ingridient_id BIGINT,
 	amount INTEGER,
 	measure_type VARCHAR(256)
 );
 
 
 CREATE TABLE RATE (
-	rate_id SERIAL NOT NULL  PRIMARY KEY,
+	rate_id BIGSERIAL NOT NULL  PRIMARY KEY,
 	comment VARCHAR(2000),
 	rate REAL,
-	person_id INTEGER,
-	dish_id INTEGER
+	person_id BIGINT,
+	dish_id BIGINT
 );
 
 
 CREATE TABLE ROLE (
-	role_id SERIAL NOT NULL  PRIMARY KEY,
+	role_id BIGSERIAL NOT NULL  PRIMARY KEY,
 	name VARCHAR(256) NOT NULL
 );
 
 
 CREATE TABLE FRIENDSHIP (
-	friendship_id SERIAL NOT NULL  PRIMARY KEY,
-	person_id_reciever INTEGER,
-	person_id_initiator INTEGER,
+	friendship_id BIGSERIAL NOT NULL  PRIMARY KEY,
+	person_id_reciever BIGINT,
+	person_id_initiator BIGINT,
 	status VARCHAR(256)
 );
 
 
 CREATE TABLE POST (
-	post_id SERIAL NOT NULL  PRIMARY KEY,
+	post_id BIGSERIAL NOT NULL  PRIMARY KEY,
 	name VARCHAR(256) NOT NULL,
 	content TEXT NOT NULL,
-	blog_id INTEGER
+	blog_id BIGINT
 );
 
 
 CREATE TABLE FAVOURITE_DISH (
-	favourite_dish_id SERIAL NOT NULL  PRIMARY KEY,
-	person_id INTEGER,
-	dish_id INTEGER
+	favourite_dish_id BIGSERIAL NOT NULL  PRIMARY KEY,
+	person_id BIGINT,
+	dish_id BIGINT
 );
 
 
 CREATE TABLE DISHES_IN_EVENT (
-	dishes_in_event_id SERIAL NOT NULL  PRIMARY KEY,
-	event_id INTEGER,
-	dish_id INTEGER,
+	dishes_in_event_id BIGSERIAL NOT NULL  PRIMARY KEY,
+	event_id BIGINT,
+	dish_id BIGINT,
 	amount INTEGER
 );
 
 
 CREATE TABLE INGRIDIENT_DISH (
-	ingridient_dish_id SERIAL NOT NULL  PRIMARY KEY,
-	dish_id INTEGER,
-	ingridient_id INTEGER,
+	ingridient_dish_id BIGSERIAL NOT NULL  PRIMARY KEY,
+	dish_id BIGINT,
+	ingridient_id BIGINT,
 	amount INTEGER,
 	measure_type VARCHAR(256)
 );
 
 
 CREATE TABLE KITCHENWARE_DISH (
-	kitchenware_dish_id SERIAL NOT NULL  PRIMARY KEY,
-	dish_id INTEGER,
-	kitchenware_id INTEGER
+	kitchenware_dish_id BIGSERIAL NOT NULL  PRIMARY KEY,
+	dish_id BIGINT,
+	kitchenware_id BIGINT
 );
 
 
 CREATE TABLE INGRIDIENT_CATEGORY (
-	ingridient_category_id SERIAL NOT NULL  PRIMARY KEY,
+	ingridient_category_id BIGSERIAL NOT NULL  PRIMARY KEY,
 	name VARCHAR(256)
 );
 
 
 CREATE TABLE KITCHENWARE_CATEGORY (
-	kitchenware_category_id SERIAL NOT NULL  PRIMARY KEY,
+	kitchenware_category_id BIGSERIAL NOT NULL  PRIMARY KEY,
 	name VARCHAR(256)
 );
 
 
 CREATE TABLE DISH_CATEGORY (
-	dish_category_id SERIAL NOT NULL  PRIMARY KEY,
+	dish_category_id BIGSERIAL NOT NULL  PRIMARY KEY,
 	name VARCHAR(256)
 );
+
