@@ -16,28 +16,34 @@ public class PersonController {
         this.personDaoImpl = personDaoImpl;
     }
 
-    @PostMapping("/add")
-    private void addPerson(@RequestParam String name, @RequestParam String  email, @RequestParam String password,
-                           @RequestParam Long photoId, @RequestParam Long blogId, @RequestParam Integer roleId){
-        personDaoImpl.create(new Person(0L, name, email, password, photoId, blogId, roleId));
-    }
+//    @PostMapping("/add")
+//    private void addPerson(@RequestParam String name, @RequestParam String  email, @RequestParam String password
+//            , @RequestParam Integer roleId){
+//        personDaoImpl.create(
+//                Person.builder()
+//                        .name(name)
+//                        .email(email)
+//                        .password(password)
+//                        .roleId(roleId)
+//                .build());
+//    }
 
     @GetMapping("/{personId}")
     public Person getPersonById(@PathVariable Long personId){
         return personDaoImpl.read(personId);
     }
 
-    @GetMapping("/email={personEmail}")
+    @GetMapping("/email/{personEmail}")
     private Person getPersonByEmail(@PathVariable String personEmail){
         return personDaoImpl.read(personEmail);
     }
 
-    @PatchMapping("/update")
-    private void updatePerson(@RequestParam Long personId, @RequestParam String name, @RequestParam String  email,
-                              @RequestParam String password, @RequestParam Long photoId, @RequestParam Long blogId,
-                              @RequestParam Integer roleId){
-        personDaoImpl.update(new Person(personId, name, email, password, photoId, blogId, roleId));
-    }
+//    @PatchMapping("/update")
+//    private void updatePerson(@RequestParam Long personId, @RequestParam String name, @RequestParam String  email,
+//                              @RequestParam String password, @RequestParam Long photoId, @RequestParam Long blogId,
+//                              @RequestParam Integer roleId){
+//        personDaoImpl.update(new Person(personId, name, email, password, photoId, blogId, roleId));
+//    }
 
     @DeleteMapping("/{personId}")
     private void deletePersonById(@PathVariable Long personId){

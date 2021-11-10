@@ -1,6 +1,7 @@
 package com.example.persimmoncocktails.services;
 
 import com.example.persimmoncocktails.controllers.PersonController;
+import com.example.persimmoncocktails.dao.PersonDao;
 import com.example.persimmoncocktails.dao.impl.PersonDaoImpl;
 import com.example.persimmoncocktails.models.Person;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +13,10 @@ import java.util.regex.Pattern;
 
 @Service
 public class AuthorizationService {
-    PersonDaoImpl personDao;
-    PersonController personController;
-    public AuthorizationService() {
+    PersonDao personDao;
 
+    public AuthorizationService(PersonDao personDao) {
+        this.personDao = personDao;
     }
 
     public ResponseEntity authorizeUser(String email, String password){
@@ -31,22 +32,24 @@ public class AuthorizationService {
         return ResponseEntity.ok(person);
     }
 
-    public ResponseEntity registerUser(String email, String password) {
+    public Long registerUser(String name, String email, String password) {
 
-        if(!emailIsValid(email)) {
-            return ResponseEntity.ok("email is not valid");
-        }
-        if(!passwordIsValid(password)) {
-            return ResponseEntity.ok("password is not valid");
-        }
+//        if(!emailIsValid(email)) {
+//            return ResponseEntity.ok("email is not valid");
+//        }
+//        if(!passwordIsValid(password)) {
+//            return ResponseEntity.ok("password is not valid");
+//        }
 
         Person person = new Person();
+        person.setName(name);
         person.setEmail(email);
         person.setPassword(password);
+        person.setPersonId(3L); // default user
 
         personDao.create(person);
 
-        return ResponseEntity.ok(person);
+        return personDao.read(person.getEmail()).getPersonId();
     }
 
     public ResponseEntity logoutUser() {

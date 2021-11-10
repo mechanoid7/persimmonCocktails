@@ -1,5 +1,6 @@
 package com.example.persimmoncocktails.controllers;
 
+import com.example.persimmoncocktails.dao.impl.PersonDaoImpl;
 import com.example.persimmoncocktails.models.Person;
 import com.example.persimmoncocktails.services.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +21,14 @@ public class AuthorizationController {
         this.authorizationService = authorizationService;
     }
 
-    @GetMapping(path = "/login")
+    @PostMapping(path = "/login")
     public ResponseEntity authorizeUser(@RequestParam String email, @RequestParam String password) {
         return authorizationService.authorizeUser(email, password);
     }
 
     @PostMapping(path = "/registration")
-    public ResponseEntity<String> registerUser(@RequestParam String username, @RequestParam String password, @RequestParam String email) {
-        return authorizationService.registerUser(email, password);
+    public ResponseEntity<Long> registerUser(@RequestParam String name, @RequestParam String password, @RequestParam String email) {
+        return ResponseEntity.ok(authorizationService.registerUser(name, email, password));
     }
 
     @PostMapping(path = "/logout")
