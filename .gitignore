@@ -17,6 +17,8 @@ build/
 ### VS Code ###
 .vscode/
 
+temporary
+
 .idea/
 .idea/**
 
