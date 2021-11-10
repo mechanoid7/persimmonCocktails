@@ -22,18 +22,11 @@ public class EmailController {
         SimpleMailMessage message = new SimpleMailMessage();
 
         message.setTo(email);
-        message.setSubject("email verification code");
-        message.setText("1111"); //generate code and save to DB
+        message.setSubject("");
+        message.setText("");
 
-        // Send Message
         this.emailSender.send(message);
 
         return "Email Sent!";
     }
-
-    public ResponseEntity<String> checkEmailVerificationCode(@RequestParam String code) {
-        //compare to code from DB
-        return ResponseEntity.ok("successful verification"); //return userDto
-    }
-
 }

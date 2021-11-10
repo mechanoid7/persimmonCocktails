@@ -1,8 +1,10 @@
 package com.example.persimmoncocktails.controllers;
 
+import com.example.persimmoncocktails.models.Person;
 import com.example.persimmoncocktails.services.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,22 +20,17 @@ public class AuthorizationController {
         this.authorizationService = authorizationService;
     }
 
-    @PostMapping(path = "/login")
-    public ResponseEntity<String> authorizeUser(@RequestParam String username, @RequestParam String password) {
-        return authorizationService.authorizeUser(username, password);
+    @GetMapping(path = "/login")
+    public ResponseEntity authorizeUser(@RequestParam String email, @RequestParam String password) {
+        return authorizationService.authorizeUser(email, password);
     }
-
-//    @PostMapping(path = "/l")
-//    public ResponseEntity<String> aut(@RequestParam String username, @RequestParam String password) {
-//        return authorizationService.authorizeUser(username, password);
-//    }
 
     @PostMapping(path = "/registration")
     public ResponseEntity<String> registerUser(@RequestParam String username, @RequestParam String password, @RequestParam String email) {
-        return authorizationService.registerUser(username, password, email);
+        return authorizationService.registerUser(email, password);
     }
 
-    @PostMapping(path ="/logout")
+    @PostMapping(path = "/logout")
     public ResponseEntity<String> logoutUser() {
         return authorizationService.logoutUser();
     }
