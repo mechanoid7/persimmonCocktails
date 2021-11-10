@@ -16,6 +16,8 @@ public class PersonDaoImpl implements PersonDao {
 
     @Value("${sql_person_create}")
     private String sqlInsertNewPerson;
+    @Value("${sql_person_create_base}")
+    private String sqlInserNewPersonRequiredFields;
     @Value("${sql_person_read_by_id}")
     private String sqlReadPersonById;
     @Value("${sql_person_read_by_email}")
@@ -31,8 +33,8 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public void create(Person person) { // create new person
-        jdbcTemplate.update(sqlInsertNewPerson, person.getName(), person.getEmail(), person.getPassword(),
-                person.getPhotoId(), person.getBlogId(), person.getRoleId());
+        jdbcTemplate.update(sqlInserNewPersonRequiredFields, person.getName(), person.getEmail(), person.getPassword(),
+                person.getRoleId());
     }
 
     @Override
