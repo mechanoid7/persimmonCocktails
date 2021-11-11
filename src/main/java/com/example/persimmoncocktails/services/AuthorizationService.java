@@ -1,9 +1,18 @@
 package com.example.persimmoncocktails.services;
 
 import com.example.persimmoncocktails.controllers.PersonController;
+import com.example.persimmoncocktails.dao.PersonDao;
 import com.example.persimmoncocktails.dao.impl.PersonDaoImpl;
+import com.example.persimmoncocktails.dtos.ResponseMessage;
+import com.example.persimmoncocktails.dtos.auth.RequestRegistrationDataDto;
+import com.example.persimmoncocktails.dtos.auth.RequestSigninDataDto;
+import com.example.persimmoncocktails.exceptions.IncorrectEmailFormat;
+import com.example.persimmoncocktails.exceptions.IncorrectPasswordFormat;
+import com.example.persimmoncocktails.exceptions.WrongCredentialsException;
 import com.example.persimmoncocktails.models.Person;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -11,47 +20,60 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
+@AllArgsConstructor
 public class AuthorizationService {
-    PersonDaoImpl personDao;
-    PersonController personController;
-    public AuthorizationService() {
+    PersonDao personDao;
+    BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    }
-
-    public ResponseEntity authorizeUser(String email, String password){
-        Person person = personDao.read(email);
+    public Long authorizeUser(RequestSigninDataDto signinData){
+        Person person = personDao.readByEmail(signinData.getEmail());
         if(person != null) {
-            if(password != person.getPassword()) {
-                return ResponseEntity.ok("wrong password");  // return error
+            if(!bCryptPasswordEncoder.matches(signinData.getPassword(), person.getPassword())) {
+                throw new WrongCredentialsException();
             }
         }
         else {
-            return ResponseEntity.ok("user not found");      // return error
+            throw new WrongCredentialsException();
         }
-        return ResponseEntity.ok(person);
+
+
+        // generate and send token
+        return person.getPersonId();
     }
 
-    public ResponseEntity registerUser(String email, String password) {
+    public Long registerUser(RequestRegistrationDataDto registrationData) {
 
-        if(!emailIsValid(email)) {
-            return ResponseEntity.ok("email is not valid");
+        if(!emailIsValid(registrationData.getEmail())){
+            throw new IncorrectEmailFormat();
         }
-        if(!passwordIsValid(password)) {
-            return ResponseEntity.ok("password is not valid");
+        if(!passwordIsValid(registrationData.getPassword())){
+            throw new IncorrectPasswordFormat();
         }
 
-        Person person = new Person();
-        person.setEmail(email);
-        person.setPassword(password);
+        Person person = Person.builder()
+                .name(registrationData.getName())
+                .password(hashPassword(registrationData.getPassword()))
+                .email(registrationData.getEmail())
+                .roleId(3)
+                .build();// default user
 
         personDao.create(person);
 
-        return ResponseEntity.ok(person);
+        return personDao.readByEmail(person.getEmail()).getPersonId();
     }
 
-    public ResponseEntity logoutUser() {
+    public void logoutUser() {
         //end session, delete cookies
-        return ResponseEntity.ok("user logged out");
+        // disable access token
+//        return ResponseEntity.ok("user logged out");
+    }
+
+    public ResponseMessage recoverPassword(String email) {
+        Person person = personDao.readByEmail(email);
+        if(person != null) {
+            //send link
+        }
+        return new ResponseMessage("If this user with such email exists, he/she will be contacted via email");
     }
 
     public boolean passwordIsValid(String password) {
@@ -73,9 +95,9 @@ public class AuthorizationService {
         return matcher.find();
     }
 
-    public ResponseEntity recoverPassword(String email) {
-        //send link
-        return null;
+    private String hashPassword(String password) {
+
+        return bCryptPasswordEncoder.encode(password);
     }
 
 }
