@@ -7,7 +7,7 @@ public interface PersonDao {
 
     Person read(Long personId);
 
-    Person read(String email);
+    Person readByEmail(String email);
 
     void update(Person person);
 

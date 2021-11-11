@@ -25,8 +25,8 @@ public class AuthorizationService {
     PersonDao personDao;
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public void authorizeUser(RequestSigninDataDto signinData){
-        Person person = personDao.read(signinData.getEmail());
+    public Long authorizeUser(RequestSigninDataDto signinData){
+        Person person = personDao.readByEmail(signinData.getEmail());
         if(person != null) {
             if(!bCryptPasswordEncoder.matches(signinData.getPassword(), person.getPassword())) {
                 throw new WrongCredentialsException();
@@ -38,6 +38,7 @@ public class AuthorizationService {
 
 
         // generate and send token
+        return person.getPersonId();
     }
 
     public Long registerUser(RequestRegistrationDataDto registrationData) {
@@ -58,7 +59,7 @@ public class AuthorizationService {
 
         personDao.create(person);
 
-        return personDao.read(person.getEmail()).getPersonId();
+        return personDao.readByEmail(person.getEmail()).getPersonId();
     }
 
     public void logoutUser() {
@@ -68,7 +69,7 @@ public class AuthorizationService {
     }
 
     public ResponseMessage recoverPassword(String email) {
-        Person person = personDao.read(email);
+        Person person = personDao.readByEmail(email);
         if(person != null) {
             //send link
         }

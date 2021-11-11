@@ -23,13 +23,13 @@ public class AuthorizationController {
     }
 
     @PostMapping(path = "/login")
-    public void authorizeUser(@Valid @RequestBody RequestSigninDataDto signinData) {
-        authorizationService.authorizeUser(signinData);
+    public Long authorizeUser(@Valid @RequestBody RequestSigninDataDto signinData) {
+        return authorizationService.authorizeUser(signinData);
     }
 
     @PostMapping(path = "/registration")
-    public ResponseEntity<Long> registerUser(@Valid @RequestBody RequestRegistrationDataDto registrationData) {
-        return ResponseEntity.ok(authorizationService.registerUser(registrationData));
+    public Long registerUser(@Valid @RequestBody RequestRegistrationDataDto registrationData) {
+        return authorizationService.registerUser(registrationData);
     }
 
     @PostMapping(path = "/logout")
@@ -39,8 +39,8 @@ public class AuthorizationController {
 
 
     @PostMapping(path = "/recover")
-    public ResponseEntity<ResponseMessage> recoverPassword(@RequestParam String email) {
-        return ResponseEntity.ok(authorizationService.recoverPassword(email));
+    public ResponseMessage recoverPassword(@RequestParam String email) {
+        return authorizationService.recoverPassword(email);
     }
 }
 
