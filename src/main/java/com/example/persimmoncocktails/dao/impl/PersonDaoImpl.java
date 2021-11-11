@@ -1,11 +1,13 @@
 package com.example.persimmoncocktails.dao.impl;
 
 import com.example.persimmoncocktails.dao.PersonDao;
+import com.example.persimmoncocktails.exceptions.UnknownException;
 import com.example.persimmoncocktails.mapper.PersonMapper;
 import com.example.persimmoncocktails.models.Person;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -33,8 +35,15 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public void create(Person person) { // create new person
-        jdbcTemplate.update(sqlInserNewPersonRequiredFields, person.getName(), person.getEmail(), person.getPassword(),
-                person.getRoleId());
+        try {
+            jdbcTemplate.update(sqlInserNewPersonRequiredFields, person.getName(), person.getEmail(), person.getPassword(),
+                    person.getRoleId());
+        }
+        catch (DataAccessException rootException){
+            // we should log it
+            rootException.printStackTrace();
+            throw new UnknownException();
+        }
     }
 
     @Override
