@@ -1,15 +1,17 @@
 package com.example.persimmoncocktails.controllers;
 
+import com.example.persimmoncocktails.dao.impl.PersonDaoImpl;
+import com.example.persimmoncocktails.dtos.ResponseMessage;
+import com.example.persimmoncocktails.dtos.auth.RequestRegistrationDataDto;
+import com.example.persimmoncocktails.dtos.auth.RequestSigninDataDto;
 import com.example.persimmoncocktails.models.Person;
 import com.example.persimmoncocktails.services.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
+import javax.validation.Valid;
 
 @RestController
 public class AuthorizationController {
@@ -20,24 +22,24 @@ public class AuthorizationController {
         this.authorizationService = authorizationService;
     }
 
-    @GetMapping(path = "/login")
-    public ResponseEntity authorizeUser(@RequestParam String email, @RequestParam String password) {
-        return authorizationService.authorizeUser(email, password);
+    @PostMapping(path = "/login")
+    public Long authorizeUser(@Valid @RequestBody RequestSigninDataDto signinData) {
+        return authorizationService.authorizeUser(signinData);
     }
 
     @PostMapping(path = "/registration")
-    public ResponseEntity<String> registerUser(@RequestParam String username, @RequestParam String password, @RequestParam String email) {
-        return authorizationService.registerUser(email, password);
+    public Long registerUser(@Valid @RequestBody RequestRegistrationDataDto registrationData) {
+        return authorizationService.registerUser(registrationData);
     }
 
     @PostMapping(path = "/logout")
-    public ResponseEntity<String> logoutUser() {
-        return authorizationService.logoutUser();
+    public void logoutUser() {
+        authorizationService.logoutUser();
     }
 
 
     @PostMapping(path = "/recover")
-    public ResponseEntity<String> recoverPassword(@RequestParam String email) {
+    public ResponseMessage recoverPassword(@RequestParam String email) {
         return authorizationService.recoverPassword(email);
     }
 }

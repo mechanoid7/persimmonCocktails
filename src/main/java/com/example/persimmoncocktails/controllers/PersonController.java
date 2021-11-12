@@ -1,6 +1,7 @@
 package com.example.persimmoncocktails.controllers;
 
 import com.example.persimmoncocktails.dao.PersonDao;
+
 import com.example.persimmoncocktails.models.Person;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ public class PersonController {
     public PersonController(PersonDao personDao) {
         this.personDao = personDao;
     }
+
 
     @PostMapping("/add")
     private void addPerson(@RequestParam String name, @RequestParam String  email, @RequestParam String password
@@ -35,7 +37,7 @@ public class PersonController {
         return personDao.read(personId);
     }
 
-    @GetMapping("/email={personEmail}")
+    @GetMapping("/email/{personEmail}")
     private Person getPersonByEmail(@PathVariable String personEmail){
         return personDao.read(personEmail);
     }
