@@ -13,10 +13,10 @@ import javax.validation.constraints.Pattern;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RequestRegistrationDataDto {
-    @NotNull
+    @NotNull(message = "Name should not be empty")
     String name;
-    @NotNull
+    @NotNull(message = "Password should not be empty")
     String password;
-    @NotNull
+    @NotNull(message = "Email should not be empty")
     String email;
 }
