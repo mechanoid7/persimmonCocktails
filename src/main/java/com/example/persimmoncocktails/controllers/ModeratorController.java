@@ -1,11 +1,9 @@
 package com.example.persimmoncocktails.controllers;
 
-import com.example.persimmoncocktails.dao.impl.ModeratorDaoImpl;
+import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
 import com.example.persimmoncocktails.models.Person;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.persimmoncocktails.services.ModeratorService;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -13,14 +11,48 @@ import java.util.List;
 @RequestMapping("/moderator")
 public class ModeratorController {
 
-    private final ModeratorDaoImpl moderatorDaoImpl;
+    private final ModeratorService moderatorService;
 
-    public ModeratorController(ModeratorDaoImpl moderatorDaoImpl) {
-        this.moderatorDaoImpl = moderatorDaoImpl;
+    public ModeratorController(ModeratorService moderatorService) {
+        this.moderatorService = moderatorService;
     }
 
-    @GetMapping("/get-all")
-    public List<Person> getAllModerators(){
-        return moderatorDaoImpl.getAllModerators();
+
+    @GetMapping("/all")
+    public List<PersonResponseDto> getAllModerators() {
+        return moderatorService.getAllModerators();
     }
+
+    @PostMapping("/add")
+    private void addModerator(@RequestParam String name, @RequestParam String email) {
+//        personDao.create(
+//                Person.builder()
+//                        .name(name)
+//                        .email(email)
+//                        .password(password)
+//                        .roleId(roleId)
+//                        .build());
+    }
+
+    @GetMapping("/{personId}")
+    public PersonResponseDto getPersonById(@PathVariable Long personId){
+        return moderatorService.readModeratorById(personId);
+    }
+
+    @PatchMapping("/update-name")
+    private void updateName(@RequestParam Long personId, @RequestParam String name){
+        moderatorService.updateName(personId, name);
+    }
+
+    @PatchMapping("/update-photo")
+    private void updatePhoto(@RequestParam Long personId, @RequestParam Long photoId){
+        moderatorService.updatePhotoId(personId, photoId);
+    }
+
+    @PatchMapping("/change-password")
+    private void changePasswordPerson(@RequestParam Long personId, @RequestParam String oldPassword,
+                                      @RequestParam String  newPassword){
+        moderatorService.changePassword(personId, oldPassword, newPassword);
+    }
+
 }

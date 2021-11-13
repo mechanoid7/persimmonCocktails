@@ -22,17 +22,6 @@ public class PersonController {
     }
 
 
-//    @PostMapping("/add")
-//    private void addPerson(@RequestParam String name, @RequestParam String  email, @RequestParam String password
-//            , @RequestParam Integer roleId){
-//        personDao.create(
-//                Person.builder()
-//                        .name(name)
-//                        .email(email)
-//                        .password(password)
-//                        .roleId(roleId)
-//                        .build());
-//    }
 
     @GetMapping("/{personId}")
     public PersonResponseDto getPersonById(@PathVariable Long personId){
