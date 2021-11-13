@@ -7,6 +7,7 @@ import com.example.persimmoncocktails.dtos.ResponseMessage;
 import com.example.persimmoncocktails.dtos.auth.RequestRegistrationDataDto;
 import com.example.persimmoncocktails.dtos.auth.RequestSigninDataDto;
 import com.example.persimmoncocktails.exceptions.IncorrectEmailFormat;
+import com.example.persimmoncocktails.exceptions.IncorrectNameFormat;
 import com.example.persimmoncocktails.exceptions.IncorrectPasswordFormat;
 import com.example.persimmoncocktails.exceptions.WrongCredentialsException;
 import com.example.persimmoncocktails.models.Person;
@@ -42,7 +43,9 @@ public class AuthorizationService {
     }
 
     public Long registerUser(RequestRegistrationDataDto registrationData) {
-
+        if(!nameIsValid(registrationData.getName())){
+            throw new IncorrectNameFormat();
+        }
         if(!emailIsValid(registrationData.getEmail())){
             throw new IncorrectEmailFormat();
         }
@@ -76,7 +79,7 @@ public class AuthorizationService {
         return new ResponseMessage("If this user with such email exists, he/she will be contacted via email");
     }
 
-    public boolean passwordIsValid(String password) {
+    public static boolean passwordIsValid(String password) {
         String regex = "^(?=.*[0-9])"
                      + "(?=.*[a-z])"
                      + "(?=.*[A-Z])"
@@ -92,6 +95,13 @@ public class AuthorizationService {
         String regex = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
         Pattern pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(email);
+        return matcher.find();
+    }
+
+    public static boolean nameIsValid(String name){
+        String regex = "^[a-zA-Z0-9 ]{3,255}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(name);
         return matcher.find();
     }
 

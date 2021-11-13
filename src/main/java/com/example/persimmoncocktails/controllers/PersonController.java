@@ -2,7 +2,9 @@ package com.example.persimmoncocktails.controllers;
 
 import com.example.persimmoncocktails.dao.PersonDao;
 
+import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
 import com.example.persimmoncocktails.models.Person;
+import com.example.persimmoncocktails.services.PersonService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,62 +15,63 @@ import java.util.List;
 @RequestMapping("/person")
 public class PersonController {
 
-    private final PersonDao personDao;
+    private final PersonService personService;
 
-    public PersonController(PersonDao personDao) {
-        this.personDao = personDao;
+    public PersonController(PersonService personService) {
+        this.personService = personService;
     }
 
 
-    @PostMapping("/add")
-    private void addPerson(@RequestParam String name, @RequestParam String  email, @RequestParam String password
-            , @RequestParam Integer roleId){
-        personDao.create(
-                Person.builder()
-                        .name(name)
-                        .email(email)
-                        .password(password)
-                        .roleId(roleId)
-                        .build());
-    }
+//    @PostMapping("/add")
+//    private void addPerson(@RequestParam String name, @RequestParam String  email, @RequestParam String password
+//            , @RequestParam Integer roleId){
+//        personDao.create(
+//                Person.builder()
+//                        .name(name)
+//                        .email(email)
+//                        .password(password)
+//                        .roleId(roleId)
+//                        .build());
+//    }
 
     @GetMapping("/{personId}")
-    public Person getPersonById(@PathVariable Long personId){
-        return personDao.read(personId);
+    public PersonResponseDto getPersonById(@PathVariable Long personId){
+        return personService.readPersonById(personId);
     }
 
     @GetMapping("/email/{personEmail}")
-    private Person getPersonByEmail(@PathVariable String personEmail){return personDao.readByEmail(personEmail);
+    private PersonResponseDto getPersonByEmail(@PathVariable String personEmail){
+        return personService.readByEmail(personEmail);
     }
 
-    @PatchMapping("/update")
-    private HttpStatus updatePerson(@RequestParam Long personId, @RequestParam String name, @RequestParam String  email,
-                              @RequestParam String password, @RequestParam Long photoId, @RequestParam Long blogId,
-                              @RequestParam Integer roleId){
-        personDao.update(new Person(personId, name, email, password, photoId, blogId, roleId));
-        return HttpStatus.OK;
+    @PatchMapping("/update-name")
+    private void updateName(@RequestParam Long personId, @RequestParam String name){
+        personService.updateName(personId, name);
+    }
+
+    @PatchMapping("/update-photo")
+    private void updatePhoto(@RequestParam Long personId, @RequestParam Long photoId){
+        personService.updatePhotoId(personId, photoId);
     }
 
     @DeleteMapping("/{personId}")
-    private HttpStatus deletePersonById(@PathVariable Long personId){
-        personDao.delete(personId);
-        return HttpStatus.ACCEPTED;
+    private void deletePersonById(@PathVariable Long personId){
+        personService.delete(personId);
     }
 
     @PatchMapping("/change-password")
-    private HttpStatus changePasswordPerson(@RequestParam Long personId, @RequestParam String oldPassword,
+    private void changePasswordPerson(@RequestParam Long personId, @RequestParam String oldPassword,
                                       @RequestParam String  newPassword){
-        personDao.changePassword(personId, oldPassword, newPassword);
-        return HttpStatus.OK;
+        personService.changePassword(personId, oldPassword, newPassword);
     }
 
     @GetMapping("/{personId}/friends")
-    private List<Person> getPersonFriends(@PathVariable Long personId){
-        return personDao.getPersonFriends(personId);
+    private List<PersonResponseDto> getPersonFriends(@PathVariable Long personId){
+        return personService.getPersonFriends(personId);
     }
 
     @GetMapping("/{personId}/friends/{substring}")
-    private List<Person> getPersonFriendsBySubstring(@PathVariable Long personId, @PathVariable String substring){
-        return personDao.getListFriendBySubstring(personId, "%"+substring+"%");
+    private List<PersonResponseDto> getPersonFriendsBySubstring(@PathVariable Long personId, @PathVariable String substring){
+        return personService.getListFriendBySubstring(personId, substring);
     }
 }
