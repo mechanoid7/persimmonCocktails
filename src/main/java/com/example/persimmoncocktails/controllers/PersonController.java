@@ -38,8 +38,7 @@ public class PersonController {
     }
 
     @GetMapping("/email/{personEmail}")
-    private Person getPersonByEmail(@PathVariable String personEmail){
-        return personDao.read(personEmail);
+    private Person getPersonByEmail(@PathVariable String personEmail){return personDao.readByEmail(personEmail);
     }
 
     @PatchMapping("/update")
