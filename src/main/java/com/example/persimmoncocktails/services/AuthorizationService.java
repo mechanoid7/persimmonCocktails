@@ -1,8 +1,6 @@
 package com.example.persimmoncocktails.services;
 
-import com.example.persimmoncocktails.controllers.PersonController;
 import com.example.persimmoncocktails.dao.PersonDao;
-import com.example.persimmoncocktails.dao.impl.PersonDaoImpl;
 import com.example.persimmoncocktails.dtos.ResponseMessage;
 import com.example.persimmoncocktails.dtos.auth.RequestRegistrationDataDto;
 import com.example.persimmoncocktails.dtos.auth.RequestSigninDataDto;
@@ -11,28 +9,41 @@ import com.example.persimmoncocktails.exceptions.IncorrectPasswordFormat;
 import com.example.persimmoncocktails.exceptions.WrongCredentialsException;
 import com.example.persimmoncocktails.models.Person;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
 @AllArgsConstructor
-public class AuthorizationService {
+public class AuthorizationService implements UserDetailsService {
     PersonDao personDao;
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public Long authorizeUser(RequestSigninDataDto signinData){
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        try {
+            Long personId = Long.parseLong(s);
+            Person person = personDao.read(personId);
+            if(person == null) throw new UsernameNotFoundException(String.format("Couldn't find user with id = %s", s));
+            return person;
+        }
+        catch (NumberFormatException nfe){
+            throw new UsernameNotFoundException(String.format("Couldn't parse user id from %s", s));
+        }
+    }
+
+    public Long authorizeUser(RequestSigninDataDto signinData) {
         Person person = personDao.readByEmail(signinData.getEmail());
-        if(person != null) {
-            if(!bCryptPasswordEncoder.matches(signinData.getPassword(), person.getPassword())) {
+        if (person != null) {
+            if (!bCryptPasswordEncoder.matches(signinData.getPassword(), person.getPassword())) {
                 throw new WrongCredentialsException();
             }
-        }
-        else {
+        } else {
             throw new WrongCredentialsException();
         }
 
@@ -43,10 +54,10 @@ public class AuthorizationService {
 
     public Long registerUser(RequestRegistrationDataDto registrationData) {
 
-        if(!emailIsValid(registrationData.getEmail())){
+        if (!emailIsValid(registrationData.getEmail())) {
             throw new IncorrectEmailFormat();
         }
-        if(!passwordIsValid(registrationData.getPassword())){
+        if (!passwordIsValid(registrationData.getPassword())) {
             throw new IncorrectPasswordFormat();
         }
 
@@ -70,7 +81,7 @@ public class AuthorizationService {
 
     public ResponseMessage recoverPassword(String email) {
         Person person = personDao.readByEmail(email);
-        if(person != null) {
+        if (person != null) {
             //send link
         }
         return new ResponseMessage("If this user with such email exists, he/she will be contacted via email");
@@ -78,9 +89,9 @@ public class AuthorizationService {
 
     public boolean passwordIsValid(String password) {
         String regex = "^(?=.*[0-9])"
-                     + "(?=.*[a-z])"
-                     + "(?=.*[A-Z])"
-                     + "(?=\\S+$).{8,20}$";
+                + "(?=.*[a-z])"
+                + "(?=.*[A-Z])"
+                + "(?=\\S+$).{8,20}$";
 
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(password);
@@ -89,14 +100,12 @@ public class AuthorizationService {
     }
 
     public static boolean emailIsValid(String email) {
-        String regex = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
         Pattern pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(email);
         return matcher.find();
     }
 
     private String hashPassword(String password) {
-
         return bCryptPasswordEncoder.encode(password);
     }
 

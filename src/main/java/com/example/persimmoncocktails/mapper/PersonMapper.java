@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class PersonMapper implements RowMapper<Person> {
     @Override
@@ -22,7 +23,8 @@ public class PersonMapper implements RowMapper<Person> {
                 rs.getString("password"),
                 photoId,
                 blogId,
-                roleId
+                roleId,
+                new ArrayList<>()
         );
     }
 }
