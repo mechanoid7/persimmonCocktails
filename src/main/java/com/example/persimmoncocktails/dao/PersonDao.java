@@ -5,6 +5,8 @@ import com.example.persimmoncocktails.models.Person;
 import java.util.List;
 
 public interface PersonDao {
+    boolean existsById(Long personId);
+
     void create(Person person);
 
     Person read(Long personId);
@@ -15,7 +17,7 @@ public interface PersonDao {
 
     void delete(Long personId);
 
-    void changePassword(Long personId, String oldPassword, String newPassword);
+    void changePassword(Long personId, String newPassword);
 
     List<Person> getPersonFriends(Long personId);
 

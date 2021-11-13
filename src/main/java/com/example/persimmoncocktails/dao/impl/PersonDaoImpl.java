@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -27,6 +28,9 @@ public class PersonDaoImpl implements PersonDao {
 
     private final PersonMapper personMapper = new PersonMapper();
     private final JdbcTemplate jdbcTemplate;
+
+    @Value("${sql_person_with_such_id_exists}")
+    private String sqlPersonWithSuchIdExists;
     @Value("${sql_person_create}")
     private String sqlInsertNewPerson;
     @Value("${sql_person_create_base}")
@@ -43,6 +47,11 @@ public class PersonDaoImpl implements PersonDao {
     private String sqlGetAllFriends;
     @Value("${sql_person_get_all_friends_by_substring}")
     private String sqlGetListFriendBySubstring;
+
+    @Override
+    public boolean existsById(Long personId) {
+        return Boolean.TRUE.equals(jdbcTemplate.queryForObject(sqlPersonWithSuchIdExists, Boolean.class, personId));
+    }
 
     @Override
     public void create(Person person) { // create new person
@@ -89,22 +98,28 @@ public class PersonDaoImpl implements PersonDao {
     @Override
     public void update(Person person) { // update person data
         // we should consider changing way to modify rows
-        jdbcTemplate.update(sqlUpdatePerson, person.getName(), person.getEmail(), person.getPassword(),
-                person.getPhotoId(), person.getBlogId(), person.getRoleId(), person.getPersonId());
+        try {
+            jdbcTemplate.update(sqlUpdatePerson, person.getName(), person.getEmail(), person.getPassword(),
+                    person.getPhotoId(), person.getBlogId(), person.getRoleId(), person.getPersonId());
+        }
+        catch (DataIntegrityViolationException dataIntegrityViolationException){
+            throw new NotFoundException("");
+        } catch (DataAccessException rootException) {
+            // we should log it
+            rootException.printStackTrace();
+            throw new UnknownException();
+        }
     }
 
     @Override
     public void delete(Long personId) { // delete person by ID
+
         jdbcTemplate.update(sqlDeletePerson, personId);
     }
 
     @Override
-    public void changePassword(Long personId, String oldPassword, String newPassword) {
-        Person person = read(personId);
-        if (person != null && person.getPassword().equals(oldPassword)){ // compare old password input and DB
-            person.setPassword(newPassword);
-            update(person);
-        }
+    public void changePassword(Long personId, String newPassword) {
+
     }
 
     @Override
