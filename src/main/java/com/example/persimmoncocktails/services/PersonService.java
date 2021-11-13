@@ -58,16 +58,20 @@ public class PersonService {
     }
 
     public PersonResponseDto readByEmail(String personEmail) {
-        return PersonResponseDto.toDto(personDao.readByEmail(personEmail));
+        Person person = personDao.readByEmail(personEmail);
+        if(person == null) throw new NotFoundException("Person");
+        return PersonResponseDto.toDto(person);
     }
 
     public PersonResponseDto readPersonById(Long personId) {
-        return PersonResponseDto.toDto(personDao.read(personId));
+        Person person = personDao.read(personId);
+        if(person == null) throw new NotFoundException("Person");
+        return PersonResponseDto.toDto(person);
     }
 
     public void updateName(Long personId, String name) {
         if(!personDao.existsById(personId)) throw new NotFoundException("Person");
-        if(!AuthorizationService.nameIsValid(name)) throw new IncorrectNameFormat(name);
+        if(!AuthorizationService.nameIsValid(name)) throw new IncorrectNameFormat();
         Person person = personDao.read(personId);
         person.setName(name);
         personDao.update(person);

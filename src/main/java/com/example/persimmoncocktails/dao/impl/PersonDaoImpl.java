@@ -50,7 +50,7 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public boolean existsById(Long personId) {
-        return Boolean.TRUE.equals(jdbcTemplate.queryForObject(sqlPersonWithSuchIdExists, Boolean.class));
+        return Boolean.TRUE.equals(jdbcTemplate.queryForObject(sqlPersonWithSuchIdExists, Boolean.class, personId));
     }
 
     @Override
