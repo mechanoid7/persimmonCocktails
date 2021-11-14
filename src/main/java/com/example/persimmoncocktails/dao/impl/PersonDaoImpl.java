@@ -59,8 +59,6 @@ public class PersonDaoImpl implements PersonDao {
     private String sqlSaveRecoverPasswordRequest;
     @Value("${sql_person_data_dto_by_recovery_id}")
     private String sqlPersonIdByRequest;
-    @Value("${link_restore_password_lifetime}")
-    private Integer linkRestorePasswordLifetime;
     @Value("${sql_person_deactivate_password_change_request}")
     private String sqlDeactivateChangePasswordRequest;
 
@@ -135,7 +133,6 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public void delete(Long personId) { // delete person by ID
-
         jdbcTemplate.update(sqlDeletePerson, personId);
     }
 
@@ -166,25 +163,12 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
-    public void restorePassword(String id, Long personId, String hashedNewPassword) {
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        List<RestorePasswordDataDto> dataDto = jdbcTemplate.query(sqlPersonIdByRequest, restorePasswordMapper, personId);
+    public List<RestorePasswordDataDto> restorePassword(String id, Long personId) { // get user requests
+        return jdbcTemplate.query(sqlPersonIdByRequest, restorePasswordMapper, personId);
+    }
 
-        if (dataDto.isEmpty()) throw new NotFoundException("Request for password restore");
-
-        boolean updatePerson = false;
-        for (RestorePasswordDataDto dto : dataDto){
-            if (bCryptPasswordEncoder.matches(id, dto.getId()) &&
-                    ChronoUnit.HOURS.between(dto.getLocalDateTime(), currentDateTime) < linkRestorePasswordLifetime){ // if id matched and the request has not timed out
-                Person person = read(dto.getPersonId());
-                person.setPassword(hashedNewPassword);
-                update(person);
-                updatePerson = true;
-                break;
-            }
-        }
-        if (!updatePerson) throw new RecoverLinkExpired();
-
-        jdbcTemplate.update(sqlDeactivateChangePasswordRequest, personId); // deactivate all this user request
+    @Override
+    public void deactivateRequestsBuPersonId(Long personId){ // deactivate all this user request
+        jdbcTemplate.update(sqlDeactivateChangePasswordRequest, personId);
     }
 }

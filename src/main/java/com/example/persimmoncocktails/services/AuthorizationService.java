@@ -3,8 +3,10 @@ package com.example.persimmoncocktails.services;
 import com.example.persimmoncocktails.dao.PersonDao;
 import com.example.persimmoncocktails.dtos.auth.RequestRegistrationDataDto;
 import com.example.persimmoncocktails.dtos.auth.RequestSigninDataDto;
+import com.example.persimmoncocktails.dtos.auth.RestorePasswordDataDto;
 import com.example.persimmoncocktails.exceptions.*;
 import com.example.persimmoncocktails.models.Person;
+import jdk.dynalink.linker.LinkerServices;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,6 +34,8 @@ public class AuthorizationService {
 
     @Value("${site_url}")
     private String siteUrl;
+    @Value("${link_restore_password_lifetime}")
+    private Integer linkRestorePasswordLifetime;
 
     @Autowired
     public AuthorizationService(JavaMailSender emailSender, BCryptPasswordEncoder bCryptPasswordEncoder, PersonDao personDao) {
@@ -104,7 +110,29 @@ public class AuthorizationService {
     }
 
     public void recoverPassword(String id, Long personId, String newPassword) {
-        personDao.restorePassword(id, personId, hashPassword(newPassword));
+        if(!passwordIsValid(newPassword)){
+            throw new IncorrectPasswordFormat();
+        }
+
+        List<RestorePasswordDataDto> dataDto = personDao.restorePassword(id, personId);
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        if (dataDto.isEmpty()) throw new NotFoundException("Request for password restore");
+
+        boolean updatePerson = false;
+        for (RestorePasswordDataDto dto : dataDto){
+            if (matchHash(id, dto.getId()) &&
+                    ChronoUnit.HOURS.between(dto.getLocalDateTime(), currentDateTime) < linkRestorePasswordLifetime){ // if id matched and the request has not timed out
+                Person person = personDao.read(dto.getPersonId());
+                person.setPassword(hashPassword(newPassword));
+                personDao.update(person);
+                updatePerson = true;
+                break;
+            }
+        }
+        if (!updatePerson) throw new RecoverLinkExpired();
+
+        personDao.deactivateRequestsBuPersonId(personId);
     }
 
     public static boolean passwordIsValid(String password) { // method is correct?
