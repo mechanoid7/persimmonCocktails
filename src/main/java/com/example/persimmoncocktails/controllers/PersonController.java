@@ -7,6 +7,7 @@ import com.example.persimmoncocktails.models.Person;
 import com.example.persimmoncocktails.services.PersonService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +21,6 @@ public class PersonController {
     public PersonController(PersonService personService) {
         this.personService = personService;
     }
-
 
 
     @GetMapping("/{personId}")

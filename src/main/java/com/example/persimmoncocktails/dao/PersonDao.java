@@ -1,7 +1,9 @@
 package com.example.persimmoncocktails.dao;
 
 import com.example.persimmoncocktails.models.Person;
+import org.apache.tomcat.jni.Time;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface PersonDao {
@@ -22,4 +24,8 @@ public interface PersonDao {
     List<Person> getPersonFriends(Long personId);
 
     List<Person> getListFriendBySubstring(Long personId, String substring);
+
+    void saveRecoverPasswordRequest(Long personId, LocalDateTime localDateTime, String hashedId);
+
+    void restorePassword(String id, Long personId,String newPassword);
 }

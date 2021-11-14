@@ -163,6 +163,6 @@ CREATE TABLE NOTIFICATION (
 CREATE TABLE PASSWORD_CHANGE_REQUEST (
          request_id BIGSERIAL NOT NULL  PRIMARY KEY,
          person_id BIGINT NOT NULL,
-         time TIME,
+         time TIMESTAMP,
          id VARCHAR(256) NOT NULL
 );
