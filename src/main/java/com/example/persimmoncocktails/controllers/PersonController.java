@@ -2,6 +2,9 @@ package com.example.persimmoncocktails.controllers;
 
 import com.example.persimmoncocktails.dao.PersonDao;
 
+import com.example.persimmoncocktails.dtos.auth.RequestChangePasswordDataDto;
+import com.example.persimmoncocktails.dtos.auth.RequestUpdateNameDataDto;
+import com.example.persimmoncocktails.dtos.auth.RequestUpdatePhotoDataDto;
 import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
 import com.example.persimmoncocktails.models.Person;
 import com.example.persimmoncocktails.services.PersonService;
@@ -33,13 +36,13 @@ public class PersonController {
     }
 
     @PatchMapping("/update-name")
-    private void updateName(@RequestBody Long personId, @RequestBody String name){
-        personService.updateName(personId, name);
+    private void updateName(@RequestBody RequestUpdateNameDataDto requestUpdateNameData){
+        personService.updateName(requestUpdateNameData.getPersonId(), requestUpdateNameData.getName());
     }
 //
     @PatchMapping("/update-photo")
-    private void updatePhoto(@RequestBody Long personId, @RequestBody Long photoId){
-        personService.updatePhotoId(personId, photoId);
+    private void updatePhoto(@RequestBody RequestUpdatePhotoDataDto requestUpdatePhotoData){
+        personService.updatePhotoId(requestUpdatePhotoData.getPersonId(), requestUpdatePhotoData.getPhotoId());
     }
 
     @DeleteMapping("/{personId}")
@@ -48,9 +51,11 @@ public class PersonController {
     }
 
     @PatchMapping("/change-password")
-    private void changePasswordPerson(@RequestBody Long personId, @RequestBody String oldPassword,
-                                      @RequestBody String  newPassword){
-        personService.changePassword(personId, oldPassword, newPassword);
+    private void changePasswordPerson(@RequestBody RequestChangePasswordDataDto requestChangePasswordData){
+        personService.changePassword(
+                requestChangePasswordData.getPersonId(),
+                requestChangePasswordData.getOldPassword(),
+                requestChangePasswordData.getNewPassword());
     }
 
     @GetMapping("/{personId}/friends")
@@ -63,3 +68,4 @@ public class PersonController {
         return personService.getListFriendBySubstring(personId, substring);
     }
 }
+

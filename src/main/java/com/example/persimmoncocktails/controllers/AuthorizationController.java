@@ -1,6 +1,8 @@
 package com.example.persimmoncocktails.controllers;
 
 import com.example.persimmoncocktails.dtos.ResponseMessage;
+import com.example.persimmoncocktails.dtos.auth.RequestEmailDto;
+import com.example.persimmoncocktails.dtos.auth.RequestRecoverPasswordDataDto;
 import com.example.persimmoncocktails.dtos.auth.RequestRegistrationDataDto;
 import com.example.persimmoncocktails.dtos.auth.RequestSigninDataDto;
 import com.example.persimmoncocktails.services.AuthorizationService;
@@ -34,14 +36,16 @@ public class AuthorizationController {
     }
 
     @PostMapping(path = "/forgot-password")
-    public void forgotPassword(@RequestBody String email) {
-        System.out.println(email);
-        authorizationService.forgotPassword(email);
+    public void forgotPassword(@RequestBody RequestEmailDto emailData) {
+        authorizationService.forgotPassword(emailData.getEmail());
     }
 
     @PostMapping(path = "/recover-password")
-    public void recoverPassword(@RequestBody String id, @RequestBody Long personId, @RequestBody String newPassword){ // get id, personId from email link
-        authorizationService.recoverPassword(id, personId, newPassword);
+    public void recoverPassword(@RequestBody RequestRecoverPasswordDataDto requestRecoverPasswordData){ // get id, personId from email link
+        authorizationService.recoverPassword(
+                requestRecoverPasswordData.getId(),
+                requestRecoverPasswordData.getPersonId(),
+                requestRecoverPasswordData.getNewPassword());
     }
 }
 
