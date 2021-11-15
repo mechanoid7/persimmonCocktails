@@ -33,14 +33,14 @@ public class AuthorizationController {
         authorizationService.logoutUser();
     }
 
-
     @PostMapping(path = "/forgot-password")
-    public void forgotPassword(@RequestParam String email) {
+    public void forgotPassword(@RequestBody String email) {
+        System.out.println(email);
         authorizationService.forgotPassword(email);
     }
 
     @PostMapping(path = "/recover-password")
-    public void recoverPassword(@RequestParam String id, @RequestParam Long personId, @RequestParam String newPassword){ // get id, personId from email link
+    public void recoverPassword(@RequestBody String id, @RequestBody Long personId, @RequestBody String newPassword){ // get id, personId from email link
         authorizationService.recoverPassword(id, personId, newPassword);
     }
 }

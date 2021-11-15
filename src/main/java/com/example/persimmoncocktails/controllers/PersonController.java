@@ -22,7 +22,6 @@ public class PersonController {
         this.personService = personService;
     }
 
-
     @GetMapping("/{personId}")
     public PersonResponseDto getPersonById(@PathVariable Long personId){
         return personService.readPersonById(personId);
@@ -34,12 +33,12 @@ public class PersonController {
     }
 
     @PatchMapping("/update-name")
-    private void updateName(@RequestParam Long personId, @RequestParam String name){
+    private void updateName(@RequestBody Long personId, @RequestBody String name){
         personService.updateName(personId, name);
     }
-
+//
     @PatchMapping("/update-photo")
-    private void updatePhoto(@RequestParam Long personId, @RequestParam Long photoId){
+    private void updatePhoto(@RequestBody Long personId, @RequestBody Long photoId){
         personService.updatePhotoId(personId, photoId);
     }
 
@@ -49,8 +48,8 @@ public class PersonController {
     }
 
     @PatchMapping("/change-password")
-    private void changePasswordPerson(@RequestParam Long personId, @RequestParam String oldPassword,
-                                      @RequestParam String  newPassword){
+    private void changePasswordPerson(@RequestBody Long personId, @RequestBody String oldPassword,
+                                      @RequestBody String  newPassword){
         personService.changePassword(personId, oldPassword, newPassword);
     }
 

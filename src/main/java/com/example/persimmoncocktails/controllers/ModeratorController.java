@@ -27,7 +27,7 @@ public class ModeratorController {
     }
 
     @PostMapping("/add")
-    private void addModerator(@RequestParam String name, @RequestParam String email) {
+    private void addModerator(@RequestBody String name, @RequestBody String email) {
         moderatorService.create(name, email);
     }
 
@@ -37,23 +37,23 @@ public class ModeratorController {
     }
 
     @PatchMapping("/update-name")
-    private void updateName(@RequestParam Long personId, @RequestParam String name){
+    private void updateName(@RequestParam Long personId, @RequestBody String name){
         moderatorService.updateName(personId, name);
     }
 
     @PatchMapping("/update-photo")
-    private void updatePhoto(@RequestParam Long personId, @RequestParam Long photoId){
+    private void updatePhoto(@RequestParam Long personId, @RequestBody Long photoId){
         moderatorService.updatePhotoId(personId, photoId);
     }
 
     @PatchMapping("/change-password")
-    private void changePasswordPerson(@RequestParam Long personId, @RequestParam String oldPassword,
-                                      @RequestParam String  newPassword){
+    private void changePasswordPerson(@RequestBody Long personId, @RequestBody String oldPassword,
+                                      @RequestBody String  newPassword){
         moderatorService.changePassword(personId, oldPassword, newPassword);
     }
 
     @PostMapping(path = "/create-password")
-    public void recoverPassword(@RequestParam String id, @RequestParam Long personId, @RequestParam String newPassword){ // get id, personId from email link
+    public void recoverPassword(@RequestBody String id, @RequestBody Long personId, @RequestBody String newPassword){ // get id, personId from email link
         moderatorService.createPassword(id, personId, newPassword);
     }
 }
