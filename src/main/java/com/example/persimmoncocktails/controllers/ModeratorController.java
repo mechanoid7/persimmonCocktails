@@ -1,5 +1,6 @@
 package com.example.persimmoncocktails.controllers;
 
+import com.example.persimmoncocktails.dao.PersonDao;
 import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
 import com.example.persimmoncocktails.models.Person;
 import com.example.persimmoncocktails.services.ModeratorService;
@@ -12,9 +13,11 @@ import java.util.List;
 public class ModeratorController {
 
     private final ModeratorService moderatorService;
+    private final PersonDao personDao;
 
-    public ModeratorController(ModeratorService moderatorService) {
+    public ModeratorController(ModeratorService moderatorService, PersonDao personDao) {
         this.moderatorService = moderatorService;
+        this.personDao = personDao;
     }
 
 
@@ -25,13 +28,7 @@ public class ModeratorController {
 
     @PostMapping("/add")
     private void addModerator(@RequestParam String name, @RequestParam String email) {
-//        personDao.create(
-//                Person.builder()
-//                        .name(name)
-//                        .email(email)
-//                        .password(password)
-//                        .roleId(roleId)
-//                        .build());
+        moderatorService.create(name, email);
     }
 
     @GetMapping("/{personId}")
@@ -55,4 +52,8 @@ public class ModeratorController {
         moderatorService.changePassword(personId, oldPassword, newPassword);
     }
 
+    @PostMapping(path = "/create-password")
+    public void recoverPassword(@RequestParam String id, @RequestParam Long personId, @RequestParam String newPassword){ // get id, personId from email link
+        moderatorService.createPassword(id, personId, newPassword);
+    }
 }

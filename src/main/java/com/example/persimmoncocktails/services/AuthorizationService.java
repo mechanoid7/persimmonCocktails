@@ -6,7 +6,6 @@ import com.example.persimmoncocktails.dtos.auth.RequestSigninDataDto;
 import com.example.persimmoncocktails.dtos.auth.RestorePasswordDataDto;
 import com.example.persimmoncocktails.exceptions.*;
 import com.example.persimmoncocktails.models.Person;
-import jdk.dynalink.linker.LinkerServices;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,7 +29,7 @@ public class AuthorizationService {
     PersonDao personDao;
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public final JavaMailSender emailSender;
+    private final JavaMailSender emailSender;
 
     @Value("${site_url}")
     private String siteUrl;
@@ -98,7 +97,7 @@ public class AuthorizationService {
             SimpleMailMessage message = new SimpleMailMessage();
 
             message.setTo(email);
-            message.setSubject("Persimmon password recover");
+            message.setSubject("Persimmon cocktails password recover");
             message.setText("To change your password, follow the link " + generatePasswordRecoveryLink(id, person.getPersonId()) +
                     "\nIf you have not requested to change your password, simply ignore this message. ");
 
@@ -130,7 +129,7 @@ public class AuthorizationService {
                 break;
             }
         }
-        if (!updatePerson) throw new RecoverLinkExpired();
+        if (!updatePerson) throw new LinkExpired("Recover");
 
         personDao.deactivateRequestsBuPersonId(personId);
     }
@@ -170,7 +169,7 @@ public class AuthorizationService {
         return siteUrl+"/recover-password?id="+id+"&nn="+personId;
     }
 
-    private String generateRandomString(){
+    public static String generateRandomString(){
         int leftLimit = 48; // numeral '0'
         int rightLimit = 122; // letter 'z'
         int targetStringLength = 40;
