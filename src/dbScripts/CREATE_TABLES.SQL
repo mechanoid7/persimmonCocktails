@@ -43,20 +43,19 @@ CREATE TABLE PERSON (
 	password VARCHAR(256) NOT NULL,
 	photo_id BIGINT,
 	blog_id BIGINT,
-	role_id INTEGER
+	role_id INTEGER
 );
 
 
 CREATE TABLE PERSON_IN_EVENT (
 	person_in_event_id BIGSERIAL NOT NULL  PRIMARY KEY,
-	event_id BIGINT,
-	person_id BIGINT
-
+	event_id BIGINT,
+	person_id BIGINT
 );
 
 
 CREATE TABLE BLOG (
-	blog_id BIGSERIAL NOT NULL  PRIMARY KEY,
+	blog_id BIGSERIAL NOT NULL  PRIMARY KEY,
 	person_id BIGINT
 );
 
@@ -87,8 +86,8 @@ CREATE TABLE ROLE (
 
 CREATE TABLE FRIENDSHIP (
 	friendship_id BIGSERIAL NOT NULL  PRIMARY KEY,
-	person_id_reciever BIGINT,
-	person_id_initiator BIGINT,
+	person_id_reciever BIGINT,
+	person_id_initiator BIGINT,
 	status VARCHAR(256)
 );
 
@@ -103,23 +102,23 @@ CREATE TABLE POST (
 
 CREATE TABLE FAVOURITE_DISH (
 	favourite_dish_id BIGSERIAL NOT NULL  PRIMARY KEY,
-	person_id BIGINT,
-	dish_id BIGINT
+	person_id BIGINT,
+	dish_id BIGINT
 );
 
 
 CREATE TABLE DISHES_IN_EVENT (
 	dishes_in_event_id BIGSERIAL NOT NULL  PRIMARY KEY,
-	event_id BIGINT,
-	dish_id BIGINT,
+	event_id BIGINT,
+	dish_id BIGINT,
 	amount INTEGER
 );
 
 
 CREATE TABLE INGRIDIENT_DISH (
 	ingridient_dish_id BIGSERIAL NOT NULL  PRIMARY KEY,
-	dish_id BIGINT,
-	ingridient_id BIGINT,
+	dish_id BIGINT,
+	ingridient_id BIGINT,
 	amount INTEGER,
 	measure_type VARCHAR(256)
 );
@@ -127,8 +126,8 @@ CREATE TABLE INGRIDIENT_DISH (
 
 CREATE TABLE KITCHENWARE_DISH (
 	kitchenware_dish_id BIGSERIAL NOT NULL  PRIMARY KEY,
-	dish_id BIGINT,
-	kitchenware_id BIGINT
+	dish_id BIGINT,
+	kitchenware_id BIGINT
 );
 
 
@@ -156,7 +155,14 @@ CREATE TABLE PHOTO (
 
 CREATE TABLE NOTIFICATION (
 	notification_id BIGSERIAL NOT NULL  PRIMARY KEY,
-	person_id  BIGINT,
-	event_id BIGINT,
+	person_id  BIGINT,
+	event_id BIGINT,
 	status VARCHAR(256)
+);
+
+CREATE TABLE PASSWORD_CHANGE_REQUEST (
+         request_id BIGSERIAL NOT NULL  PRIMARY KEY,
+         person_id BIGINT NOT NULL,
+         time TIMESTAMP,
+         id VARCHAR(256) NOT NULL
 );
