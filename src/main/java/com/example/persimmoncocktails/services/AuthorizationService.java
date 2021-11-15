@@ -12,6 +12,9 @@ import com.example.persimmoncocktails.exceptions.WrongCredentialsException;
 import com.example.persimmoncocktails.models.Person;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -99,5 +102,17 @@ public class AuthorizationService {
 
         return bCryptPasswordEncoder.encode(password);
     }
-
+//
+//    @Override
+//    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+//        try {
+//            Long personId = Long.parseLong(s);
+//            Person person = personDao.read(personId);
+//            if(person == null) throw new UsernameNotFoundException(String.format("Couldn't find user with id = %s", s));
+//            return person;
+//        }
+//        catch (NumberFormatException nfe){
+//            throw new UsernameNotFoundException(String.format("Couldn't parse user id from %s", s));
+//        }
+//    }
 }

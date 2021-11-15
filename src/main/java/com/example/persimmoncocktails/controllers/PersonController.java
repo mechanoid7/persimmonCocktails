@@ -5,6 +5,7 @@ import com.example.persimmoncocktails.dao.impl.PersonDaoImpl;
 import com.example.persimmoncocktails.models.Person;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,12 +30,15 @@ public class PersonController {
 //                .build());
 //    }
 
+
     @GetMapping("/{personId}")
+//    @PreAuthorize("hasAuthority('all:read')")
     public Person getPersonById(@PathVariable Long personId){
         return personDao.read(personId);
     }
 
     @GetMapping("/email/{personEmail}")
+//    @PreAuthorize("hasAuthority('all:read')")
     private Person getPersonByEmail(@PathVariable String personEmail){
         return personDao.readByEmail(personEmail);
     }
@@ -47,6 +51,7 @@ public class PersonController {
 //    }
 
     @DeleteMapping("/{personId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     private void deletePersonById(@PathVariable Long personId){
         personDao.delete(personId);
     }
