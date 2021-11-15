@@ -62,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         UserDetails client = User.builder()
                 .username("client")
-                .roles(ApplicationUserRole.CLIENT.name())
+//                .roles(ApplicationUserRole.CLIENT.name())
                 .password(passwordEncoder.encode("pass"))
                 .authorities(ApplicationUserRole.CLIENT.getGrantedAuthorities())
                 .build();

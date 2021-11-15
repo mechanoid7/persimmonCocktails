@@ -3,6 +3,7 @@ package com.example.persimmoncocktails.controllers;
 import com.example.persimmoncocktails.dao.PersonDao;
 import com.example.persimmoncocktails.dao.impl.PersonDaoImpl;
 import com.example.persimmoncocktails.models.Person;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,6 +15,7 @@ public class PersonController {
 
     private final PersonDao personDao;
 
+    @Autowired
     public PersonController(PersonDao personDao) {
         this.personDao = personDao;
     }
