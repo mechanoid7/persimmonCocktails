@@ -10,8 +10,8 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RequestSigninDataDto {
-    @NotNull
+    @NotNull(message = "Password should not be empty")
     String password;
-    @NotNull
+    @NotNull(message = "Email should not be empty")
     String email;
 }

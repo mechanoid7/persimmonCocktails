@@ -1,16 +1,12 @@
 package com.example.persimmoncocktails.controllers;
 
-import com.example.persimmoncocktails.dao.impl.PersonDaoImpl;
 import com.example.persimmoncocktails.dtos.ResponseMessage;
 import com.example.persimmoncocktails.dtos.auth.RequestRegistrationDataDto;
 import com.example.persimmoncocktails.dtos.auth.RequestSigninDataDto;
-import com.example.persimmoncocktails.models.Person;
 import com.example.persimmoncocktails.services.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 @RestController
@@ -37,10 +33,15 @@ public class AuthorizationController {
         authorizationService.logoutUser();
     }
 
+    @PostMapping(path = "/forgot-password")
+    public void forgotPassword(@RequestBody String email) {
+        System.out.println(email);
+        authorizationService.forgotPassword(email);
+    }
 
-    @PostMapping(path = "/recover")
-    public ResponseMessage recoverPassword(@RequestParam String email) {
-        return authorizationService.recoverPassword(email);
+    @PostMapping(path = "/recover-password")
+    public void recoverPassword(@RequestBody String id, @RequestBody Long personId, @RequestBody String newPassword){ // get id, personId from email link
+        authorizationService.recoverPassword(id, personId, newPassword);
     }
 }
 
