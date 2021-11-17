@@ -16,10 +16,10 @@ CREATE TABLE EVENT (
 );
 
 
-CREATE TABLE INGRIDIENT (
-	ingridient_id BIGSERIAL NOT NULL  PRIMARY KEY,
+CREATE TABLE INGREDIENT (
+	ingredient_id BIGSERIAL NOT NULL  PRIMARY KEY,
 	name VARCHAR(256) NOT NULL,
-	ingridient_category_id BIGINT,
+	ingredient_category_id BIGINT,
 	photo_id BIGINT
 );
 
@@ -46,15 +46,6 @@ CREATE TABLE PERSON (
 	role_id INTEGER
 );
 
-
-CREATE TABLE PERSON_IN_EVENT (
-	person_in_event_id BIGSERIAL NOT NULL  PRIMARY KEY,
-	event_id BIGINT,
-	person_id BIGINT
-
-);
-
-
 CREATE TABLE BLOG (
 	blog_id BIGSERIAL NOT NULL  PRIMARY KEY,
 	person_id BIGINT
@@ -64,7 +55,7 @@ CREATE TABLE BLOG (
 CREATE TABLE STOCK (
 	stock_id BIGSERIAL NOT NULL  PRIMARY KEY,
 	person_id BIGINT,
-	ingridient_id BIGINT,
+	ingredient_id BIGINT,
 	amount INTEGER,
 	measure_type VARCHAR(256)
 );
@@ -87,7 +78,7 @@ CREATE TABLE ROLE (
 
 CREATE TABLE FRIENDSHIP (
 	friendship_id BIGSERIAL NOT NULL  PRIMARY KEY,
-	person_id_reciever BIGINT,
+	person_id_receiver BIGINT,
 	person_id_initiator BIGINT,
 	status VARCHAR(256)
 );
@@ -116,10 +107,10 @@ CREATE TABLE DISHES_IN_EVENT (
 );
 
 
-CREATE TABLE INGRIDIENT_DISH (
-	ingridient_dish_id BIGSERIAL NOT NULL  PRIMARY KEY,
+CREATE TABLE INGREDIENT_DISH (
+	ingredient_dish_id BIGSERIAL NOT NULL  PRIMARY KEY,
 	dish_id BIGINT,
-	ingridient_id BIGINT,
+	ingredient_id BIGINT,
 	amount INTEGER,
 	measure_type VARCHAR(256)
 );
@@ -132,8 +123,8 @@ CREATE TABLE KITCHENWARE_DISH (
 );
 
 
-CREATE TABLE INGRIDIENT_CATEGORY (
-	ingridient_category_id BIGSERIAL NOT NULL  PRIMARY KEY,
+CREATE TABLE INGREDIENT_CATEGORY (
+	ingredient_category_id BIGSERIAL NOT NULL  PRIMARY KEY,
 	name VARCHAR(256)
 );
 
@@ -159,4 +150,28 @@ CREATE TABLE NOTIFICATION (
 	person_id  BIGINT,
 	event_id BIGINT,
 	status VARCHAR(256)
+);
+
+CREATE TABLE FRIENDSHIP_INVITATION (
+	friendship_invitation_id BIGSERIAL NOT NULL  PRIMARY KEY,
+	person_id_receiver BIGINT,
+	person_id_initiator BIGINT,
+	date DATE,
+	message VARCHAR(1000),
+	isAccepted BOOLEAN
+);
+
+CREATE TABLE PERSON_IN_EVENT_INVITATION (
+	person_in_event_invitation_id BIGSERIAL NOT NULL  PRIMARY KEY,
+	event_id BIGINT,
+	person_id BIGINT,
+	message VARCHAR(1000),
+    isAccepted BOOLEAN
+);
+
+CREATE TABLE PASSWORD_CHANGE_REQUEST (
+         request_id BIGSERIAL NOT NULL  PRIMARY KEY,
+         person_id BIGINT NOT NULL,
+         time TIMESTAMP,
+         id VARCHAR(256) NOT NULL
 );
