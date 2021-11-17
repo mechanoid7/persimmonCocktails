@@ -22,10 +22,6 @@ public interface PersonDao {
 
     void changePassword(Long personId, String newPassword);
 
-    List<Person> getPersonFriends(Long personId);
-
-    List<Person> getListFriendBySubstring(Long personId, String substring);
-
     void saveRecoverPasswordRequest(Long personId, LocalDateTime localDateTime, String hashedId);
 
     List<RestorePasswordDataDto> restorePassword(String id, Long personId);

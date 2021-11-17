@@ -36,27 +36,6 @@ public class PersonService {
         }
     }
 
-    public List<PersonResponseDto> getPersonFriends(Long personId) {
-        List<Person> friends = personDao.getPersonFriends(personId);
-        /*
-        List<PersonResponseDto> result = new ArrayList<>();
-        for(Person p : friends){
-        result.add(PersonResponseDto.toDto(p));
-        }
-         */
-        return friends.stream()
-                .map(PersonResponseDto::toDto)
-                .collect(Collectors.toList());
-    }
-
-    public List<PersonResponseDto> getListFriendBySubstring(Long personId, String substring) {
-        if(!AuthorizationService.nameIsValid(substring)) throw new IncorrectNameFormat();
-        var friends = personDao.getListFriendBySubstring(personId, substring);
-        return friends.stream()
-                .map(PersonResponseDto::toDto)
-                .collect(Collectors.toList());
-    }
-
     public PersonResponseDto readByEmail(String personEmail) {
         Person person = personDao.readByEmail(personEmail);
         if(person == null) throw new NotFoundException("Person");
