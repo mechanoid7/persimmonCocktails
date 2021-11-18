@@ -10,7 +10,6 @@ import com.example.persimmoncocktails.mapper.RestorePasswordMapper;
 import com.example.persimmoncocktails.models.Person;
 import lombok.RequiredArgsConstructor;
 //import java.sql.time;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.DataAccessException;
@@ -18,11 +17,9 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -33,7 +30,6 @@ public class PersonDaoImpl implements PersonDao {
     private final PersonMapper personMapper = new PersonMapper();
     private final RestorePasswordMapper restorePasswordMapper = new RestorePasswordMapper();
     private final JdbcTemplate jdbcTemplate;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Value("${sql_person_with_such_id_exists}")
     private String sqlPersonWithSuchIdExists;
@@ -49,9 +45,9 @@ public class PersonDaoImpl implements PersonDao {
     private String sqlUpdatePerson;
     @Value("${sql_person_delete}")
     private String sqlDeletePerson;
-    @Value("${sql_person_get_all_friends}")
+    @Value("${sql_friend_get_all_friends}")
     private String sqlGetAllFriends;
-    @Value("${sql_person_get_all_friends_by_substring}")
+    @Value("${sql_friend_get_all_friends_by_substring}")
     private String sqlGetListFriendBySubstring;
     @Value("${sql_person_save_recover_password_request}")
     private String sqlSaveRecoverPasswordRequest;
@@ -59,12 +55,6 @@ public class PersonDaoImpl implements PersonDao {
     private String sqlPersonIdByRequest;
     @Value("${sql_person_deactivate_password_change_request}")
     private String sqlDeactivateChangePasswordRequest;
-
-    @Autowired
-    public PersonDaoImpl(BCryptPasswordEncoder bCryptPasswordEncoder, JdbcTemplate jdbcTemplate) {
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     @Override
     public boolean existsById(Long personId) {
@@ -137,22 +127,6 @@ public class PersonDaoImpl implements PersonDao {
     @Override
     public void changePassword(Long personId, String newPassword) {
 
-    }
-
-    @Override
-    public List<Person> getPersonFriends(Long personId){ // get all person friends by ID
-        List<Person> result = jdbcTemplate.query(sqlGetAllFriends, personMapper, personId, personId);
-        if (result.isEmpty())
-            return new ArrayList<>();
-        return result;
-    }
-
-    @Override
-    public List<Person> getListFriendBySubstring(Long personId, String substring){ // get all person friends by ID, filter by name
-        List<Person> result = jdbcTemplate.query(sqlGetListFriendBySubstring, personMapper, personId, personId, substring.toLowerCase());
-        if (result.isEmpty())
-            return new ArrayList<>();
-        return result;
     }
 
     @Override

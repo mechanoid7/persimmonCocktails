@@ -1,16 +1,13 @@
 package com.example.persimmoncocktails.controllers;
 
-import com.example.persimmoncocktails.dao.PersonDao;
-
 import com.example.persimmoncocktails.dtos.auth.RequestChangePasswordDataDto;
 import com.example.persimmoncocktails.dtos.auth.RequestUpdateNameDataDto;
 import com.example.persimmoncocktails.dtos.auth.RequestUpdatePhotoDataDto;
+import com.example.persimmoncocktails.dtos.friend.FriendResponseDto;
 import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
-import com.example.persimmoncocktails.models.Person;
+import com.example.persimmoncocktails.services.FriendsService;
 import com.example.persimmoncocktails.services.PersonService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,9 +17,11 @@ import java.util.List;
 public class PersonController {
 
     private final PersonService personService;
+    private final FriendsService friendsService;
 
-    public PersonController(PersonService personService) {
+    public PersonController(PersonService personService, FriendsService friendsService) {
         this.personService = personService;
+        this.friendsService = friendsService;
     }
 
     @GetMapping("/{personId}")
@@ -59,13 +58,28 @@ public class PersonController {
     }
 
     @GetMapping("/{personId}/friends")
-    private List<PersonResponseDto> getPersonFriends(@PathVariable Long personId){
-        return personService.getPersonFriends(personId);
+    private List<FriendResponseDto> getPersonFriendsById(@PathVariable Long personId, @RequestParam("page") Long pageNumber){
+        return friendsService.getPersonFriends(personId, pageNumber);
     }
 
     @GetMapping("/{personId}/friends/{substring}")
-    private List<PersonResponseDto> getPersonFriendsBySubstring(@PathVariable Long personId, @PathVariable String substring){
-        return personService.getListFriendBySubstring(personId, substring);
+    private List<FriendResponseDto> getPersonFriendsByIdAndSubstring(@PathVariable Long personId, @PathVariable String substring, @RequestParam("page") Long pageNumber){
+        return friendsService.getListFriendsBySubstring(personId, substring, pageNumber);
+    }
+
+    @GetMapping("/users/{substring}")
+    private List<FriendResponseDto> getPersonsByNameSubstring(@PathVariable String substring, @RequestParam("page") Long pageNumber){
+        return friendsService.searchPersonsByNameSubstring(substring, pageNumber);
+    }
+
+    @DeleteMapping("/{personId}/friends/delete")
+    private void deleteFriend(@PathVariable Long personId, @RequestBody Long friendId){
+        friendsService.removeFriendById(personId, friendId);
+    }
+
+    @PostMapping("/{personId}/friends/add")
+    private void addFriend(@PathVariable Long personId, @RequestBody Long friendId){
+        friendsService.addFriend(personId, friendId);
     }
 }
 

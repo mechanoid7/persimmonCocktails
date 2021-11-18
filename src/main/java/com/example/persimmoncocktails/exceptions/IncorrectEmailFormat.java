@@ -5,7 +5,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 public class IncorrectEmailFormat extends ResponseStatusException {
 
-
     public IncorrectEmailFormat() {
         super(HttpStatus.BAD_REQUEST, "Your email has incorrect format");
     }
