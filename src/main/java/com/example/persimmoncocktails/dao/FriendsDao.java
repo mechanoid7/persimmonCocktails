@@ -6,11 +6,11 @@ import com.example.persimmoncocktails.models.Person;
 import java.util.List;
 
 public interface FriendsDao {
-    List<FriendResponseDto> getPersonFriends(Long personId);
+    List<FriendResponseDto> getPersonFriends(Long personId, Long pageNumber);
 
-    List<FriendResponseDto> getListFriendByNameSubstring(Long personId, String substring);
+    List<FriendResponseDto> getListFriendByNameSubstring(Long personId, String substring, Long pageNumber);
 
-    List<FriendResponseDto> searchPersonsByNameSubstring(String name);
+    List<FriendResponseDto> searchPersonsByNameSubstring(String name, Long pageNumber);
 
     void removeFriendById(Long personIdInitiator, Long friendId);
 

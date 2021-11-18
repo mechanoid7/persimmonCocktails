@@ -1,0 +1,1303 @@
+{
+	"info": {
+		"_postman_id": "be95309d-de05-44e8-9d9a-dc308a0df83d",
+		"name": "Persimmon",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "moderator",
+			"item": [
+				{
+					"name": "change Password Person",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"newPassword\": \"consequat consectetur\",\n    \"oldPassword\": \"enim\",\n    \"personId\": 59649109\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/moderator/change-password",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"moderator",
+								"change-password"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "default response",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"newPassword\": \"consequat consectetur\",\n    \"oldPassword\": \"enim\",\n    \"personId\": 59649109\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/moderator/change-password",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"moderator",
+										"change-password"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "get All Moderators",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/moderator/all",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"moderator",
+								"all"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "default response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/moderator/all",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"moderator",
+										"all"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "update Photo 1",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/moderator/update-photo?personId=403062&photoId=19274467",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"moderator",
+								"update-photo"
+							],
+							"query": [
+								{
+									"key": "personId",
+									"value": "403062",
+									"description": "(Required) "
+								},
+								{
+									"key": "photoId",
+									"value": "19274467",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "default response",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/moderator/update-photo?personId=403062&photoId=19274467",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"moderator",
+										"update-photo"
+									],
+									"query": [
+										{
+											"key": "personId",
+											"value": "403062"
+										},
+										{
+											"key": "photoId",
+											"value": "19274467"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "add Moderator",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"ipsum et enim nisi\",\n    \"name\": \"dolor\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/moderator/add",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"moderator",
+								"add"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "default response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"ipsum et enim nisi\",\n    \"name\": \"dolor\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/moderator/add",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"moderator",
+										"add"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "update Name 1",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/moderator/update-name?name=elit&personId=-64120502",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"moderator",
+								"update-name"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "elit",
+									"description": "(Required) "
+								},
+								{
+									"key": "personId",
+									"value": "-64120502",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "default response",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/moderator/update-name?name=elit&personId=-64120502",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"moderator",
+										"update-name"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "elit"
+										},
+										{
+											"key": "personId",
+											"value": "-64120502"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "recover Password 1",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"laborum esse enim anim\",\n    \"newPassword\": \"enim consectetur pariatur irure\",\n    \"personId\": -20970805\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/moderator/create-password",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"moderator",
+								"create-password"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "default response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": \"laborum esse enim anim\",\n    \"newPassword\": \"enim consectetur pariatur irure\",\n    \"personId\": -20970805\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/moderator/create-password",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"moderator",
+										"create-password"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "get Person By Id 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/moderator/:personId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"moderator",
+								":personId"
+							],
+							"variable": [
+								{
+									"key": "personId",
+									"value": "-4833689",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "default response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/moderator/:personId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"moderator",
+										":personId"
+									],
+									"variable": [
+										{
+											"key": "personId",
+											"value": "-4833689",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "person",
+			"item": [
+				{
+					"name": "{person Id}",
+					"item": [
+						{
+							"name": "friends",
+							"item": [
+								{
+									"name": "get Person Friends By Id",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/person/:personId/friends?page=-4833689",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"person",
+												":personId",
+												"friends"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "-4833689",
+													"description": "(Required) "
+												}
+											],
+											"variable": [
+												{
+													"key": "personId",
+													"value": "-4833689",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "default response",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/person/:personId/friends?page=-4833689",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"person",
+														":personId",
+														"friends"
+													],
+													"query": [
+														{
+															"key": "page",
+															"value": "-4833689"
+														}
+													],
+													"variable": [
+														{
+															"key": "personId",
+															"value": "-4833689",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "get Person Friends By Id And Substring",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/person/:personId/friends/:substring?page=-4833689",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"person",
+												":personId",
+												"friends",
+												":substring"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "-4833689",
+													"description": "(Required) "
+												}
+											],
+											"variable": [
+												{
+													"key": "personId",
+													"value": "-4833689",
+													"description": "(Required) "
+												},
+												{
+													"key": "substring",
+													"value": "elit ut labore veniam",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "default response",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/person/:personId/friends/:substring?page=-4833689",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"person",
+														":personId",
+														"friends",
+														":substring"
+													],
+													"query": [
+														{
+															"key": "page",
+															"value": "-4833689"
+														}
+													],
+													"variable": [
+														{
+															"key": "personId",
+															"value": "-4833689",
+															"description": "(Required) "
+														},
+														{
+															"key": "substring",
+															"value": "elit ut labore veniam",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "*/*"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "delete Friend",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "-4833689",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/person/:personId/friends/delete",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"person",
+												":personId",
+												"friends",
+												"delete"
+											],
+											"variable": [
+												{
+													"key": "personId",
+													"value": "-4833689",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "default response",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "-4833689",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/person/:personId/friends/delete",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"person",
+														":personId",
+														"friends",
+														"delete"
+													],
+													"variable": [
+														{
+															"key": "personId",
+															"value": "-4833689",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "add Friend",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "-4833689",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/person/:personId/friends/add",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"person",
+												":personId",
+												"friends",
+												"add"
+											],
+											"variable": [
+												{
+													"key": "personId",
+													"value": "-4833689",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "default response",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "-4833689",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/person/:personId/friends/add",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"person",
+														":personId",
+														"friends",
+														"add"
+													],
+													"variable": [
+														{
+															"key": "personId",
+															"value": "-4833689",
+															"description": "(Required) "
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "get Person By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/person/:personId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										":personId"
+									],
+									"variable": [
+										{
+											"key": "personId",
+											"value": "-4833689",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "default response",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/person/:personId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"person",
+												":personId"
+											],
+											"variable": [
+												{
+													"key": "personId",
+													"value": "-4833689",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "delete Person By Id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/person/:personId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										":personId"
+									],
+									"variable": [
+										{
+											"key": "personId",
+											"value": "-4833689",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "default response",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/person/:personId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"person",
+												":personId"
+											],
+											"variable": [
+												{
+													"key": "personId",
+													"value": "-4833689",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "update Photo",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"personId\": 403062,\n    \"photoId\": 19274467\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/person/update-photo",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"person",
+								"update-photo"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "default response",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"personId\": 403062,\n    \"photoId\": 19274467\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person/update-photo",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"update-photo"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "update Name",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"elit\",\n    \"personId\": -64120502\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/person/update-name",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"person",
+								"update-name"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "default response",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"elit\",\n    \"personId\": -64120502\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person/update-name",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"update-name"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "change Password Person 1",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"newPassword\": \"consequat consectetur\",\n    \"oldPassword\": \"enim\",\n    \"personId\": 59649109\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/person/change-password",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"person",
+								"change-password"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "default response",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"newPassword\": \"consequat consectetur\",\n    \"oldPassword\": \"enim\",\n    \"personId\": 59649109\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person/change-password",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"change-password"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "get Person By Email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/person/email/:personEmail",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"person",
+								"email",
+								":personEmail"
+							],
+							"variable": [
+								{
+									"key": "personEmail",
+									"value": "elit ut labore veniam",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "default response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/person/email/:personEmail",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"email",
+										":personEmail"
+									],
+									"variable": [
+										{
+											"key": "personEmail",
+											"value": "elit ut labore veniam",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "get Persons By Name Substring",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/person/users/:substring?page=-4833689",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"person",
+								"users",
+								":substring"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "-4833689",
+									"description": "(Required) "
+								}
+							],
+							"variable": [
+								{
+									"key": "substring",
+									"value": "elit ut labore veniam",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "default response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/person/users/:substring?page=-4833689",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"users",
+										":substring"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "-4833689"
+										}
+									],
+									"variable": [
+										{
+											"key": "substring",
+											"value": "elit ut labore veniam",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080/",
+			"type": "string"
+		}
+	]
+}

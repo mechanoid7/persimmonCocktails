@@ -5,6 +5,7 @@ import com.example.persimmoncocktails.dao.PersonDao;
 import com.example.persimmoncocktails.dtos.friend.FriendResponseDto;
 import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
 import com.example.persimmoncocktails.exceptions.IncorrectNameFormat;
+import com.example.persimmoncocktails.exceptions.IncorrectRangeNumberFormat;
 import com.example.persimmoncocktails.exceptions.NotFoundException;
 import com.example.persimmoncocktails.exceptions.WrongCredentialsException;
 import com.example.persimmoncocktails.models.Person;
@@ -20,22 +21,23 @@ import java.util.stream.Collectors;
 public class FriendsService {
     FriendsDao friendsDao;
 
-    public List<FriendResponseDto> searchPersonsByNameSubstring(String substring) { // return fist of persons, who is not an administrator and moderator
+    public List<FriendResponseDto> searchPersonsByNameSubstring(String substring, Long pageNumber) { // return list of persons by page, who is not an administrator and moderator
         if (!AuthorizationService.nameIsValid(substring)) throw new IncorrectNameFormat();
-        return friendsDao.searchPersonsByNameSubstring("%"+substring+"%");
+        if (pageNumber<0) throw new IncorrectRangeNumberFormat("of page");
+        return friendsDao.searchPersonsByNameSubstring("%"+substring+"%", pageNumber);
     }
 
     public void removeFriendById(Long personIdInitiator, Long friendId) {
         friendsDao.removeFriendById(personIdInitiator, friendId);
     }
 
-    public List<FriendResponseDto> getPersonFriends(Long personId) {
-        return friendsDao.getPersonFriends(personId);
+    public List<FriendResponseDto> getPersonFriends(Long personId, Long pageNumber) {
+        return friendsDao.getPersonFriends(personId, pageNumber);
     }
 
-    public List<FriendResponseDto> getListFriendsBySubstring(Long personId, String substring) {
+    public List<FriendResponseDto> getListFriendsBySubstring(Long personId, String substring, Long pageNumber) {
         if (!AuthorizationService.nameIsValid(substring)) throw new IncorrectNameFormat();
-        return friendsDao.getListFriendByNameSubstring(personId, "%"+substring+"%");
+        return friendsDao.getListFriendByNameSubstring(personId, "%"+substring+"%", pageNumber);
     }
 
     public void addFriend(Long personIdInitiator, Long personIdReciever){

@@ -6,6 +6,7 @@ import com.example.persimmoncocktails.mapper.FriendMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-@PropertySource("classpath:sql/friends_queries.properties")
+@PropertySources({
+        @PropertySource("classpath:sql/friends_queries.properties"),
+        @PropertySource("classpath:var/general.properties")
+})
 @RequiredArgsConstructor
 public class FriendsDaoImpl implements FriendsDao {
 
@@ -30,21 +34,23 @@ public class FriendsDaoImpl implements FriendsDao {
     private String sqlDeleteFriend;
     @Value("${sql_friend_add_friendship}")
     private String sqlAddFriendship;
+    @Value("${number_of_users_per_page}")
+    private Long personsPerPage;
 
 
     @Override
-    public List<FriendResponseDto> getPersonFriends(Long personId){ // get all person friends by ID
-        return jdbcTemplate.query(sqlGetAllFriends, friendMapper, personId, personId);
+    public List<FriendResponseDto> getPersonFriends(Long personId, Long pageNumber){ // get person friends by ID
+        return jdbcTemplate.query(sqlGetAllFriends, friendMapper, personId, personId, pageNumber*personsPerPage, personsPerPage);
     }
 
     @Override
-    public List<FriendResponseDto> getListFriendByNameSubstring(Long personId, String substring) {
-        return jdbcTemplate.query(sqlGetListFriendBySubstring, friendMapper, personId, personId, substring.toLowerCase());
+    public List<FriendResponseDto> getListFriendByNameSubstring(Long personId, String substring, Long pageNumber) {
+        return jdbcTemplate.query(sqlGetListFriendBySubstring, friendMapper, personId, personId, substring.toLowerCase(), pageNumber*personsPerPage, personsPerPage);
     }
 
     @Override
-    public List<FriendResponseDto> searchPersonsByNameSubstring(String substring) {
-        return jdbcTemplate.query(sqlGetListUsersBySubstring, friendMapper, substring.toLowerCase());
+    public List<FriendResponseDto> searchPersonsByNameSubstring(String substring, Long pageNumber) {
+        return jdbcTemplate.query(sqlGetListUsersBySubstring, friendMapper, substring.toLowerCase(), pageNumber*personsPerPage, personsPerPage);
     }
 
     @Override

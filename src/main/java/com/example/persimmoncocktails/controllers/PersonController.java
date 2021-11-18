@@ -7,6 +7,7 @@ import com.example.persimmoncocktails.dtos.friend.FriendResponseDto;
 import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
 import com.example.persimmoncocktails.services.FriendsService;
 import com.example.persimmoncocktails.services.PersonService;
+import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -57,18 +58,18 @@ public class PersonController {
     }
 
     @GetMapping("/{personId}/friends")
-    private List<FriendResponseDto> getPersonFriendsById(@PathVariable Long personId){
-        return friendsService.getPersonFriends(personId);
+    private List<FriendResponseDto> getPersonFriendsById(@PathVariable Long personId, @RequestParam("page") Long pageNumber){
+        return friendsService.getPersonFriends(personId, pageNumber);
     }
 
     @GetMapping("/{personId}/friends/{substring}")
-    private List<FriendResponseDto> getPersonFriendsByIdAndSubstring(@PathVariable Long personId, @PathVariable String substring){
-        return friendsService.getListFriendsBySubstring(personId, substring);
+    private List<FriendResponseDto> getPersonFriendsByIdAndSubstring(@PathVariable Long personId, @PathVariable String substring, @RequestParam("page") Long pageNumber){
+        return friendsService.getListFriendsBySubstring(personId, substring, pageNumber);
     }
 
     @GetMapping("/users/{substring}")
-    private List<FriendResponseDto> getPersonsByNameSubstring(@PathVariable String substring){
-        return friendsService.searchPersonsByNameSubstring(substring);
+    private List<FriendResponseDto> getPersonsByNameSubstring(@PathVariable String substring, @RequestParam("page") Long pageNumber){
+        return friendsService.searchPersonsByNameSubstring(substring, pageNumber);
     }
 
     @DeleteMapping("/{personId}/friends/delete")
