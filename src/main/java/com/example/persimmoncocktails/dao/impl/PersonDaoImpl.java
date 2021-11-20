@@ -6,12 +6,10 @@ import com.example.persimmoncocktails.exceptions.DuplicateException;
 import com.example.persimmoncocktails.exceptions.NotFoundException;
 import com.example.persimmoncocktails.exceptions.RecoverLinkExpired;
 import com.example.persimmoncocktails.exceptions.UnknownException;
-import com.example.persimmoncocktails.mapper.PersonMapper;
-import com.example.persimmoncocktails.mapper.RestorePasswordMapper;
+import com.example.persimmoncocktails.mappers.RestorePasswordMapper;
 import com.example.persimmoncocktails.mappers.PersonMapper;
 import com.example.persimmoncocktails.models.Person;
 import lombok.RequiredArgsConstructor;
-//import java.sql.time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -20,7 +18,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -36,7 +34,7 @@ public class PersonDaoImpl implements PersonDao {
     private final PersonMapper personMapper = new PersonMapper();
     private final RestorePasswordMapper restorePasswordMapper = new RestorePasswordMapper();
     private final JdbcTemplate jdbcTemplate;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Value("${sql_person_with_such_id_exists}")
     private String sqlPersonWithSuchIdExists;
@@ -66,8 +64,8 @@ public class PersonDaoImpl implements PersonDao {
     private String sqlDeactivateChangePasswordRequest;
 
     @Autowired
-    public PersonDaoImpl(BCryptPasswordEncoder bCryptPasswordEncoder, JdbcTemplate jdbcTemplate) {
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    public PersonDaoImpl(PasswordEncoder passwordEncoder, JdbcTemplate jdbcTemplate) {
+        this.passwordEncoder = passwordEncoder;
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -175,7 +173,7 @@ public class PersonDaoImpl implements PersonDao {
 
         boolean updatePerson = false;
         for (RestorePasswordDataDto dto : dataDto){
-            if (bCryptPasswordEncoder.matches(id, dto.getId()) &&
+            if (passwordEncoder.matches(id, dto.getId()) &&
                     ChronoUnit.HOURS.between(dto.getLocalDateTime(), currentDateTime) < linkRestorePasswordLifetime){ // if id matched and the request has not timed out
                 Person person = read(dto.getPersonId());
                 person.setPassword(hashedNewPassword);

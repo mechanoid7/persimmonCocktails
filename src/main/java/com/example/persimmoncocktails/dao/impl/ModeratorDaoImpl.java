@@ -1,7 +1,7 @@
 package com.example.persimmoncocktails.dao.impl;
 
 import com.example.persimmoncocktails.dao.ModeratorDao;
-import com.example.persimmoncocktails.mapper.PersonMapper;
+import com.example.persimmoncocktails.mappers.PersonMapper;
 import com.example.persimmoncocktails.models.Person;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

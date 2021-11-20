@@ -16,6 +16,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -28,7 +29,7 @@ import java.util.regex.Pattern;
 @PropertySource("classpath:var/general.properties")
 public class AuthorizationService {
     PersonDao personDao;
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+    PasswordEncoder passwordEncoder;
 
     public final JavaMailSender emailSender;
 
@@ -36,16 +37,16 @@ public class AuthorizationService {
     private String siteUrl;
 
     @Autowired
-    public AuthorizationService(JavaMailSender emailSender, BCryptPasswordEncoder bCryptPasswordEncoder, PersonDao personDao) {
+    public AuthorizationService(JavaMailSender emailSender, PasswordEncoder passwordEncoder, PersonDao personDao) {
         this.emailSender = emailSender;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.passwordEncoder = passwordEncoder;
         this.personDao = personDao;
     }
 
     public Long authorizeUser(RequestSigninDataDto signinData){
         Person person = personDao.readByEmail(signinData.getEmail());
         if(person != null) {
-            if(!bCryptPasswordEncoder.matches(signinData.getPassword(), person.getPassword())) {
+            if(!passwordEncoder.matches(signinData.getPassword(), person.getPassword())) {
                 throw new WrongCredentialsException();
             }
         }
@@ -140,7 +141,28 @@ public class AuthorizationService {
 
     private String hashPassword(String password) {
 
-        return bCryptPasswordEncoder.encode(password);
+        return passwordEncoder.encode(password);
+    }
+
+    private String generatePasswordRecoveryLink(String id, Long personId){
+        return siteUrl+"/recover-password?id="+id+"&nn="+personId;
+    }
+
+    public static String generateRandomString(){
+        int leftLimit = 48; // numeral '0'
+        int rightLimit = 122; // letter 'z'
+        int targetStringLength = 40;
+        Random random = new Random();
+
+        return random.ints(leftLimit, rightLimit + 1)
+                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+    }
+
+    private boolean matchHash(String hash1, String hash2){
+        return passwordEncoder.matches(hash1, hash2);
     }
 
 }

@@ -17,12 +17,14 @@ public enum ApplicationUserRole {
         res.add(ApplicationUserPermission.READ_ALL);
         res.add(ApplicationUserPermission.UPDATE_MODERATOR);
         res.add(ApplicationUserPermission.UPDATE_ADMIN);
+        res.add(ApplicationUserPermission.READ_MODERATOR);
         return res;
     }
 
     private static HashSet<ApplicationUserPermission> moderatorPermissions() {
         HashSet<ApplicationUserPermission> res = new HashSet<>();
         res.add(ApplicationUserPermission.READ_ALL);
+        res.add(ApplicationUserPermission.READ_MODERATOR);
         //
         return res;
     }

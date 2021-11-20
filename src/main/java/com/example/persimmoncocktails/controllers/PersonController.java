@@ -16,10 +16,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/person")
+@PreAuthorize("isAuthenticated()")
 public class PersonController {
 
     private final PersonService personService;
 
+    @Autowired
     public PersonController(PersonService personService) {
         this.personService = personService;
     }
@@ -32,39 +34,40 @@ public class PersonController {
     }
 
     @GetMapping("/email/{personEmail}")
-    private PersonResponseDto getPersonByEmail(@PathVariable String personEmail){
+    public PersonResponseDto getPersonByEmail(@PathVariable String personEmail){
         return personService.readByEmail(personEmail);
     }
 
     @PatchMapping("/update-name")
-    private void updateName(@RequestParam Long personId, @RequestParam String name){
+    public void updateName(@RequestParam Long personId, @RequestParam String name){
         personService.updateName(personId, name);
     }
 
     @PatchMapping("/update-photo")
-    private void updatePhoto(@RequestParam Long personId, @RequestParam Long photoId){
+    public void updatePhoto(@RequestParam Long personId, @RequestParam Long photoId){
         personService.updatePhotoId(personId, photoId);
     }
 
     @DeleteMapping("/{personId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    private void deletePersonById(@PathVariable Long personId){
+    public void deletePersonById(@PathVariable Long personId){
         personService.delete(personId);
     }
 
     @PatchMapping("/change-password")
-    private void changePasswordPerson(@RequestParam Long personId, @RequestParam String oldPassword,
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
+    public void changePasswordPerson(@RequestParam Long personId, @RequestParam String oldPassword,
                                       @RequestParam String  newPassword){
         personService.changePassword(personId, oldPassword, newPassword);
     }
 
     @GetMapping("/{personId}/friends")
-    private List<PersonResponseDto> getPersonFriends(@PathVariable Long personId){
+    public List<PersonResponseDto> getPersonFriends(@PathVariable Long personId){
         return personService.getPersonFriends(personId);
     }
 
     @GetMapping("/{personId}/friends/{substring}")
-    private List<PersonResponseDto> getPersonFriendsBySubstring(@PathVariable Long personId, @PathVariable String substring){
+    public List<PersonResponseDto> getPersonFriendsBySubstring(@PathVariable Long personId, @PathVariable String substring){
         return personService.getListFriendBySubstring(personId, substring);
     }
 }
