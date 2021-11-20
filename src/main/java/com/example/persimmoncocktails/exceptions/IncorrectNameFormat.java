@@ -5,7 +5,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 public class IncorrectNameFormat extends ResponseStatusException {
 
-
     public IncorrectNameFormat() {
         super(HttpStatus.BAD_REQUEST, "Provided name has incorrect format");
     }

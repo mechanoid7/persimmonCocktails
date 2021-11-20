@@ -1,5 +1,6 @@
 package com.example.persimmoncocktails.dao;
 
+import com.example.persimmoncocktails.dtos.auth.RestorePasswordDataDto;
 import com.example.persimmoncocktails.models.Person;
 import org.apache.tomcat.jni.Time;
 
@@ -21,11 +22,9 @@ public interface PersonDao {
 
     void changePassword(Long personId, String newPassword);
 
-    List<Person> getPersonFriends(Long personId);
-
-    List<Person> getListFriendBySubstring(Long personId, String substring);
-
     void saveRecoverPasswordRequest(Long personId, LocalDateTime localDateTime, String hashedId);
 
-    void restorePassword(String id, Long personId,String newPassword);
+    List<RestorePasswordDataDto> restorePassword(String id, Long personId);
+
+    void deactivateRequestsBuPersonId(Long personId);
 }

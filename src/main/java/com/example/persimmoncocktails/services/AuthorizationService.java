@@ -3,6 +3,7 @@ package com.example.persimmoncocktails.services;
 import com.example.persimmoncocktails.dao.PersonDao;
 import com.example.persimmoncocktails.dtos.auth.RequestRegistrationDataDto;
 import com.example.persimmoncocktails.dtos.auth.RequestSigninDataDto;
+import com.example.persimmoncocktails.dtos.auth.RestorePasswordDataDto;
 import com.example.persimmoncocktails.exceptions.*;
 import com.example.persimmoncocktails.models.Person;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -32,10 +35,12 @@ public class AuthorizationService implements UserDetailsService{
     PersonDao personDao;
     PasswordEncoder passwordEncoder;
 
-    public final JavaMailSender emailSender;
+    private final JavaMailSender emailSender;
 
     @Value("${site_url}")
     private String siteUrl;
+    @Value("${link_restore_password_lifetime}")
+    private Integer linkRestorePasswordLifetime;
 
     @Autowired
     public AuthorizationService(JavaMailSender emailSender, PasswordEncoder passwordEncoder, PersonDao personDao) {
@@ -92,7 +97,7 @@ public class AuthorizationService implements UserDetailsService{
             SimpleMailMessage message = new SimpleMailMessage();
 
             message.setTo(email);
-            message.setSubject("Persimmon password recover");
+            message.setSubject("Persimmon cocktails password recover");
             message.setText("To change your password, follow the link " + generatePasswordRecoveryLink(id, person.getPersonId()) +
                     "\nIf you have not requested to change your password, simply ignore this message. ");
 
@@ -104,7 +109,29 @@ public class AuthorizationService implements UserDetailsService{
     }
 
     public void recoverPassword(String id, Long personId, String newPassword) {
-        personDao.restorePassword(id, personId, hashPassword(newPassword));
+        if(!passwordIsValid(newPassword)){
+            throw new IncorrectPasswordFormat();
+        }
+
+        List<RestorePasswordDataDto> dataDto = personDao.restorePassword(id, personId);
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        if (dataDto.isEmpty()) throw new NotFoundException("Request for password restore");
+
+        boolean updatePerson = false;
+        for (RestorePasswordDataDto dto : dataDto){
+            if (matchHash(id, dto.getId()) &&
+                    ChronoUnit.HOURS.between(dto.getLocalDateTime(), currentDateTime) < linkRestorePasswordLifetime){ // if id matched and the request has not timed out
+                Person person = personDao.read(dto.getPersonId());
+                person.setPassword(hashPassword(newPassword));
+                personDao.update(person);
+                updatePerson = true;
+                break;
+            }
+        }
+        if (!updatePerson) throw new LinkExpired("Recover");
+
+        personDao.deactivateRequestsBuPersonId(personId);
     }
 
     public static boolean passwordIsValid(String password) { // method is correct?

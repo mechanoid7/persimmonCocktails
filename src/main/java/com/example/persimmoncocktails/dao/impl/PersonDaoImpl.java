@@ -4,7 +4,6 @@ import com.example.persimmoncocktails.dao.PersonDao;
 import com.example.persimmoncocktails.dtos.auth.RestorePasswordDataDto;
 import com.example.persimmoncocktails.exceptions.DuplicateException;
 import com.example.persimmoncocktails.exceptions.NotFoundException;
-import com.example.persimmoncocktails.exceptions.RecoverLinkExpired;
 import com.example.persimmoncocktails.exceptions.UnknownException;
 import com.example.persimmoncocktails.mappers.RestorePasswordMapper;
 import com.example.persimmoncocktails.mappers.PersonMapper;
@@ -22,8 +21,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -50,16 +47,14 @@ public class PersonDaoImpl implements PersonDao {
     private String sqlUpdatePerson;
     @Value("${sql_person_delete}")
     private String sqlDeletePerson;
-    @Value("${sql_person_get_all_friends}")
+    @Value("${sql_friend_get_all_friends}")
     private String sqlGetAllFriends;
-    @Value("${sql_person_get_all_friends_by_substring}")
+    @Value("${sql_friend_get_all_friends_by_substring}")
     private String sqlGetListFriendBySubstring;
     @Value("${sql_person_save_recover_password_request}")
     private String sqlSaveRecoverPasswordRequest;
     @Value("${sql_person_data_dto_by_recovery_id}")
     private String sqlPersonIdByRequest;
-    @Value("${link_restore_password_lifetime}")
-    private Integer linkRestorePasswordLifetime;
     @Value("${sql_person_deactivate_password_change_request}")
     private String sqlDeactivateChangePasswordRequest;
 
@@ -134,7 +129,6 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public void delete(Long personId) { // delete person by ID
-
         jdbcTemplate.update(sqlDeletePerson, personId);
     }
 
@@ -144,46 +138,17 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
-    public List<Person> getPersonFriends(Long personId){ // get all person friends by ID
-        List<Person> result = jdbcTemplate.query(sqlGetAllFriends, personMapper, personId, personId);
-        if (result.isEmpty())
-            return new ArrayList<>();
-        return result;
-    }
-
-    @Override
-    public List<Person> getListFriendBySubstring(Long personId, String substring){ // get all person friends by ID, filter by name
-        List<Person> result = jdbcTemplate.query(sqlGetListFriendBySubstring, personMapper, personId, personId, substring.toLowerCase());
-        if (result.isEmpty())
-            return new ArrayList<>();
-        return result;
-    }
-
-    @Override
     public void saveRecoverPasswordRequest(Long personId, LocalDateTime localDateTime, String hashedId) { // save request to db
         jdbcTemplate.update(sqlSaveRecoverPasswordRequest, personId, localDateTime, hashedId);
     }
 
     @Override
-    public void restorePassword(String id, Long personId, String hashedNewPassword) {
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        List<RestorePasswordDataDto> dataDto = jdbcTemplate.query(sqlPersonIdByRequest, restorePasswordMapper, personId);
+    public List<RestorePasswordDataDto> restorePassword(String id, Long personId) { // get user requests
+        return jdbcTemplate.query(sqlPersonIdByRequest, restorePasswordMapper, personId);
+    }
 
-        if (dataDto.isEmpty()) throw new NotFoundException("Request for password restore");
-
-        boolean updatePerson = false;
-        for (RestorePasswordDataDto dto : dataDto){
-            if (passwordEncoder.matches(id, dto.getId()) &&
-                    ChronoUnit.HOURS.between(dto.getLocalDateTime(), currentDateTime) < linkRestorePasswordLifetime){ // if id matched and the request has not timed out
-                Person person = read(dto.getPersonId());
-                person.setPassword(hashedNewPassword);
-                update(person);
-                updatePerson = true;
-                break;
-            }
-        }
-        if (!updatePerson) throw new RecoverLinkExpired();
-
-        jdbcTemplate.update(sqlDeactivateChangePasswordRequest, personId); // deactivate all this user request
+    @Override
+    public void deactivateRequestsBuPersonId(Long personId){ // deactivate all this user request
+        jdbcTemplate.update(sqlDeactivateChangePasswordRequest, personId);
     }
 }

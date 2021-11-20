@@ -1,16 +1,15 @@
 package com.example.persimmoncocktails.controllers;
 
-import com.example.persimmoncocktails.dao.PersonDao;
-
+import com.example.persimmoncocktails.dtos.auth.RequestChangePasswordDataDto;
+import com.example.persimmoncocktails.dtos.auth.RequestUpdateNameDataDto;
+import com.example.persimmoncocktails.dtos.auth.RequestUpdatePhotoDataDto;
+import com.example.persimmoncocktails.dtos.friend.FriendResponseDto;
 import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
-import com.example.persimmoncocktails.models.Person;
+import com.example.persimmoncocktails.services.FriendsService;
 import com.example.persimmoncocktails.services.PersonService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,12 +20,13 @@ import java.util.List;
 public class PersonController {
 
     private final PersonService personService;
+    private final FriendsService friendsService;
 
     @Autowired
-    public PersonController(PersonService personService) {
+    public PersonController(PersonService personService, FriendsService friendsService) {
         this.personService = personService;
+        this.friendsService = friendsService;
     }
-
 
 
     @GetMapping("/{personId}")
@@ -59,21 +59,35 @@ public class PersonController {
 
     @PatchMapping("/change-password")
     @PreAuthorize("hasRole('ROLE_CLIENT')")
-    public void changePasswordPerson(@RequestParam String oldPassword,
-                                      @RequestParam String  newPassword){
+    public void changePasswordPerson(@RequestBody RequestChangePasswordDataDto requestChangePasswordData){
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
-        personService.changePassword(personId, oldPassword, newPassword);
+        personService.changePassword(personId,
+                requestChangePasswordData.getOldPassword(),
+                requestChangePasswordData.getNewPassword());
     }
 
-    @GetMapping("/friends")
-    public List<PersonResponseDto> getPersonFriends(){
+    @GetMapping("/{personId}/friends")
+    private List<FriendResponseDto> getPersonFriendsById(@RequestParam("page") Long pageNumber){
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
-        return personService.getPersonFriends(personId);
+        return friendsService.getPersonFriends(personId, pageNumber);
     }
 
     @GetMapping("/friends/{substring}")
     public List<PersonResponseDto> getPersonFriendsBySubstring(@PathVariable String substring){
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
-        return personService.getListFriendBySubstring(personId, substring);
+        return friendsService.getListFriendBySubstring(personId, substring, pageNumber);
+    }
+
+    @DeleteMapping("/friends/delete")
+    private void deleteFriend(@RequestBody Long friendId){
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        friendsService.removeFriendById(personId, friendId);
+    }
+
+    @PostMapping("/friends/add")
+    private void addFriend(@RequestBody Long friendId){
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        friendsService.addFriend(personId, friendId);
     }
 }
+
