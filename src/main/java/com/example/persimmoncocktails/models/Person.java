@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Person {
+public class Person implements UserDetails {
     private Long personId;
     private String name;
     private String email;
@@ -30,55 +30,56 @@ public class Person {
     private Integer roleId;
 //    private boolean isActive;
 
-//    @Override
-//    public Set<SimpleGrantedAuthority> getAuthorities() {
-//        HashSet<SimpleGrantedAuthority> permissions = new HashSet<>();
-//        switch (roleId){
-//            case 1:
-//                permissions.addAll(mapToSimpleGrantedAuthority(ApplicationUserRole.ADMIN.getPermissions()));
-//                permissions.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-//                break;
-//            case 2:
-//                permissions.addAll(mapToSimpleGrantedAuthority(ApplicationUserRole.MODERATOR.getPermissions()));
-//                permissions.add(new SimpleGrantedAuthority("ROLE_MODERATOR"));
-//                break;
-//            case 3:
-//                permissions.addAll(mapToSimpleGrantedAuthority(ApplicationUserRole.CLIENT.getPermissions()));
-//                permissions.add(new SimpleGrantedAuthority("ROLE_CLIENT"));
-//                break;
-//        };
-//        return permissions;
-//    }
+    @Override
+    public Set<SimpleGrantedAuthority> getAuthorities() {
+        Set<SimpleGrantedAuthority> permissions = new HashSet<>();
+        switch (roleId) {
+            case 1 -> {
+                permissions.addAll(mapToSimpleGrantedAuthority(ApplicationUserRole.ADMIN.getPermissions()));
+                permissions.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+            }
+            case 2 -> {
+                permissions.addAll(mapToSimpleGrantedAuthority(ApplicationUserRole.MODERATOR.getPermissions()));
+                permissions.add(new SimpleGrantedAuthority("ROLE_MODERATOR"));
+            }
+            case 3 -> {
+                permissions.addAll(mapToSimpleGrantedAuthority(ApplicationUserRole.CLIENT.getPermissions()));
+                permissions.add(new SimpleGrantedAuthority("ROLE_CLIENT"));
+            }
+        }
 
-    private static Set<SimpleGrantedAuthority> mapToSimpleGrantedAuthority(HashSet<ApplicationUserPermission> permissions) {
+        return permissions;
+    }
+
+    private static Set<SimpleGrantedAuthority> mapToSimpleGrantedAuthority(Set<ApplicationUserPermission> permissions) {
         return permissions.stream()
                 .map(p -> new SimpleGrantedAuthority(p.getPermission()))
                 .collect(Collectors.toSet());
     }
 
-//    @Override
-//    public String getUsername() {
-//        return personId.toString();
-//    }
-//
-//    @Override
-//    public boolean isAccountNonExpired() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonLocked() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isCredentialsNonExpired() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isEnabled() {
-////        return isActive;
-//        return true;
-//    }
+    @Override
+    public String getUsername() {
+        return personId.toString();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+//        return isActive;
+        return true;
+    }
 }

@@ -21,13 +21,14 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Random;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
 @AllArgsConstructor
 @PropertySource("classpath:var/general.properties")
-public class AuthorizationService {
+public class AuthorizationService implements UserDetailsService{
     PersonDao personDao;
     PasswordEncoder passwordEncoder;
 
@@ -165,4 +166,10 @@ public class AuthorizationService {
         return passwordEncoder.matches(hash1, hash2);
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        Person person = personDao.read(Long.parseLong(s));
+        if(person == null) throw new UsernameNotFoundException(s);
+        return person;
+    }
 }
