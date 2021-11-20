@@ -5,6 +5,7 @@ import com.example.persimmoncocktails.dtos.auth.RequestRecoverPasswordDataDto;
 import com.example.persimmoncocktails.dtos.auth.RequestRegistrationDataDto;
 import com.example.persimmoncocktails.services.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -31,9 +32,10 @@ public class AuthorizationController {
 
     @PostMapping(path = "/recover-password")
     public void recoverPassword(@RequestBody RequestRecoverPasswordDataDto requestRecoverPasswordData){ // get id, personId from email link
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         authorizationService.recoverPassword(
                 requestRecoverPasswordData.getId(),
-                requestRecoverPasswordData.getPersonId(),
+                personId,
                 requestRecoverPasswordData.getNewPassword());
     }
 }

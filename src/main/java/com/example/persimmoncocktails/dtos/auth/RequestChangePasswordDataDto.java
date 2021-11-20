@@ -8,8 +8,8 @@ import javax.validation.constraints.NotNull;
 @Data
 @AllArgsConstructor
 public class RequestChangePasswordDataDto {
-    @NotNull(message = "Person-ID should not be empty")
-    Long personId;
+//    @NotNull(message = "Person-ID should not be empty")
+//    Long personId;
     @NotNull(message = "New password should not be empty")
     String newPassword;
     @NotNull(message = "Old password should not be empty")

@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-@PropertySource("classpath:var/general.properties")
 public class UsernameAndPasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtConfig jwtConfig;
@@ -59,9 +58,6 @@ public class UsernameAndPasswordAuthenticationFilter extends UsernamePasswordAut
         Map<String, Object> claims = new HashMap<>();
         claims.put("user_id", userId);
         claims.put("authorities", authResult.getAuthorities());
-//        AbstractAuthenticationToken abstractAuthenticationToken = (AbstractAuthenticationToken) authResult;
-//        abstractAuthenticationToken.setDetails(userId);
-//        authResult = abstractAuthenticationToken;
         String token = Jwts.builder()
                 .setSubject(authResult.getName())
                 .addClaims(claims)
