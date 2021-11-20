@@ -4,6 +4,7 @@ import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
 import com.example.persimmoncocktails.models.Person;
 import com.example.persimmoncocktails.services.ModeratorService;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,20 +46,23 @@ public class ModeratorController {
 
     @PatchMapping("/update-name")
     @PreAuthorize("hasPermission('moderator:update')")
-    public void updateName(@RequestParam Long personId, @RequestParam String name){
+    public void updateName(@RequestParam String name){
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         moderatorService.updateName(personId, name);
     }
 
     @PatchMapping("/update-photo")
     @PreAuthorize("hasPermission('moderator:update')")
-    public void updatePhoto(@RequestParam Long personId, @RequestParam Long photoId){
+    public void updatePhoto(@RequestParam Long photoId){
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         moderatorService.updatePhotoId(personId, photoId);
     }
 
     @PatchMapping("/change-password")
     @PreAuthorize("hasPermission('moderator:update')")
-    public void changePasswordPerson(@RequestParam Long personId, @RequestParam String oldPassword,
+    public void changePasswordPerson(@RequestParam String oldPassword,
                                       @RequestParam String  newPassword){
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         moderatorService.changePassword(personId, oldPassword, newPassword);
     }
 

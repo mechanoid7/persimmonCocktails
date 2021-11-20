@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -49,11 +50,13 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
             Set<SimpleGrantedAuthority> simpleGrantedAuthorities = authorities.stream()
                     .map(a -> new SimpleGrantedAuthority(a.get("authority")))
                     .collect(Collectors.toSet());
-            Authentication authentication = new UsernamePasswordAuthenticationToken(
+            AbstractAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                     username,
                     null,
                     simpleGrantedAuthorities
             );
+            Long personId = ((Integer) body.get("user_id")).longValue();
+            authentication.setDetails(personId);
             SecurityContextHolder.getContext().setAuthentication(authentication);
             filterChain.doFilter(request, response);
         } catch (JwtException jwtException) {

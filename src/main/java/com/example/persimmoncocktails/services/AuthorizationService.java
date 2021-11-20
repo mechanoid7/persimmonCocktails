@@ -44,21 +44,21 @@ public class AuthorizationService implements UserDetailsService{
         this.personDao = personDao;
     }
 
-    public Long authorizeUser(RequestSigninDataDto signinData){
-        Person person = personDao.readByEmail(signinData.getEmail());
-        if(person != null) {
-            if(!passwordEncoder.matches(signinData.getPassword(), person.getPassword())) {
-                throw new WrongCredentialsException();
-            }
-        }
-        else {
-            throw new WrongCredentialsException();
-        }
-
-
-        // generate and send token
-        return person.getPersonId();
-    }
+//    public Long authorizeUser(RequestSigninDataDto signinData){
+//        Person person = personDao.readByEmail(signinData.getEmail());
+//        if(person != null) {
+//            if(!passwordEncoder.matches(signinData.getPassword(), person.getPassword())) {
+//                throw new WrongCredentialsException();
+//            }
+//        }
+//        else {
+//            throw new WrongCredentialsException();
+//        }
+//
+//
+//        // generate and send token
+//        return person.getPersonId();
+//    }
 
     public Long registerUser(RequestRegistrationDataDto registrationData) {
         if(!nameIsValid(registrationData.getName())){
@@ -81,12 +81,6 @@ public class AuthorizationService implements UserDetailsService{
         personDao.create(person);
 
         return personDao.readByEmail(person.getEmail()).getPersonId();
-    }
-
-    public void logoutUser() {
-        //end session, delete cookies
-        // disable access token
-//        return ResponseEntity.ok("user logged out");
     }
 
     public void forgotPassword(String email) { // send recover link on email

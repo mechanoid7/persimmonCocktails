@@ -5,6 +5,7 @@ import com.example.persimmoncocktails.dtos.auth.RequestRegistrationDataDto;
 import com.example.persimmoncocktails.dtos.auth.RequestSigninDataDto;
 import com.example.persimmoncocktails.services.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,14 +20,10 @@ public class AuthorizationController {
     }
 
     @PostMapping(path = "/registration")
-    public Long registerUser(@Valid @RequestBody RequestRegistrationDataDto registrationData) {
-        return authorizationService.registerUser(registrationData);
+    public void registerUser(@Valid @RequestBody RequestRegistrationDataDto registrationData) {
+        authorizationService.registerUser(registrationData);
     }
 
-    @PostMapping(path = "/logout")
-    public void logoutUser() {
-        authorizationService.logoutUser();
-    }
 
 
     @PostMapping(path = "/forgot-password")
