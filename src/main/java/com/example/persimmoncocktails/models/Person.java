@@ -31,7 +31,7 @@ public class Person implements UserDetails {
 //    private boolean isActive;
 
     @Override
-    public Set<SimpleGrantedAuthority> getAuthorities() {
+    public Collection<? extends SimpleGrantedAuthority> getAuthorities() {
         Set<SimpleGrantedAuthority> permissions = new HashSet<>();
         switch (roleId) {
             case 1 -> {
@@ -59,7 +59,7 @@ public class Person implements UserDetails {
 
     @Override
     public String getUsername() {
-        return personId.toString();
+        return email;
     }
 
     @Override

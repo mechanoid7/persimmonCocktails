@@ -168,7 +168,7 @@ public class AuthorizationService implements UserDetailsService{
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        Person person = personDao.read(Long.parseLong(s));
+        Person person = personDao.readByEmail(s);
         if(person == null) throw new UsernameNotFoundException(s);
         return person;
     }

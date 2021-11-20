@@ -18,11 +18,6 @@ public class AuthorizationController {
         this.authorizationService = authorizationService;
     }
 
-    @PostMapping(path = "/login")
-    public Long authorizeUser(@Valid @RequestBody RequestSigninDataDto signinData) {
-        return authorizationService.authorizeUser(signinData);
-    }
-
     @PostMapping(path = "/registration")
     public Long registerUser(@Valid @RequestBody RequestRegistrationDataDto registrationData) {
         return authorizationService.registerUser(registrationData);

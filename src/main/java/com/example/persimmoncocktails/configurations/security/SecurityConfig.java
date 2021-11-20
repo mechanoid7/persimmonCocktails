@@ -1,16 +1,19 @@
 package com.example.persimmoncocktails.configurations.security;
 
+import com.example.persimmoncocktails.configurations.jwt.JwtConfig;
+import com.example.persimmoncocktails.configurations.jwt.JwtTokenVerifier;
+import com.example.persimmoncocktails.configurations.jwt.UsernameAndPasswordAuthenticationFilter;
 import com.example.persimmoncocktails.services.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -20,57 +23,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
     private final AuthorizationService authorizationService;
+    private final JwtConfig jwtConfig;
 
     @Autowired
-    public SecurityConfig(PasswordEncoder passwordEncoder, AuthorizationService authorizationService) {
+    public SecurityConfig(PasswordEncoder passwordEncoder, AuthorizationService authorizationService, JwtConfig jwtConfig) {
         this.passwordEncoder = passwordEncoder;
         this.authorizationService = authorizationService;
+        this.jwtConfig = jwtConfig;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilter(new UsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig))
+                .addFilterAfter(new JwtTokenVerifier(jwtConfig), UsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/login","/registration").permitAll()
                 .antMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
 //                .antMatchers("/person/**").hasRole(ApplicationUserRole.CLIENT.name())
                 .anyRequest()
-                .authenticated()
-                .and()
-                .httpBasic();
+                .authenticated();
     }
-
-//    @Override
-//    @Bean
-//    public UserDetailsService userDetailsService(){
-////        Person admin = new Person(0L, "admin", "admin", passwordEncoder.encode("pass"), null, null, 1);
-////
-////        Person moderator = new Person(1L, "moder", "moder", passwordEncoder.encode("pass"), null, null, 2);
-////
-////        Person client = new Person(2L, "client", "client", passwordEncoder.encode("pass"), null, null, 3);
-//
-//        UserDetails admin = User.builder()
-//                .username("admin")
-//                .password(passwordEncoder.encode("pass"))
-//                .authorities(ApplicationUserRole.ADMIN.getGrantedAuthorities())
-//                .build();
-//
-//        UserDetails moderator = User.builder()
-//                .username("moder")
-//                .password(passwordEncoder.encode("pass"))
-//                .authorities(ApplicationUserRole.MODERATOR.getGrantedAuthorities())
-//                .build();
-//
-//        UserDetails client = User.builder()
-//                .username("client")
-////                .roles(ApplicationUserRole.CLIENT.name())
-//                .password(passwordEncoder.encode("pass"))
-//                .authorities(ApplicationUserRole.CLIENT.getGrantedAuthorities())
-//                .build();
-//
-//        return new InMemoryUserDetailsManager(admin, moderator, client);
-//    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder){
