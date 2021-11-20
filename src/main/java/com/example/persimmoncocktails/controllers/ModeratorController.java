@@ -35,12 +35,12 @@ public class ModeratorController {
     }
 
     @PatchMapping("/update-name")
-    private void updateName(@RequestParam RequestUpdateNameDataDto requestUpdateNameData){
+    private void updateName(@RequestBody RequestUpdateNameDataDto requestUpdateNameData){
         moderatorService.updateName(requestUpdateNameData.getPersonId(), requestUpdateNameData.getName());
     }
 
     @PatchMapping("/update-photo")
-    private void updatePhoto(@RequestParam RequestUpdatePhotoDataDto requestUpdatePhotoData){
+    private void updatePhoto(@RequestBody RequestUpdatePhotoDataDto requestUpdatePhotoData){
         moderatorService.updatePhotoId(requestUpdatePhotoData.getPersonId(), requestUpdatePhotoData.getPhotoId());
     }
 
