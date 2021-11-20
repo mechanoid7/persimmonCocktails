@@ -14,7 +14,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin()
 @RestController
 @RequestMapping("/person")
 public class PersonController {

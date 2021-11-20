@@ -8,7 +8,7 @@ import com.example.persimmoncocktails.services.ModeratorService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin()
 @RestController
 @RequestMapping("/moderator")
 public class ModeratorController {
@@ -35,7 +35,7 @@ public class ModeratorController {
     }
 
     @PatchMapping("/update-name")
-    private void updateName(@RequestParam RequestUpdateNameDataDto requestUpdateNameData){
+    private void updateName(@RequestBody RequestUpdateNameDataDto requestUpdateNameData){
         moderatorService.updateName(requestUpdateNameData.getPersonId(), requestUpdateNameData.getName());
     }
 
