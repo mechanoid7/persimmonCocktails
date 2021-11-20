@@ -2,7 +2,6 @@ package com.example.persimmoncocktails.dtos.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;

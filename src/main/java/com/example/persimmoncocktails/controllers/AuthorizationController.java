@@ -1,13 +1,10 @@
 package com.example.persimmoncocktails.controllers;
 
-import com.example.persimmoncocktails.dtos.ResponseMessage;
 import com.example.persimmoncocktails.dtos.auth.RequestEmailDto;
 import com.example.persimmoncocktails.dtos.auth.RequestRecoverPasswordDataDto;
 import com.example.persimmoncocktails.dtos.auth.RequestRegistrationDataDto;
-import com.example.persimmoncocktails.dtos.auth.RequestSigninDataDto;
 import com.example.persimmoncocktails.services.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

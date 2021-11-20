@@ -1,6 +1,5 @@
 package com.example.persimmoncocktails.exceptions;
 
-import com.fasterxml.classmate.GenericType;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 

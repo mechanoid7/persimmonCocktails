@@ -1,7 +1,6 @@
 package com.example.persimmoncocktails.dtos.friend;
 
 
-import com.example.persimmoncocktails.models.Person;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

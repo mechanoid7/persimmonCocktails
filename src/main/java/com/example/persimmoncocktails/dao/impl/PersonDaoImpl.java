@@ -133,7 +133,7 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
-    public void changePassword(Long personId, String newPassword) {
+    public void changePassword() {
 
     }
 
@@ -143,7 +143,7 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
-    public List<RestorePasswordDataDto> restorePassword(String id, Long personId) { // get user requests
+    public List<RestorePasswordDataDto> restorePassword(Long personId) { // get user requests
         return jdbcTemplate.query(sqlPersonIdByRequest, restorePasswordMapper, personId);
     }
 

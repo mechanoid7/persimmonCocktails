@@ -1,9 +1,7 @@
 package com.example.persimmoncocktails.controllers;
 
-import com.example.persimmoncocktails.dao.PersonDao;
 import com.example.persimmoncocktails.dtos.auth.*;
 import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
-import com.example.persimmoncocktails.models.Person;
 import com.example.persimmoncocktails.services.ModeratorService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;

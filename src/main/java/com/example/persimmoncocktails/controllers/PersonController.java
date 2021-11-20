@@ -1,15 +1,13 @@
 package com.example.persimmoncocktails.controllers;
 
 import com.example.persimmoncocktails.dtos.auth.RequestChangePasswordDataDto;
-import com.example.persimmoncocktails.dtos.auth.RequestUpdateNameDataDto;
-import com.example.persimmoncocktails.dtos.auth.RequestUpdatePhotoDataDto;
 import com.example.persimmoncocktails.dtos.friend.FriendResponseDto;
 import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
 import com.example.persimmoncocktails.services.FriendsService;
 import com.example.persimmoncocktails.services.PersonService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,7 +49,7 @@ public class PersonController {
         personService.updatePhotoId(personId, photoId);
     }
 
-    @DeleteMapping()
+    @DeleteMapping("/{personId}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void deletePersonById(@PathVariable Long personId){
         personService.delete(personId);
@@ -66,16 +64,16 @@ public class PersonController {
                 requestChangePasswordData.getNewPassword());
     }
 
-    @GetMapping("/{personId}/friends")
+    @GetMapping("/friends")
     private List<FriendResponseDto> getPersonFriendsById(@RequestParam("page") Long pageNumber){
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         return friendsService.getPersonFriends(personId, pageNumber);
     }
 
     @GetMapping("/friends/{substring}")
-    public List<PersonResponseDto> getPersonFriendsBySubstring(@PathVariable String substring){
+    public List<FriendResponseDto> getPersonFriendsByIdAndSubstring(@PathVariable String substring, @RequestParam("page") Long pageNumber){
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
-        return friendsService.getListFriendBySubstring(personId, substring, pageNumber);
+        return friendsService.getListFriendsBySubstring(personId, substring, pageNumber);
     }
 
     @DeleteMapping("/friends/delete")

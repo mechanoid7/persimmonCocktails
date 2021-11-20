@@ -1,7 +1,6 @@
 package com.example.persimmoncocktails.configurations.jwt;
 
 import io.jsonwebtoken.security.Keys;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.context.annotation.Configuration;
 

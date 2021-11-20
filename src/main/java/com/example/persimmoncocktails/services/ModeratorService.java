@@ -6,7 +6,10 @@ import com.example.persimmoncocktails.dtos.auth.RestorePasswordDataDto;
 import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
 import com.example.persimmoncocktails.exceptions.*;
 import com.example.persimmoncocktails.models.Person;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -126,11 +129,11 @@ public class ModeratorService {
     }
 
     public void createPassword(String id, Long personId, String newPassword) {
-        if (!passwordIsValid(newPassword)) {
+        if (!passwordIsValid()) {
             throw new IncorrectPasswordFormat();
         }
 
-        List<RestorePasswordDataDto> dataDto = personDao.restorePassword(id, personId);
+        List<RestorePasswordDataDto> dataDto = personDao.restorePassword(personId);
         LocalDateTime currentDateTime = LocalDateTime.now();
 
         if (dataDto.isEmpty()) throw new NotFoundException("Request for password create");

@@ -1,7 +1,6 @@
 package com.example.persimmoncocktails.dao;
 
 import com.example.persimmoncocktails.dtos.friend.FriendResponseDto;
-import com.example.persimmoncocktails.models.Person;
 
 import java.util.List;
 

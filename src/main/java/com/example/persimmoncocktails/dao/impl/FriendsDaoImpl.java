@@ -2,7 +2,7 @@ package com.example.persimmoncocktails.dao.impl;
 
 import com.example.persimmoncocktails.dao.FriendsDao;
 import com.example.persimmoncocktails.dtos.friend.FriendResponseDto;
-import com.example.persimmoncocktails.mapper.FriendMapper;
+import com.example.persimmoncocktails.mappers.FriendMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -10,7 +10,6 @@ import org.springframework.context.annotation.PropertySources;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository

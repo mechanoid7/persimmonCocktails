@@ -2,12 +2,10 @@ package com.example.persimmoncocktails.services;
 
 import com.example.persimmoncocktails.dao.PersonDao;
 import com.example.persimmoncocktails.dtos.auth.RequestRegistrationDataDto;
-import com.example.persimmoncocktails.dtos.auth.RequestSigninDataDto;
 import com.example.persimmoncocktails.dtos.auth.RestorePasswordDataDto;
 import com.example.persimmoncocktails.exceptions.*;
 import com.example.persimmoncocktails.models.Person;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,7 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +21,6 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -65,14 +61,14 @@ public class AuthorizationService implements UserDetailsService{
 //        return person.getPersonId();
 //    }
 
-    public Long registerUser(RequestRegistrationDataDto registrationData) {
+    public void registerUser(RequestRegistrationDataDto registrationData) {
         if(!nameIsValid(registrationData.getName())){
             throw new IncorrectNameFormat();
         }
         if(!emailIsValid(registrationData.getEmail())){
             throw new IncorrectEmailFormat();
         }
-        if(!passwordIsValid(registrationData.getPassword())){
+        if(!passwordIsValid()){
             throw new IncorrectPasswordFormat();
         }
 
@@ -85,7 +81,7 @@ public class AuthorizationService implements UserDetailsService{
 
         personDao.create(person);
 
-        return personDao.readByEmail(person.getEmail()).getPersonId();
+        personDao.readByEmail(person.getEmail());
     }
 
     public void forgotPassword(String email) { // send recover link on email
@@ -109,11 +105,11 @@ public class AuthorizationService implements UserDetailsService{
     }
 
     public void recoverPassword(String id, Long personId, String newPassword) {
-        if(!passwordIsValid(newPassword)){
+        if(!passwordIsValid()){
             throw new IncorrectPasswordFormat();
         }
 
-        List<RestorePasswordDataDto> dataDto = personDao.restorePassword(id, personId);
+        List<RestorePasswordDataDto> dataDto = personDao.restorePassword(personId);
         LocalDateTime currentDateTime = LocalDateTime.now();
 
         if (dataDto.isEmpty()) throw new NotFoundException("Request for password restore");
@@ -134,7 +130,7 @@ public class AuthorizationService implements UserDetailsService{
         personDao.deactivateRequestsBuPersonId(personId);
     }
 
-    public static boolean passwordIsValid(String password) { // method is correct?
+    public static boolean passwordIsValid() { // method is correct?
         return true;
 //        String regex = "^(?=.*[0-9])"
 //                + "(?=.*[a-z])"
