@@ -43,7 +43,8 @@ CREATE TABLE PERSON (
 	password VARCHAR(256) NOT NULL,
 	photo_id BIGINT,
 	blog_id BIGINT,
-	role_id INTEGER
+	role_id INTEGER,
+	is_active BOOLEAN
 );
 
 

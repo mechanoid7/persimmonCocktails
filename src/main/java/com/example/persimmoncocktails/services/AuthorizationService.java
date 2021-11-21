@@ -46,22 +46,6 @@ public class AuthorizationService implements UserDetailsService{
         this.personDao = personDao;
     }
 
-//    public Long authorizeUser(RequestSigninDataDto signinData){
-//        Person person = personDao.readByEmail(signinData.getEmail());
-//        if(person != null) {
-//            if(!passwordEncoder.matches(signinData.getPassword(), person.getPassword())) {
-//                throw new WrongCredentialsException();
-//            }
-//        }
-//        else {
-//            throw new WrongCredentialsException();
-//        }
-//
-//
-//        // generate and send token
-//        return person.getPersonId();
-//    }
-
     public void registerUser(RequestRegistrationDataDto registrationData) {
         if(!nameIsValid(registrationData.getName())){
             throw new IncorrectNameFormat();
@@ -69,7 +53,7 @@ public class AuthorizationService implements UserDetailsService{
         if(!emailIsValid(registrationData.getEmail())){
             throw new IncorrectEmailFormat();
         }
-        if(!passwordIsValid()){
+        if(!passwordIsValid(registrationData.getPassword())){
             throw new IncorrectPasswordFormat();
         }
 
@@ -78,6 +62,7 @@ public class AuthorizationService implements UserDetailsService{
                 .password(hashPassword(registrationData.getPassword()))
                 .email(registrationData.getEmail())
                 .roleId(PersonRolesConfig.clientRoleId)
+                .isActive(true)
                 .build();// default user
 
         personDao.create(person);
@@ -106,9 +91,7 @@ public class AuthorizationService implements UserDetailsService{
     }
 
     public void recoverPassword(String id, Long personId, String newPassword) {
-        if(!passwordIsValid()){
-            throw new IncorrectPasswordFormat();
-        }
+        if(!passwordIsValid(newPassword)) throw new IncorrectPasswordFormat();
 
         List<RestorePasswordDataDto> dataDto = personDao.restorePassword(personId);
         LocalDateTime currentDateTime = LocalDateTime.now();
@@ -128,20 +111,12 @@ public class AuthorizationService implements UserDetailsService{
         }
         if (!updatePerson) throw new LinkExpired("Recover");
 
-        personDao.deactivateRequestsBuPersonId(personId);
+        personDao.deactivateRequestsByPersonId(personId);
     }
 
-    public static boolean passwordIsValid() { // method is correct?
-        return true;
-//        String regex = "^(?=.*[0-9])"
-//                + "(?=.*[a-z])"
-//                + "(?=.*[A-Z])"
-//                + "(?=\\S+$){8,20}$";
-//
-//        Pattern pattern = Pattern.compile(regex);
-//        Matcher matcher = pattern.matcher(password);
-//
-//        return matcher.matches();
+    public static boolean passwordIsValid(String password) {
+        String regex = "^[0-9a-zA-Z]{6,100}$";
+        return Pattern.compile(regex).matcher(password).matches();
     }
 
     public static boolean emailIsValid(String email) {
@@ -159,7 +134,6 @@ public class AuthorizationService implements UserDetailsService{
     }
 
     private String hashPassword(String password) {
-
         return passwordEncoder.encode(password);
     }
 
