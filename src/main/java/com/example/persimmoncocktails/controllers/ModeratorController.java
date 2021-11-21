@@ -54,10 +54,9 @@ public class ModeratorController {
 
     @PatchMapping("/change-password")
     @PreAuthorize("hasPermission('moderator:update')")
-    public void changePasswordPerson(@RequestParam String oldPassword,
-                                      @RequestParam String  newPassword){
+    public void changePasswordPerson(@RequestBody RequestChangePasswordDataDto requestChangePasswordDto){
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
-        moderatorService.changePassword(personId, oldPassword, newPassword);
+        moderatorService.changePassword(personId, requestChangePasswordDto.getOldPassword(), requestChangePasswordDto.getOldPassword());
     }
 
     @PostMapping(path = "/create-password")
