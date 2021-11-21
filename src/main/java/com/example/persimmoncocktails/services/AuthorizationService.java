@@ -1,5 +1,6 @@
 package com.example.persimmoncocktails.services;
 
+import com.example.persimmoncocktails.configurations.PersonRolesConfig;
 import com.example.persimmoncocktails.dao.PersonDao;
 import com.example.persimmoncocktails.dtos.auth.RequestRegistrationDataDto;
 import com.example.persimmoncocktails.dtos.auth.RestorePasswordDataDto;
@@ -76,7 +77,7 @@ public class AuthorizationService implements UserDetailsService{
                 .name(registrationData.getName())
                 .password(hashPassword(registrationData.getPassword()))
                 .email(registrationData.getEmail())
-                .roleId(3)
+                .roleId(PersonRolesConfig.clientRoleId)
                 .build();// default user
 
         personDao.create(person);

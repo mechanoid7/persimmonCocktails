@@ -11,7 +11,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/moderator")
-@PreAuthorize("isAuthenticated()")
 public class ModeratorController {
 
     private final ModeratorService moderatorService;

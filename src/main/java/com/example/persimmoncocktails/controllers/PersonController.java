@@ -14,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/person")
-@PreAuthorize("isAuthenticated()")
 public class PersonController {
 
     private final PersonService personService;
