@@ -6,8 +6,8 @@ import com.example.persimmoncocktails.dtos.auth.RequestUpdatePhotoDataDto;
 import com.example.persimmoncocktails.dtos.friend.FriendResponseDto;
 import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
 import com.example.persimmoncocktails.services.FriendsService;
+import com.example.persimmoncocktails.services.FriendshipInvitationService;
 import com.example.persimmoncocktails.services.PersonService;
-import io.swagger.v3.oas.annotations.Parameter;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,6 +18,7 @@ public class PersonController {
 
     private final PersonService personService;
     private final FriendsService friendsService;
+
 
     public PersonController(PersonService personService, FriendsService friendsService) {
         this.personService = personService;
