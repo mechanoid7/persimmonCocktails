@@ -2,6 +2,7 @@ package com.example.persimmoncocktails.controllers;
 
 import com.example.persimmoncocktails.dtos.auth.*;
 import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
+import com.example.persimmoncocktails.dtos.person.RequestPersonIdDto;
 import com.example.persimmoncocktails.services.ModeratorService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,7 +19,6 @@ public class ModeratorController {
     public ModeratorController(ModeratorService moderatorService) {
         this.moderatorService = moderatorService;
     }
-
 
     @GetMapping("/all")
     @PreAuthorize("hasAuthority('moderator:read')")
@@ -64,5 +64,11 @@ public class ModeratorController {
                 requestCreatePasswordData.getId(),
                 requestCreatePasswordData.getPersonId(),
                 requestCreatePasswordData.getNewPassword());
+    }
+
+    @PostMapping(path = "/change-status")
+    @PreAuthorize("hasRole('ROLE_ADMIN')") // admin can change
+    public void changeStatus(@RequestBody Long personId){
+        moderatorService.changeStatus(personId);
     }
 }

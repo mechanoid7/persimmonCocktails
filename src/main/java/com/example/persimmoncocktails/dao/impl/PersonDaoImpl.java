@@ -35,8 +35,6 @@ public class PersonDaoImpl implements PersonDao {
 
     @Value("${sql_person_with_such_id_exists}")
     private String sqlPersonWithSuchIdExists;
-    @Value("${sql_person_create}")
-    private String sqlInsertNewPerson;
     @Value("${sql_person_create_base}")
     private String sqlInsertNewPersonRequiredFields;
     @Value("${sql_person_read_by_id}")
@@ -47,16 +45,18 @@ public class PersonDaoImpl implements PersonDao {
     private String sqlUpdatePerson;
     @Value("${sql_person_delete}")
     private String sqlDeletePerson;
-    @Value("${sql_friend_get_all_friends}")
-    private String sqlGetAllFriends;
-    @Value("${sql_friend_get_all_friends_by_substring}")
-    private String sqlGetListFriendBySubstring;
     @Value("${sql_person_save_recover_password_request}")
     private String sqlSaveRecoverPasswordRequest;
     @Value("${sql_person_data_dto_by_recovery_id}")
     private String sqlPersonIdByRequest;
     @Value("${sql_person_deactivate_password_change_request}")
     private String sqlDeactivateChangePasswordRequest;
+    @Value("${sql_person_is_active}")
+    private String sqlPersonIsActive;
+    @Value("${sql_person_activate_person}")
+    private String sqlActivatePerson;
+    @Value("${sql_person_deactivate_person}")
+    private String sqlDeactivatePerson;
 
     @Autowired
     public PersonDaoImpl(PasswordEncoder passwordEncoder, JdbcTemplate jdbcTemplate) {
@@ -73,7 +73,7 @@ public class PersonDaoImpl implements PersonDao {
     public void create(Person person) { // create new person
         try {
             jdbcTemplate.update(sqlInsertNewPersonRequiredFields, person.getName(), person.getEmail(), person.getPassword(),
-                    person.getRoleId());
+                    person.getRoleId(), person.getIsActive());
         } catch (DuplicateKeyException e) {
             throw new DuplicateException("Person");
         } catch (DataAccessException rootException) {
@@ -117,8 +117,7 @@ public class PersonDaoImpl implements PersonDao {
         try {
             jdbcTemplate.update(sqlUpdatePerson, person.getName(), person.getEmail(), person.getPassword(),
                     person.getPhotoId(), person.getBlogId(), person.getRoleId(), person.getPersonId());
-        }
-        catch (DataIntegrityViolationException dataIntegrityViolationException){
+        } catch (DataIntegrityViolationException dataIntegrityViolationException) {
             throw new NotFoundException("");
         } catch (DataAccessException rootException) {
             // we should log it
@@ -134,7 +133,6 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public void changePassword() {
-
     }
 
     @Override
@@ -148,7 +146,22 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
-    public void deactivateRequestsBuPersonId(Long personId){ // deactivate all this user request
+    public void deactivateRequestsByPersonId(Long personId) { // deactivate all this user request
         jdbcTemplate.update(sqlDeactivateChangePasswordRequest, personId);
+    }
+
+    @Override
+    public Boolean personIsActive(Long personId) {
+        return Boolean.TRUE.equals(jdbcTemplate.queryForObject(sqlPersonIsActive, Boolean.class, personId));
+    }
+
+    @Override
+    public void activatePersonByPersonId(Long personId) {
+        jdbcTemplate.update(sqlActivatePerson, personId);
+    }
+
+    @Override
+    public void deactivatePersonByPersonId(Long personId) {
+        jdbcTemplate.update(sqlDeactivatePerson, personId);
     }
 }

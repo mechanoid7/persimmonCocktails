@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 @PropertySource("classpath:var/general.properties")
 public class PersonRolesConfig {
+
     public static Integer clientRoleId;
 
     @Value("${role_authorized_id}")

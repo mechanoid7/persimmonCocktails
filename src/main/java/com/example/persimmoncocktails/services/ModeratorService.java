@@ -76,6 +76,7 @@ public class ModeratorService {
     }
 
     public void changePassword(Long personId, String oldPassword, String newPassword) {
+        if (!passwordIsValid(newPassword)) throw new IncorrectPasswordFormat();
         Person person = personDao.read(personId);
         if (person != null &&
                 passwordEncoder.matches(oldPassword, person.getPassword())){ // compare old password input and DB
@@ -102,6 +103,7 @@ public class ModeratorService {
                     .email(email)
                     .password(hashPassword(generateRandomString())) // create random pass
                     .roleId(roleModeratorId)
+                    .isActive(false)
                     .build();
             personDao.create(person);
             person.setPersonId(personDao.readByEmail(email).getPersonId()); // set personId for current object
@@ -129,7 +131,7 @@ public class ModeratorService {
     }
 
     public void createPassword(String id, Long personId, String newPassword) {
-        if (!passwordIsValid()) {
+        if (!passwordIsValid(newPassword)) {
             throw new IncorrectPasswordFormat();
         }
 
@@ -144,6 +146,7 @@ public class ModeratorService {
                     ChronoUnit.HOURS.between(dto.getLocalDateTime(), currentDateTime) < linkCreatePasswordLifetime) { // if id matched and the request has not timed out
                 Person person = personDao.read(dto.getPersonId());
                 person.setPassword(hashPassword(newPassword));
+                person.setIsActive(true);
                 personDao.update(person);
                 updatePerson = true;
                 break;
@@ -151,7 +154,7 @@ public class ModeratorService {
         }
         if (!updatePerson) throw new LinkExpired("Create");
 
-        personDao.deactivateRequestsBuPersonId(personId);
+        personDao.deactivateRequestsByPersonId(personId);
     }
 
     private boolean matchHash(String hash1, String hash2) {
@@ -166,4 +169,9 @@ public class ModeratorService {
         return siteUrl + "/moderator/create-password?id=" + id + "&nn=" + personId;
     }
 
+    public void changeStatus(Long personId) {
+        if (personDao.personIsActive(personId))
+            personDao.deactivatePersonByPersonId(personId);
+        else personDao.activatePersonByPersonId(personId); // if disabled or null
+    }
 }

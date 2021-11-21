@@ -33,7 +33,7 @@ public class Person implements UserDetails {
     private Long photoId;
     private Long blogId;
     private Integer roleId;
-//    private boolean isActive;
+    private Boolean isActive;
 
     private static Set<SimpleGrantedAuthority> mapToSimpleGrantedAuthority(Set<ApplicationUserPermission> permissions) {
         return permissions.stream()
@@ -54,7 +54,6 @@ public class Person implements UserDetails {
             permissions.addAll(mapToSimpleGrantedAuthority(ApplicationUserRole.CLIENT.getPermissions()));
             permissions.add(new SimpleGrantedAuthority("ROLE_CLIENT"));
         }
-
 
         return permissions;
     }
@@ -81,7 +80,6 @@ public class Person implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-//        return isActive;
-        return true;
+        return isActive;
     }
 }

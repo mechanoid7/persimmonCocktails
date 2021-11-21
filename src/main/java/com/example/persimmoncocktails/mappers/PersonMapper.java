@@ -22,7 +22,8 @@ public class PersonMapper implements RowMapper<Person> {
                 rs.getString("password"),
                 photoId,
                 blogId,
-                roleId
+                roleId,
+                rs.getBoolean("is_active")
         );
     }
 }

@@ -25,5 +25,11 @@ public interface PersonDao {
 
     List<RestorePasswordDataDto> restorePassword(Long personId);
 
-    void deactivateRequestsBuPersonId(Long personId);
+    void deactivateRequestsByPersonId(Long personId);
+
+    Boolean personIsActive(Long personId);
+
+    void activatePersonByPersonId(Long personId);
+
+    void deactivatePersonByPersonId(Long personId);
 }
