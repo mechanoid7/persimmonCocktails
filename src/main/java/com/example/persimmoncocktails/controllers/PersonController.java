@@ -32,6 +32,7 @@ public class PersonController {
     }
 
     @GetMapping("/email/{personEmail}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public PersonResponseDto getPersonByEmail(@PathVariable String personEmail){
         return personService.readByEmail(personEmail);
     }
