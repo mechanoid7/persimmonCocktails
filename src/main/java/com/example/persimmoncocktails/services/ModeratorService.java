@@ -6,12 +6,11 @@ import com.example.persimmoncocktails.dtos.auth.RestorePasswordDataDto;
 import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
 import com.example.persimmoncocktails.exceptions.*;
 import com.example.persimmoncocktails.models.Person;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -27,7 +26,7 @@ import static com.example.persimmoncocktails.services.AuthorizationService.*;
 public class ModeratorService {
     private final PersonDao personDao;
     private final ModeratorDao moderatorDao;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @Value("${role_moderator_id}")
     private Integer roleModeratorId;
@@ -38,23 +37,23 @@ public class ModeratorService {
 
     private final JavaMailSender emailSender;
 
-    public ModeratorService(JavaMailSender emailSender, BCryptPasswordEncoder bCryptPasswordEncoder, PersonDao personDao, ModeratorDao moderatorDao) {
+    public ModeratorService(JavaMailSender emailSender, PasswordEncoder passwordEncoder, PersonDao personDao, ModeratorDao moderatorDao) {
         this.emailSender = emailSender;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.passwordEncoder = passwordEncoder;
         this.personDao = personDao;
         this.moderatorDao = moderatorDao;
     }
 
     public void updateName(Long personId, String name) {
-        if (!personDao.existsById(personId)) throw new NotFoundException("Moderator");
-        if (!nameIsValid(name)) throw new IncorrectNameFormat();
+        if(!personDao.existsById(personId)) throw new NotFoundException("Moderator");
+        if(!AuthorizationService.nameIsValid(name)) throw new IncorrectNameFormat();
         Person person = personDao.read(personId);
         person.setName(name);
         personDao.update(person);
     }
 
     public void updatePhotoId(Long personId, Long photoId) {
-        if (!personDao.existsById(personId)) throw new NotFoundException("Moderator");
+        if(!personDao.existsById(personId)) throw new NotFoundException("Moderator");
         Person person = personDao.read(personId);
         person.setPhotoId(photoId);
         try {
@@ -66,7 +65,7 @@ public class ModeratorService {
 
     public PersonResponseDto readModeratorById(Long personId) {
         Person person = personDao.read(personId);
-        if (person == null) throw new NotFoundException("Moderator");
+        if(person == null) throw new NotFoundException("Moderator");
         return PersonResponseDto.toDto(person);
     }
 
@@ -79,8 +78,8 @@ public class ModeratorService {
     public void changePassword(Long personId, String oldPassword, String newPassword) {
         Person person = personDao.read(personId);
         if (person != null &&
-                bCryptPasswordEncoder.matches(oldPassword, person.getPassword())) { // compare old password input and DB
-            person.setPassword(bCryptPasswordEncoder.encode(newPassword));
+                passwordEncoder.matches(oldPassword, person.getPassword())){ // compare old password input and DB
+            person.setPassword(passwordEncoder.encode(newPassword));
             personDao.update(person);
         } else {
             throw new WrongCredentialsException();
@@ -130,11 +129,11 @@ public class ModeratorService {
     }
 
     public void createPassword(String id, Long personId, String newPassword) {
-        if (!passwordIsValid(newPassword)) {
+        if (!passwordIsValid()) {
             throw new IncorrectPasswordFormat();
         }
 
-        List<RestorePasswordDataDto> dataDto = personDao.restorePassword(id, personId);
+        List<RestorePasswordDataDto> dataDto = personDao.restorePassword(personId);
         LocalDateTime currentDateTime = LocalDateTime.now();
 
         if (dataDto.isEmpty()) throw new NotFoundException("Request for password create");
@@ -156,11 +155,11 @@ public class ModeratorService {
     }
 
     private boolean matchHash(String hash1, String hash2) {
-        return bCryptPasswordEncoder.matches(hash1, hash2);
+        return passwordEncoder.matches(hash1, hash2);
     }
 
     private String hashPassword(String password) {
-        return bCryptPasswordEncoder.encode(password);
+        return passwordEncoder.encode(password);
     }
 
     private String generatePasswordCreateLink(String id, Long personId) {

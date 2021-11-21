@@ -1,20 +1,14 @@
 package com.example.persimmoncocktails.services;
 
 import com.example.persimmoncocktails.dao.FriendsDao;
-import com.example.persimmoncocktails.dao.PersonDao;
 import com.example.persimmoncocktails.dtos.friend.FriendResponseDto;
-import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
 import com.example.persimmoncocktails.exceptions.IncorrectNameFormat;
 import com.example.persimmoncocktails.exceptions.IncorrectRangeNumberFormat;
-import com.example.persimmoncocktails.exceptions.NotFoundException;
 import com.example.persimmoncocktails.exceptions.WrongCredentialsException;
-import com.example.persimmoncocktails.models.Person;
 import lombok.AllArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor

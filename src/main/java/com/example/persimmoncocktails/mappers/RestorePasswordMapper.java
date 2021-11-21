@@ -1,4 +1,4 @@
-package com.example.persimmoncocktails.mapper;
+package com.example.persimmoncocktails.mappers;
 
 import com.example.persimmoncocktails.dtos.auth.RestorePasswordDataDto;
 import org.springframework.jdbc.core.RowMapper;

@@ -1,13 +1,13 @@
 package com.example.persimmoncocktails.controllers;
 
 import com.example.persimmoncocktails.dtos.auth.RequestChangePasswordDataDto;
-import com.example.persimmoncocktails.dtos.auth.RequestUpdateNameDataDto;
-import com.example.persimmoncocktails.dtos.auth.RequestUpdatePhotoDataDto;
 import com.example.persimmoncocktails.dtos.friend.FriendResponseDto;
 import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
 import com.example.persimmoncocktails.services.FriendsService;
 import com.example.persimmoncocktails.services.PersonService;
-import io.swagger.v3.oas.annotations.Parameter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,10 +19,12 @@ public class PersonController {
     private final PersonService personService;
     private final FriendsService friendsService;
 
+    @Autowired
     public PersonController(PersonService personService, FriendsService friendsService) {
         this.personService = personService;
         this.friendsService = friendsService;
     }
+
 
     @GetMapping("/{personId}")
     public PersonResponseDto getPersonById(@PathVariable Long personId){
@@ -30,55 +32,59 @@ public class PersonController {
     }
 
     @GetMapping("/email/{personEmail}")
-    private PersonResponseDto getPersonByEmail(@PathVariable String personEmail){
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public PersonResponseDto getPersonByEmail(@PathVariable String personEmail){
         return personService.readByEmail(personEmail);
     }
 
     @PatchMapping("/update-name")
-    private void updateName(@RequestBody RequestUpdateNameDataDto requestUpdateNameData){
-        personService.updateName(requestUpdateNameData.getPersonId(), requestUpdateNameData.getName());
+    public void updateName(@RequestParam String name){
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        personService.updateName(personId, name);
     }
-//
+
     @PatchMapping("/update-photo")
-    private void updatePhoto(@RequestBody RequestUpdatePhotoDataDto requestUpdatePhotoData){
-        personService.updatePhotoId(requestUpdatePhotoData.getPersonId(), requestUpdatePhotoData.getPhotoId());
+    public void updatePhoto(@RequestParam Long photoId){
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        personService.updatePhotoId(personId, photoId);
     }
 
     @DeleteMapping("/{personId}")
-    private void deletePersonById(@PathVariable Long personId){
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void deletePersonById(@PathVariable Long personId){
         personService.delete(personId);
     }
 
     @PatchMapping("/change-password")
-    private void changePasswordPerson(@RequestBody RequestChangePasswordDataDto requestChangePasswordData){
-        personService.changePassword(
-                requestChangePasswordData.getPersonId(),
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
+    public void changePasswordPerson(@RequestBody RequestChangePasswordDataDto requestChangePasswordData){
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        personService.changePassword(personId,
                 requestChangePasswordData.getOldPassword(),
                 requestChangePasswordData.getNewPassword());
     }
 
-    @GetMapping("/{personId}/friends")
-    private List<FriendResponseDto> getPersonFriendsById(@PathVariable Long personId, @RequestParam("page") Long pageNumber){
+    @GetMapping("/friends")
+    private List<FriendResponseDto> getPersonFriendsById(@RequestParam("page") Long pageNumber){
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         return friendsService.getPersonFriends(personId, pageNumber);
     }
 
-    @GetMapping("/{personId}/friends/{substring}")
-    private List<FriendResponseDto> getPersonFriendsByIdAndSubstring(@PathVariable Long personId, @PathVariable String substring, @RequestParam("page") Long pageNumber){
+    @GetMapping("/friends/{substring}")
+    public List<FriendResponseDto> getPersonFriendsByIdAndSubstring(@PathVariable String substring, @RequestParam("page") Long pageNumber){
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         return friendsService.getListFriendsBySubstring(personId, substring, pageNumber);
     }
 
-    @GetMapping("/users/{substring}")
-    private List<FriendResponseDto> getPersonsByNameSubstring(@PathVariable String substring, @RequestParam("page") Long pageNumber){
-        return friendsService.searchPersonsByNameSubstring(substring, pageNumber);
-    }
-
-    @DeleteMapping("/{personId}/friends/delete")
-    private void deleteFriend(@PathVariable Long personId, @RequestBody Long friendId){
+    @DeleteMapping("/friends/delete")
+    private void deleteFriend(@RequestBody Long friendId){
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         friendsService.removeFriendById(personId, friendId);
     }
 
-    @PostMapping("/{personId}/friends/add")
-    private void addFriend(@PathVariable Long personId, @RequestBody Long friendId){
+    @PostMapping("/friends/add")
+    private void addFriend(@RequestBody Long friendId){
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         friendsService.addFriend(personId, friendId);
     }
 }

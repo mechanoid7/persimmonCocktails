@@ -5,11 +5,11 @@ import com.example.persimmoncocktails.dtos.auth.RestorePasswordDataDto;
 import com.example.persimmoncocktails.exceptions.DuplicateException;
 import com.example.persimmoncocktails.exceptions.NotFoundException;
 import com.example.persimmoncocktails.exceptions.UnknownException;
-import com.example.persimmoncocktails.mapper.PersonMapper;
-import com.example.persimmoncocktails.mapper.RestorePasswordMapper;
+import com.example.persimmoncocktails.mappers.RestorePasswordMapper;
+import com.example.persimmoncocktails.mappers.PersonMapper;
 import com.example.persimmoncocktails.models.Person;
 import lombok.RequiredArgsConstructor;
-//import java.sql.time;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.DataAccessException;
@@ -17,6 +17,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -30,6 +31,7 @@ public class PersonDaoImpl implements PersonDao {
     private final PersonMapper personMapper = new PersonMapper();
     private final RestorePasswordMapper restorePasswordMapper = new RestorePasswordMapper();
     private final JdbcTemplate jdbcTemplate;
+    private final PasswordEncoder passwordEncoder;
 
     @Value("${sql_person_with_such_id_exists}")
     private String sqlPersonWithSuchIdExists;
@@ -55,6 +57,12 @@ public class PersonDaoImpl implements PersonDao {
     private String sqlPersonIdByRequest;
     @Value("${sql_person_deactivate_password_change_request}")
     private String sqlDeactivateChangePasswordRequest;
+
+    @Autowired
+    public PersonDaoImpl(PasswordEncoder passwordEncoder, JdbcTemplate jdbcTemplate) {
+        this.passwordEncoder = passwordEncoder;
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public boolean existsById(Long personId) {
@@ -125,7 +133,7 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
-    public void changePassword(Long personId, String newPassword) {
+    public void changePassword() {
 
     }
 
@@ -135,7 +143,7 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
-    public List<RestorePasswordDataDto> restorePassword(String id, Long personId) { // get user requests
+    public List<RestorePasswordDataDto> restorePassword(Long personId) { // get user requests
         return jdbcTemplate.query(sqlPersonIdByRequest, restorePasswordMapper, personId);
     }
 
