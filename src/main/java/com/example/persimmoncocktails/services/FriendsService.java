@@ -26,10 +26,12 @@ public class FriendsService {
     }
 
     public List<FriendResponseDto> getPersonFriends(Long personId, Long pageNumber) {
+        if (pageNumber<0) throw new IncorrectRangeNumberFormat("of page");
         return friendsDao.getPersonFriends(personId, pageNumber);
     }
 
     public List<FriendResponseDto> getListFriendsBySubstring(Long personId, String substring, Long pageNumber) {
+        if (pageNumber<0) throw new IncorrectRangeNumberFormat("of page");
         if (!AuthorizationService.nameIsValid(substring)) throw new IncorrectNameFormat();
         return friendsDao.getListFriendByNameSubstring(personId, "%"+substring+"%", pageNumber);
     }
