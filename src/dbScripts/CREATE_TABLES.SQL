@@ -1,6 +1,6 @@
 CREATE TABLE KITCHENWARE (
 	kitchenware_id BIGSERIAL NOT NULL  PRIMARY KEY,
-	name VARCHAR(256) NOT NULL,
+	name VARCHAR(256) NOT NULL UNIQUE ,
 	kitchenware_category_id INTEGER,
 	photo_id BIGINT
 );

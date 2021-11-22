@@ -26,6 +26,8 @@ public class KitchenwareDaoImpl implements KitchenwareDao {
 
     @Value("${sql_kitchenware_read_by_id}")
     private String sqlReadKitchenwareById;
+    @Value("${sql_kitchenware_read_by_name}")
+    private String sqlReadKitchenwareByName;
     @Value("${sql_kitchenware_update}")
     private String sqlUpdateKitchenware;
     @Value("${sql_kitchenware_delete}")
@@ -57,6 +59,19 @@ public class KitchenwareDaoImpl implements KitchenwareDao {
     public Kitchenware read(Long kitchenwareId) {
         try {
             return jdbcTemplate.queryForObject(sqlReadKitchenwareById, kitchenwareMapper, kitchenwareId);
+        } catch (EmptyResultDataAccessException emptyE) {
+            return null;
+        } catch (DataAccessException rootException) {
+            // we should log it
+            rootException.printStackTrace();
+            throw new UnknownException();
+        }
+    }
+
+    @Override
+    public Kitchenware readByName(String name) {
+        try {
+            return jdbcTemplate.queryForObject(sqlReadKitchenwareByName, kitchenwareMapper, name);
         } catch (EmptyResultDataAccessException emptyE) {
             return null;
         } catch (DataAccessException rootException) {

@@ -10,6 +10,8 @@ public interface KitchenwareDao {
 
     Kitchenware read(Long kitchenwareId);
 
+    Kitchenware readByName(String name);
+
     void update(Kitchenware kitchenware);
 
     void delete(Long kitchenwareId);
