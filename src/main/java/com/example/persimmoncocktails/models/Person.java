@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@PropertySource("classpath:var/general.properties")
 public class Person implements UserDetails {
     private Long personId;
     private String name;

@@ -44,7 +44,7 @@ CREATE TABLE PERSON (
 	photo_id BIGINT,
 	blog_id BIGINT,
 	role_id INTEGER,
-	is_active BOOLEAN
+	is_active BOOLEAN NOT NULL
 );
 
 
