@@ -64,6 +64,11 @@ public class PersonController {
                 requestChangePasswordData.getNewPassword());
     }
 
+    @GetMapping("/search/{substring}")
+    public List<FriendResponseDto> getPersonsBySubstring(@PathVariable String substring, @RequestParam("page") Long pageNumber){
+        return friendsService.searchPersonsByNameSubstring(substring, pageNumber);
+    }
+
     @GetMapping("/friends")
     private List<FriendResponseDto> getPersonFriendsById(@RequestParam("page") Long pageNumber){
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
