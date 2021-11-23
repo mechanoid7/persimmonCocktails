@@ -1,6 +1,9 @@
 package com.example.persimmoncocktails.controllers;
 
 import com.example.persimmoncocktails.dtos.kitchenware.RequestKitchenwareDto;
+import com.example.persimmoncocktails.dtos.kitchenware.RequestUpdateKitchenwareCategoryDto;
+import com.example.persimmoncocktails.dtos.kitchenware.RequestUpdateKitchenwareNameDto;
+import com.example.persimmoncocktails.dtos.kitchenware.RequestUpdateKitchenwarePhotoDto;
 import com.example.persimmoncocktails.models.kitchenware.KitchenwareCategory;
 import com.example.persimmoncocktails.models.kitchenware.KitchenwareWithCategory;
 import com.example.persimmoncocktails.services.KitchenwareService;
@@ -33,6 +36,23 @@ public class KitchenwareController {
     @PostMapping
     public KitchenwareWithCategory createKitchenware(@RequestBody RequestKitchenwareDto requestKitchenwareDto){
         return kitchenwareService.createKitchenware(requestKitchenwareDto);
+    }
+
+    @PatchMapping("/update-name")
+    public void updateName(@RequestBody RequestUpdateKitchenwareNameDto updateKitchenwareNameDto){
+        kitchenwareService.updateName(updateKitchenwareNameDto.getKitchenwareId(), updateKitchenwareNameDto.getName());
+    }
+
+    @PatchMapping("/update-photo")
+    public void updatePhoto(@RequestBody RequestUpdateKitchenwarePhotoDto updateKitchenwarePhotoDto){
+        kitchenwareService.updatePhoto(updateKitchenwarePhotoDto.getKitchenwareId(),
+                updateKitchenwarePhotoDto.getKitchenwarePhotoId());
+    }
+
+    @PatchMapping("/update-category")
+    public void updateCategory(@RequestBody RequestUpdateKitchenwareCategoryDto updateKitchenwareCategoryDto){
+        kitchenwareService.updateKitchenwareCategory(updateKitchenwareCategoryDto.getKitchenwareId(),
+                updateKitchenwareCategoryDto.getKitchenwareCategoryId());
     }
 
     @DeleteMapping("/{kitchenwareId}")
