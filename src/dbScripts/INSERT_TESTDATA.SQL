@@ -12,9 +12,9 @@ INSERT INTO ingridient(name,  ingridient_category_id) VALUES('orange',  '1') ;
 INSERT INTO ingridient(name,  ingridient_category_id) VALUES('lemon',  '1') ;
 INSERT INTO ingridient(name,  ingridient_category_id) VALUES('water',  '5') ;
 
-INSERT INTO kitchenware(name, kitchenware_category_id) VALUES('wineglass', 1);
-INSERT INTO kitchenware(name, kitchenware_category_id) VALUES('jug', 3);
-INSERT INTO kitchenware(name, kitchenware_category_id) VALUES('knife', 2);
+INSERT INTO kitchenware(name, kitchenware_category_id, is_active) VALUES('wineglass', 1, true);
+INSERT INTO kitchenware(name, kitchenware_category_id, is_active) VALUES('jug', 3, true);
+INSERT INTO kitchenware(name, kitchenware_category_id, is_active) VALUES('knife', 2, true);
 
 INSERT INTO dish(name, description,  dish_category_id, receipt, volume) VALUES('water with lemon', 'water with lemon', 2, 'Squeeze lemon juice into a glass.', 0.5) ;
 
