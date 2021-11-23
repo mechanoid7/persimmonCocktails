@@ -58,7 +58,11 @@ public class KitchenwareDaoImpl implements KitchenwareDao {
     @Override
     public void create(Kitchenware kitchenware) {
         try {
-            jdbcTemplate.update(sqlCreateKitchenware, kitchenware.getName(), kitchenware.getKitchenwareCategoryId(), kitchenware.getPhotoId());
+            jdbcTemplate.update(sqlCreateKitchenware, kitchenware.getName(),
+                    kitchenware.getKitchenwareCategoryId(),
+                    kitchenware.getPhotoId(),
+                    kitchenware.isActive()
+            );
         } catch (DuplicateKeyException e) {
             throw new DuplicateException("Kitchenware");
         } catch (DataAccessException rootException) {
@@ -98,10 +102,12 @@ public class KitchenwareDaoImpl implements KitchenwareDao {
     public void update(Kitchenware kitchenware) {
         // we should consider changing way to modify rows
         try {
-            jdbcTemplate.update(sqlUpdateKitchenware, kitchenware.getName(), kitchenware.getKitchenwareCategoryId(),
-                    kitchenware.getPhotoId());
-        } catch (DataIntegrityViolationException dataIntegrityViolationException) {
-            throw new NotFoundException("Kitchenware");
+            jdbcTemplate.update(sqlUpdateKitchenware,
+                    kitchenware.getName(),
+                    kitchenware.getKitchenwareCategoryId(),
+                    kitchenware.getPhotoId(),
+                    kitchenware.isActive(),
+                    kitchenware.getKitchenwareId());
         } catch (DataAccessException rootException) {
             // we should log it
             rootException.printStackTrace();
