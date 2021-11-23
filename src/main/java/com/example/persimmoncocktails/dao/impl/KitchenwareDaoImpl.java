@@ -4,8 +4,11 @@ import com.example.persimmoncocktails.dao.KitchenwareDao;
 import com.example.persimmoncocktails.exceptions.DuplicateException;
 import com.example.persimmoncocktails.exceptions.NotFoundException;
 import com.example.persimmoncocktails.exceptions.UnknownException;
-import com.example.persimmoncocktails.mappers.KitchenwareMapper;
-import com.example.persimmoncocktails.models.Kitchenware;
+import com.example.persimmoncocktails.mappers.KitchenwareCategoryMapper;
+import com.example.persimmoncocktails.mappers.KitchenwareWithCategoryMapper;
+import com.example.persimmoncocktails.models.kitchenware.Kitchenware;
+import com.example.persimmoncocktails.models.kitchenware.KitchenwareCategory;
+import com.example.persimmoncocktails.models.kitchenware.KitchenwareWithCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -16,18 +19,22 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Repository
 @RequiredArgsConstructor
 @PropertySource("classpath:sql/kitchenware_queries.properties")
 public class KitchenwareDaoImpl implements KitchenwareDao {
 
-    private final KitchenwareMapper kitchenwareMapper;
+    private final KitchenwareWithCategoryMapper kitchenwareWithCategoryMapper = new KitchenwareWithCategoryMapper();
+    private final KitchenwareCategoryMapper kitchenwareCategoryMapper = new KitchenwareCategoryMapper();
     private final JdbcTemplate jdbcTemplate;
 
-    @Value("${sql_kitchenware_read_by_id}")
-    private String sqlReadKitchenwareById;
-    @Value("${sql_kitchenware_read_by_name}")
-    private String sqlReadKitchenwareByName;
+    @Value("${sql_kitchenware_with_category_read_by_id}")
+    private String sqlReadKitchenwareWithCategoryById;
+    @Value("${sql_kitchenware_with_category_read_by_name}")
+    private String sqlReadKitchenwareWithCategoryByName;
     @Value("${sql_kitchenware_update}")
     private String sqlUpdateKitchenware;
     @Value("${sql_kitchenware_delete}")
@@ -36,6 +43,12 @@ public class KitchenwareDaoImpl implements KitchenwareDao {
     private String sqlCreateKitchenware;
     @Value("${sql_kitchenware_with_such_id_exists}")
     private String sqlKitchenwareWithSuchIdExists;
+    @Value("${sql_kitchenware_category_with_such_id_exists}")
+    private String sqlKitchenwareCategoryWithSuchIdExists;
+    @Value("${sql_kitchenwares_with_category}")
+    private String sqlReadAllKitchenwares;
+    @Value("${sql_kitchenware_category_read_all}")
+    private String sqlReadAllKitchenwareCategories;
 
     @Override
     public boolean existsById(Long kitchenwareId) {
@@ -56,9 +69,9 @@ public class KitchenwareDaoImpl implements KitchenwareDao {
     }
 
     @Override
-    public Kitchenware read(Long kitchenwareId) {
+    public KitchenwareWithCategory read(Long kitchenwareId) {
         try {
-            return jdbcTemplate.queryForObject(sqlReadKitchenwareById, kitchenwareMapper, kitchenwareId);
+            return jdbcTemplate.queryForObject(sqlReadKitchenwareWithCategoryById, kitchenwareWithCategoryMapper, kitchenwareId);
         } catch (EmptyResultDataAccessException emptyE) {
             return null;
         } catch (DataAccessException rootException) {
@@ -69,9 +82,9 @@ public class KitchenwareDaoImpl implements KitchenwareDao {
     }
 
     @Override
-    public Kitchenware readByName(String name) {
+    public KitchenwareWithCategory readByName(String name) {
         try {
-            return jdbcTemplate.queryForObject(sqlReadKitchenwareByName, kitchenwareMapper, name);
+            return jdbcTemplate.queryForObject(sqlReadKitchenwareWithCategoryByName, kitchenwareWithCategoryMapper, name);
         } catch (EmptyResultDataAccessException emptyE) {
             return null;
         } catch (DataAccessException rootException) {
@@ -85,7 +98,8 @@ public class KitchenwareDaoImpl implements KitchenwareDao {
     public void update(Kitchenware kitchenware) {
         // we should consider changing way to modify rows
         try {
-            jdbcTemplate.update(sqlUpdateKitchenware, kitchenware.getName(), kitchenware.getKitchenwareCategoryId(), kitchenware.getPhotoId());
+            jdbcTemplate.update(sqlUpdateKitchenware, kitchenware.getName(), kitchenware.getKitchenwareCategoryId(),
+                    kitchenware.getPhotoId());
         } catch (DataIntegrityViolationException dataIntegrityViolationException) {
             throw new NotFoundException("Kitchenware");
         } catch (DataAccessException rootException) {
@@ -98,5 +112,21 @@ public class KitchenwareDaoImpl implements KitchenwareDao {
     @Override
     public void delete(Long kitchenwareId) {
         jdbcTemplate.update(sqlDeleteKitchenware, kitchenwareId);
+    }
+
+    @Override
+    public boolean existsCategoryById(Long kitchenwareCategoryId) {
+        return Boolean.TRUE.equals(jdbcTemplate.queryForObject(
+                sqlKitchenwareCategoryWithSuchIdExists, Boolean.class, kitchenwareCategoryId));
+    }
+
+    @Override
+    public List<KitchenwareWithCategory> readAllKitchenwares() {
+        return jdbcTemplate.query(sqlReadAllKitchenwares, kitchenwareWithCategoryMapper);
+    }
+
+    @Override
+    public List<KitchenwareCategory> readAllKitchenwareCategories() {
+        return jdbcTemplate.query(sqlReadAllKitchenwareCategories, kitchenwareCategoryMapper);
     }
 }

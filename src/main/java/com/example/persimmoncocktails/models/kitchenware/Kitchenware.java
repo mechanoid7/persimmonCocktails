@@ -1,4 +1,4 @@
-package com.example.persimmoncocktails.models;
+package com.example.persimmoncocktails.models.kitchenware;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class Kitchenware {
     private Long kitchenwareId;
     private String name;
-    private Long kitchenwareCategoryId;
     private Long photoId;
+    private Long kitchenwareCategoryId;
 }
