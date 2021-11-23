@@ -25,9 +25,6 @@ public class ModeratorDaoImpl implements ModeratorDao {
 
     @Override
     public List<Person> getAllModerators() {
-        List<Person> result = jdbcTemplate.query(sqlGetAllModerators, personMapper);
-        if (result.isEmpty())
-            return new ArrayList<>();
-        return result;
+        return jdbcTemplate.query(sqlGetAllModerators, personMapper);
     }
 }

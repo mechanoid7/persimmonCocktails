@@ -15,6 +15,8 @@ public class PersonMapper implements RowMapper<Person> {
         if(rs.wasNull()) blogId = null;
         Integer roleId = rs.getInt("role_id");
         if(rs.wasNull()) roleId = null;
+        Boolean isActive = rs.getBoolean("is_active");
+        if(rs.wasNull()) isActive = Boolean.TRUE;
         return new Person(
                 rs.getLong("person_id"),
                 rs.getString("name"),
@@ -23,7 +25,7 @@ public class PersonMapper implements RowMapper<Person> {
                 photoId,
                 blogId,
                 roleId,
-                rs.getBoolean("is_active")
+                isActive
         );
     }
 }
