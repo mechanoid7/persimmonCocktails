@@ -2,6 +2,8 @@ package com.example.persimmoncocktails.services;
 
 import com.example.persimmoncocktails.dao.KitchenwareDao;
 import com.example.persimmoncocktails.dtos.kitchenware.RequestKitchenwareDto;
+import com.example.persimmoncocktails.dtos.kitchenware.ResponseKitchenwareDto;
+import com.example.persimmoncocktails.exceptions.StateException;
 import com.example.persimmoncocktails.exceptions.IncorrectNameFormat;
 import com.example.persimmoncocktails.exceptions.NotFoundException;
 import com.example.persimmoncocktails.models.kitchenware.Kitchenware;
@@ -11,16 +13,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class KitchenwareService {
     KitchenwareDao kitchenwareDao;
-
-    public void delete(Long kitchenwareId){
-        if(!kitchenwareDao.existsById(kitchenwareId)) throw new NotFoundException("Kitchenware");
-        kitchenwareDao.delete(kitchenwareId);
-    }
 
     public KitchenwareWithCategory readKitchenwareId(Long kitchenwareId) {
         KitchenwareWithCategory kitchenware = kitchenwareDao.read(kitchenwareId);
@@ -59,7 +57,9 @@ public class KitchenwareService {
         Kitchenware kitchenware = new Kitchenware(null,
                 requestKitchenwareDto.getName(),
                 requestKitchenwareDto.getPhotoId(),
-                requestKitchenwareDto.getKitchenwareCategoryId());
+                requestKitchenwareDto.getKitchenwareCategoryId(),
+                true
+        );
         kitchenwareDao.create(kitchenware);
         return kitchenwareDao.readByName(requestKitchenwareDto.getName());
     }
@@ -70,5 +70,36 @@ public class KitchenwareService {
 
     public List<KitchenwareCategory> readAllKitchenwareCategories() {
         return kitchenwareDao.readAllKitchenwareCategories();
+    }
+
+    public void deactivate(Long kitchenwareId) {
+        if(!kitchenwareDao.existsById(kitchenwareId)) throw new NotFoundException("Kitchenware");
+        KitchenwareWithCategory kitchenware = kitchenwareDao.read(kitchenwareId);
+        if(!kitchenware.isActive()) throw new StateException("This item is deactivated already");
+        kitchenware.setActive(false);
+        kitchenwareDao.update(kitchenware.toKitchenware());
+    }
+
+    public void activate(Long kitchenwareId) {
+        if(!kitchenwareDao.existsById(kitchenwareId)) throw new NotFoundException("Kitchenware");
+        KitchenwareWithCategory kitchenware = kitchenwareDao.read(kitchenwareId);
+        if(!kitchenware.isActive()) throw new StateException("This item is activate already");
+        kitchenware.setActive(true);
+        kitchenwareDao.update(kitchenware.toKitchenware());
+    }
+
+    public List<ResponseKitchenwareDto> readAllActiveKitchenwares() {
+        return kitchenwareDao.readAllKitchenwares()
+                .stream()
+                .filter(KitchenwareWithCategory::isActive)
+                .map(ResponseKitchenwareDto::toDto)
+                .collect(Collectors.toList());
+
+    }
+
+    public ResponseKitchenwareDto readActiveKitchenwareId(Long kitchenwareId) {
+        KitchenwareWithCategory kitchenware = readKitchenwareId(kitchenwareId);
+        if(!kitchenware.isActive()) throw new NotFoundException("Kitchenware");
+        return ResponseKitchenwareDto.toDto(kitchenware);
     }
 }

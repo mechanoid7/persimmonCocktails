@@ -15,13 +15,15 @@ public class KitchenwareWithCategory {
     private String name;
     private Long photoId;
     private KitchenwareCategory category;
+    private boolean isActive;
 
     public Kitchenware toKitchenware(){
         return new Kitchenware(
                 kitchenwareId,
                 name,
                 photoId,
-                category == null ? null : category.getKitchenwareCategoryId()
+                category == null ? null : category.getKitchenwareCategoryId(),
+                isActive
         );
     }
 }

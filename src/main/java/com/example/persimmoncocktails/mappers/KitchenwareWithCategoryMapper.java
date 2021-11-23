@@ -23,7 +23,8 @@ public class KitchenwareWithCategoryMapper implements RowMapper<KitchenwareWithC
                 rs.getLong("kitchenware_id"),
                 rs.getString("kitchenware_name"),
                 photoId,
-                kitchenwareCategory
+                kitchenwareCategory,
+                rs.getBoolean("is_active")
         );
     }
 }

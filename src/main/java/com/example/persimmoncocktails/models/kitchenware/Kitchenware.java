@@ -14,4 +14,5 @@ public class Kitchenware {
     private String name;
     private Long photoId;
     private Long kitchenwareCategoryId;
+    private boolean isActive;
 }
