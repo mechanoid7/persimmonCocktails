@@ -18,6 +18,7 @@ public enum ApplicationUserRole {
         res.add(ApplicationUserPermission.UPDATE_MODERATOR);
         res.add(ApplicationUserPermission.UPDATE_ADMIN);
         res.add(ApplicationUserPermission.READ_MODERATOR);
+        res.add(ApplicationUserPermission.UPDATE_CONTENT);
         return res;
     }
 
@@ -25,7 +26,7 @@ public enum ApplicationUserRole {
         HashSet<ApplicationUserPermission> res = new HashSet<>();
         res.add(ApplicationUserPermission.READ_ALL);
         res.add(ApplicationUserPermission.READ_MODERATOR);
-        //
+        res.add(ApplicationUserPermission.UPDATE_CONTENT);
         return res;
     }
 

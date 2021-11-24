@@ -1,8 +1,9 @@
 CREATE TABLE KITCHENWARE (
 	kitchenware_id BIGSERIAL NOT NULL  PRIMARY KEY,
-	name VARCHAR(256) NOT NULL,
+	name VARCHAR(256) NOT NULL UNIQUE ,
 	kitchenware_category_id INTEGER,
-	photo_id BIGINT
+	photo_id BIGINT,
+	is_active BOOLEAN NOT NULL
 );
 
 
@@ -44,7 +45,7 @@ CREATE TABLE PERSON (
 	photo_id BIGINT,
 	blog_id BIGINT,
 	role_id INTEGER,
-	is_active BOOLEAN
+	is_active BOOLEAN NOT NULL
 );
 
 
