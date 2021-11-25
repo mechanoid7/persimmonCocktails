@@ -28,11 +28,12 @@ CREATE TABLE DISH (
 	dish_id BIGSERIAL NOT NULL  PRIMARY KEY,
 	name VARCHAR(256) NOT NULL,
 	description VARCHAR(2000),
+	dish_type VARCHAR(256),
 	dish_category_id BIGINT,
 	label VARCHAR(256),
 	receipt VARCHAR(2000) NOT NULL,
-	average_rate REAL,
-	volume REAL
+	likes BIGINT NOT NULL,
+	is_active BOOLEAN NOT NULL
 );
 
 

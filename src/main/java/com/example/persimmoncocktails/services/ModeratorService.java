@@ -172,6 +172,6 @@ public class ModeratorService {
     public void changeStatus(Long personId) {
         if (personDao.personIsActive(personId))
             personDao.deactivatePersonByPersonId(personId);
-        else personDao.activatePersonByPersonId(personId); // if disabled or null
+        else personDao.activatePersonByPersonId(personId); // if disabled
     }
 }
