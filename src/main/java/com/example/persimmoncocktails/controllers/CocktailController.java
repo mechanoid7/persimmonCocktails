@@ -1,6 +1,7 @@
 package com.example.persimmoncocktails.controllers;
 
 import com.example.persimmoncocktails.dtos.auth.RequestChangePasswordDataDto;
+import com.example.persimmoncocktails.dtos.cocktail.RequestCocktailSelectDto;
 import com.example.persimmoncocktails.dtos.friend.FriendResponseDto;
 import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
 import com.example.persimmoncocktails.models.Cocktail;
@@ -31,12 +32,6 @@ public class CocktailController {
         return cocktailService.readById(dishId);
     }
 
-//    @GetMapping("/email/{personEmail}")
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
-//    public PersonResponseDto getPersonByEmail(@PathVariable String personEmail){
-//        return personService.readByEmail(personEmail);
-//    }
-
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     @PatchMapping("/update")
     public void updateName(@RequestBody Cocktail cocktail) {
@@ -59,43 +54,16 @@ public class CocktailController {
         cocktailService.addLike(dishId);
     }
 
-//
-//    @PatchMapping("/change-password")
-//    @PreAuthorize("hasRole('ROLE_CLIENT')")
-//    public void changePasswordPerson(@RequestBody RequestChangePasswordDataDto requestChangePasswordData){
-//        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
-//        personService.changePassword(personId,
-//                requestChangePasswordData.getOldPassword(),
-//                requestChangePasswordData.getNewPassword());
-//    }
-//
-//    @GetMapping("/search/{substring}")
-//    public List<FriendResponseDto> getPersonsBySubstring(@PathVariable String substring, @RequestParam("page") Long pageNumber){
-//        return friendsService.searchPersonsByNameSubstring(substring, pageNumber);
-//    }
-//
-//    @GetMapping("/friends")
-//    private List<FriendResponseDto> getPersonFriendsById(@RequestParam("page") Long pageNumber){
-//        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
-//        return friendsService.getPersonFriends(personId, pageNumber);
-//    }
-//
-//    @GetMapping("/friends/{substring}")
-//    public List<FriendResponseDto> getPersonFriendsByIdAndSubstring(@PathVariable String substring, @RequestParam("page") Long pageNumber){
-//        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
-//        return friendsService.getListFriendsBySubstring(personId, substring, pageNumber);
-//    }
-//
-//    @DeleteMapping("/friends/delete")
-//    private void deleteFriend(@RequestBody Long friendId){
-//        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
-//        friendsService.removeFriendById(personId, friendId);
-//    }
-//
-//    @PostMapping("/friends/add")
-//    private void addFriend(@RequestBody Long friendId){
-//        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
-//        friendsService.addFriend(personId, friendId);
-//    }
+
+    @GetMapping("/search")
+    public List<Cocktail> getPersonsBySubstring(
+            @RequestParam(value = "search", required = false) String searchRequest,
+            @RequestParam(value = "sort-by", required = false) String sortBy,
+            @RequestParam(value = "dish-type", required = false) String dishType,
+            @RequestParam(value = "dish-category-id", required = false) Long dishCategoryId,
+            @RequestParam(value = "sort-direction", required = false) Boolean sortDirection,
+            @RequestParam("page") Long pageNumber) {
+        return cocktailService.searchFilterSort(new RequestCocktailSelectDto(searchRequest, sortBy, dishType, dishCategoryId, sortDirection), pageNumber);
+    }
 }
 

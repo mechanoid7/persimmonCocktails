@@ -20,7 +20,7 @@ public interface CocktailDao {
 
     void setLikes(Long dishId, Long likeNumber);
 
-    List<Cocktail> searchFilterSort(String search, List<String> filter, String sort);
+    List<Cocktail> searchFilterSort(String sqlRequest, Long pageNumber);
 
     boolean cocktailIsActive(Long dishId);
 
@@ -29,4 +29,6 @@ public interface CocktailDao {
     void activateCocktailById(Long dishId);
 
     Boolean columnExists(String column);
+
+    List<Cocktail> getRawListOfCocktails(Long pageNumber);
 }

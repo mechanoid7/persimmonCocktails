@@ -5,23 +5,23 @@ import com.example.persimmoncocktails.dtos.cocktail.RequestCreateCocktail;
 import com.example.persimmoncocktails.exceptions.DuplicateException;
 import com.example.persimmoncocktails.exceptions.UnknownException;
 import com.example.persimmoncocktails.mappers.CocktailMapper;
-import com.example.persimmoncocktails.mappers.PersonMapper;
 import com.example.persimmoncocktails.models.Cocktail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-@PropertySource("classpath:sql/cocktail_queries.properties")
+@PropertySources({
+        @PropertySource("classpath:sql/cocktail_queries.properties"),
+        @PropertySource("classpath:var/general.properties")
+})
 @RequiredArgsConstructor
 public class CocktailDaoImpl implements CocktailDao {
 
@@ -47,6 +47,11 @@ public class CocktailDaoImpl implements CocktailDao {
     private String sqlDeactivateCocktail;
     @Value("${sql_cocktail_column_exists}")
     private String sqlColumnExists;
+    @Value("${sql_cocktail_get_raw_cocktails}")
+    private String sqlGetRawCocktails;
+
+    @Value("${number_of_cocktails_per_page}")
+    private Long cocktailsPerPage;
 
     private final JdbcTemplate jdbcTemplate;
     private final CocktailMapper cocktailMapper = new CocktailMapper();
@@ -55,8 +60,7 @@ public class CocktailDaoImpl implements CocktailDao {
     public void create(RequestCreateCocktail cocktail) {
         try {
             jdbcTemplate.update(sqlCocktailAdd, cocktail.getName(), cocktail.getDescription(),cocktail.getDishType(),
-                    cocktail.getDishCategoryId(), cocktail.getLabel(), cocktail.getReceipt(),
-                    cocktail.getLikes(), cocktail.getIsActive());
+                    cocktail.getDishCategoryId(), cocktail.getLabel(), cocktail.getReceipt(), 0, true);
         } catch (DuplicateKeyException e) {
             throw new DuplicateException("Person");
         } catch (DataAccessException rootException) {
@@ -98,8 +102,8 @@ public class CocktailDaoImpl implements CocktailDao {
     }
 
     @Override
-    public List<Cocktail> searchFilterSort(String search, List<String> filter, String sort) {
-        return null;
+    public List<Cocktail> searchFilterSort(String sqlRequest, Long pageNumber) {
+        return jdbcTemplate.query(sqlRequest, cocktailMapper, pageNumber*cocktailsPerPage, cocktailsPerPage);
     }
 
     @Override
@@ -120,5 +124,10 @@ public class CocktailDaoImpl implements CocktailDao {
     @Override
     public Boolean columnExists(String column) {
         return jdbcTemplate.queryForObject(sqlColumnExists, Boolean.class, column);
+    }
+
+    @Override
+    public List<Cocktail> getRawListOfCocktails(Long pageNumber) {
+        return jdbcTemplate.query(sqlGetRawCocktails, cocktailMapper, pageNumber*cocktailsPerPage, cocktailsPerPage);
     }
 }

@@ -16,7 +16,5 @@ public class RequestCreateCocktail {
     private Long dishCategoryId;
     private String label;
     private String receipt;
-    private Long likes;
-    private Boolean isActive;
 }
 
