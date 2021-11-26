@@ -18,7 +18,7 @@ public interface CocktailDao {
     void update(RequestCocktailUpdate cocktail);
 
     void deleteById(Long dishId);
-    
+
     void addLikeCount(Long dishId);
 
     void addLikeTable(Long personId, Long dishId);

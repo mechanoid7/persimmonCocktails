@@ -38,18 +38,18 @@ public class FriendsDaoImpl implements FriendsDao {
 
 
     @Override
-    public List<FriendResponseDto> getPersonFriends(Long personId, Long pageNumber){ // get person friends by ID
-        return jdbcTemplate.query(sqlGetAllFriends, friendMapper, personId, personId, pageNumber*personsPerPage, personsPerPage);
+    public List<FriendResponseDto> getPersonFriends(Long personId, Long pageNumber) { // get person friends by ID
+        return jdbcTemplate.query(sqlGetAllFriends, friendMapper, personId, personId, pageNumber * personsPerPage, personsPerPage);
     }
 
     @Override
     public List<FriendResponseDto> getListFriendByNameSubstring(Long personId, String substring, Long pageNumber) {
-        return jdbcTemplate.query(sqlGetListFriendBySubstring, friendMapper, personId, personId, substring.toLowerCase(), pageNumber*personsPerPage, personsPerPage);
+        return jdbcTemplate.query(sqlGetListFriendBySubstring, friendMapper, personId, personId, substring.toLowerCase(), pageNumber * personsPerPage, personsPerPage);
     }
 
     @Override
     public List<FriendResponseDto> searchPersonsByNameSubstring(String substring, Long pageNumber) {
-        return jdbcTemplate.query(sqlGetListUsersBySubstring, friendMapper, substring.toLowerCase(), pageNumber*personsPerPage, personsPerPage);
+        return jdbcTemplate.query(sqlGetListUsersBySubstring, friendMapper, substring.toLowerCase(), pageNumber * personsPerPage, personsPerPage);
     }
 
     @Override

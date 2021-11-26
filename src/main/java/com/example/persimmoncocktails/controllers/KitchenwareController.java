@@ -19,53 +19,53 @@ public class KitchenwareController {
 
     @PreAuthorize("hasAuthority('content:update')")
     @GetMapping("/{kitchenwareId}")
-    public KitchenwareWithCategory getKitchenwareById(@PathVariable Long kitchenwareId){
+    public KitchenwareWithCategory getKitchenwareById(@PathVariable Long kitchenwareId) {
         return kitchenwareService.readKitchenwareId(kitchenwareId);
     }
 
     @GetMapping("/active")
-    public List<ResponseKitchenwareDto> getAllActiveKitchenware(){
+    public List<ResponseKitchenwareDto> getAllActiveKitchenware() {
         return kitchenwareService.readAllActiveKitchenwares();
     }
 
     @GetMapping("/active/{kitchenwareId}")
-    public ResponseKitchenwareDto getActiveKitchenwareById(@PathVariable Long kitchenwareId){
+    public ResponseKitchenwareDto getActiveKitchenwareById(@PathVariable Long kitchenwareId) {
         return kitchenwareService.readActiveKitchenwareId(kitchenwareId);
     }
 
     @PreAuthorize("hasAuthority('content:update')")
     @GetMapping
-    public List<KitchenwareWithCategory> getAllKitchenwares(){
+    public List<KitchenwareWithCategory> getAllKitchenwares() {
         return kitchenwareService.readAllKitchenwares();
     }
 
     @GetMapping("/categories")
-    public List<KitchenwareCategory> getAllKitchenwareCategories(){
+    public List<KitchenwareCategory> getAllKitchenwareCategories() {
         return kitchenwareService.readAllKitchenwareCategories();
     }
 
     @PreAuthorize("hasAuthority('content:update')")
     @PostMapping
-    public KitchenwareWithCategory createKitchenware(@RequestBody RequestKitchenwareDto requestKitchenwareDto){
+    public KitchenwareWithCategory createKitchenware(@RequestBody RequestKitchenwareDto requestKitchenwareDto) {
         return kitchenwareService.createKitchenware(requestKitchenwareDto);
     }
 
     @PreAuthorize("hasAuthority('content:update')")
     @PatchMapping("/update-name")
-    public void updateName(@RequestBody RequestUpdateKitchenwareNameDto updateKitchenwareNameDto){
+    public void updateName(@RequestBody RequestUpdateKitchenwareNameDto updateKitchenwareNameDto) {
         kitchenwareService.updateName(updateKitchenwareNameDto.getKitchenwareId(), updateKitchenwareNameDto.getName());
     }
 
     @PreAuthorize("hasAuthority('content:update')")
     @PatchMapping("/update-photo")
-    public void updatePhoto(@RequestBody RequestUpdateKitchenwarePhotoDto updateKitchenwarePhotoDto){
+    public void updatePhoto(@RequestBody RequestUpdateKitchenwarePhotoDto updateKitchenwarePhotoDto) {
         kitchenwareService.updatePhoto(updateKitchenwarePhotoDto.getKitchenwareId(),
                 updateKitchenwarePhotoDto.getKitchenwarePhotoId());
     }
 
     @PreAuthorize("hasAuthority('content:update')")
     @PatchMapping("/update-category")
-    public void updateCategory(@RequestBody RequestUpdateKitchenwareCategoryDto updateKitchenwareCategoryDto){
+    public void updateCategory(@RequestBody RequestUpdateKitchenwareCategoryDto updateKitchenwareCategoryDto) {
         kitchenwareService.updateKitchenwareCategory(updateKitchenwareCategoryDto.getKitchenwareId(),
                 updateKitchenwareCategoryDto.getKitchenwareCategoryId());
     }
@@ -73,13 +73,13 @@ public class KitchenwareController {
 
     @PreAuthorize("hasAuthority('content:update')")
     @PatchMapping("/deactivate/{kitchenwareId}")
-    public void deactivateKitchenware(@PathVariable Long kitchenwareId){
+    public void deactivateKitchenware(@PathVariable Long kitchenwareId) {
         kitchenwareService.deactivate(kitchenwareId);
     }
 
     @PreAuthorize("hasAuthority('content:update')")
     @PatchMapping("/activate/{kitchenwareId}")
-    public void activateKitchenware(@PathVariable Long kitchenwareId){
+    public void activateKitchenware(@PathVariable Long kitchenwareId) {
         kitchenwareService.activate(kitchenwareId);
     }
 }

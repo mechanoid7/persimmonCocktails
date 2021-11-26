@@ -70,7 +70,7 @@ public class CocktailDaoImpl implements CocktailDao {
     @Override
     public void create(RequestCreateCocktail cocktail) {
         try {
-            jdbcTemplate.update(sqlCocktailAdd, cocktail.getName(), cocktail.getDescription(),cocktail.getDishType(),
+            jdbcTemplate.update(sqlCocktailAdd, cocktail.getName(), cocktail.getDescription(), cocktail.getDishType(),
                     cocktail.getDishCategoryId(), cocktail.getLabel(), cocktail.getReceipt(), 0, true);
         } catch (DuplicateKeyException e) {
             throw new DuplicateException("Person");
@@ -124,7 +124,7 @@ public class CocktailDaoImpl implements CocktailDao {
 
     @Override
     public List<CocktailResponseDto> searchFilterSort(String sqlRequest, Long pageNumber) {
-        return jdbcTemplate.query(sqlRequest, cocktailMapper, pageNumber*cocktailsPerPage, cocktailsPerPage);
+        return jdbcTemplate.query(sqlRequest, cocktailMapper, pageNumber * cocktailsPerPage, cocktailsPerPage);
     }
 
     @Override
@@ -149,12 +149,12 @@ public class CocktailDaoImpl implements CocktailDao {
 
     @Override
     public List<CocktailResponseDto> getRawListOfCocktails(Long pageNumber) {
-        return jdbcTemplate.query(sqlGetRawCocktails, cocktailMapper, pageNumber*cocktailsPerPage, cocktailsPerPage);
+        return jdbcTemplate.query(sqlGetRawCocktails, cocktailMapper, pageNumber * cocktailsPerPage, cocktailsPerPage);
     }
 
     @Override
     public void addLabel(Long dishId, String label) {
-        jdbcTemplate.update(sqlSetLabels, getLabels(dishId)+";"+label, dishId);
+        jdbcTemplate.update(sqlSetLabels, getLabels(dishId) + ";" + label, dishId);
     }
 
     @Override

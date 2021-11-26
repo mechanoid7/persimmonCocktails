@@ -7,7 +7,6 @@ import com.example.persimmoncocktails.services.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -42,17 +41,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new UsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig, authorizationService))
                 .addFilterAfter(new JwtTokenVerifier(jwtConfig), UsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/login","/registration").permitAll()
+                .antMatchers("/login", "/registration").permitAll()
                 .antMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll();
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder){
+    protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) {
         authenticationManagerBuilder.authenticationProvider(daoAuthenticationProvider());
     }
 
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(){
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
         daoAuthenticationProvider.setUserDetailsService(authorizationService);
