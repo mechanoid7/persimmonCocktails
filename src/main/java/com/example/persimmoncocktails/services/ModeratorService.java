@@ -3,6 +3,7 @@ package com.example.persimmoncocktails.services;
 import com.example.persimmoncocktails.dao.ModeratorDao;
 import com.example.persimmoncocktails.dao.PersonDao;
 import com.example.persimmoncocktails.dtos.auth.RestorePasswordDataDto;
+import com.example.persimmoncocktails.dtos.person.ModeratorResponseDto;
 import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
 import com.example.persimmoncocktails.exceptions.*;
 import com.example.persimmoncocktails.models.Person;
@@ -63,15 +64,15 @@ public class ModeratorService {
         }
     }
 
-    public PersonResponseDto readModeratorById(Long personId) {
+    public ModeratorResponseDto readModeratorById(Long personId) {
         Person person = personDao.read(personId);
         if(person == null) throw new NotFoundException("Moderator");
-        return PersonResponseDto.toDto(person);
+        return ModeratorResponseDto.toDto(person);
     }
 
-    public List<PersonResponseDto> getAllModerators() {
+    public List<ModeratorResponseDto> getAllModerators() {
         return moderatorDao.getAllModerators().stream()
-                .map(PersonResponseDto::toDto)
+                .map(ModeratorResponseDto::toDto)
                 .collect(Collectors.toList());
     }
 

@@ -1,6 +1,7 @@
 package com.example.persimmoncocktails.controllers;
 
 import com.example.persimmoncocktails.dtos.auth.*;
+import com.example.persimmoncocktails.dtos.person.ModeratorResponseDto;
 import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
 import com.example.persimmoncocktails.dtos.person.RequestPersonIdDto;
 import com.example.persimmoncocktails.services.ModeratorService;
@@ -23,18 +24,18 @@ public class ModeratorController {
 
     @GetMapping("/all")
     @PreAuthorize("hasAuthority('moderator:read')")
-    public List<PersonResponseDto> getAllModerators() {
+    public List<ModeratorResponseDto> getAllModerators() {
         return moderatorService.getAllModerators();
     }
 
     @PostMapping("/add")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    private void addModerator(@RequestBody RequestAddModeratorDataDto requestAddModeratorData) {
+    public void addModerator(@RequestBody RequestAddModeratorDataDto requestAddModeratorData) {
         moderatorService.create(requestAddModeratorData.getName(), requestAddModeratorData.getEmail());
     }
 
     @GetMapping("/{personId}")
-    public PersonResponseDto getPersonById(@PathVariable Long personId){
+    public ModeratorResponseDto getModeratorById(@PathVariable Long personId){
         return moderatorService.readModeratorById(personId);
     }
 

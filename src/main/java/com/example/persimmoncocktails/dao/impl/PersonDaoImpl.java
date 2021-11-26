@@ -118,7 +118,7 @@ public class PersonDaoImpl implements PersonDao {
             jdbcTemplate.update(sqlUpdatePerson, person.getName(), person.getEmail(), person.getPassword(),
                     person.getPhotoId(), person.getBlogId(), person.getRoleId(), person.getPersonId());
         } catch (DataIntegrityViolationException dataIntegrityViolationException) {
-            throw new NotFoundException("");
+            throw new NotFoundException("Person");
         } catch (DataAccessException rootException) {
             // we should log it
             rootException.printStackTrace();
