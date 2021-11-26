@@ -7,6 +7,7 @@ import com.example.persimmoncocktails.services.AuthorizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -42,10 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterAfter(new JwtTokenVerifier(jwtConfig), UsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/login","/registration").permitAll()
-                .antMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-//                .antMatchers("/person/**").hasRole(ApplicationUserRole.CLIENT.name())
-                .anyRequest()
-                .authenticated();
+                .antMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll();
     }
 
     @Override

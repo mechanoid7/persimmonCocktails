@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@PreAuthorize("isAuthenticated")
 @RequestMapping("/person")
 public class PersonController {
 

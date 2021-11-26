@@ -1,11 +1,12 @@
 package com.example.persimmoncocktails.dao.impl;
 
 import com.example.persimmoncocktails.dao.CocktailDao;
+import com.example.persimmoncocktails.dtos.cocktail.CocktailResponseDto;
+import com.example.persimmoncocktails.dtos.cocktail.RequestCocktailUpdate;
 import com.example.persimmoncocktails.dtos.cocktail.RequestCreateCocktail;
 import com.example.persimmoncocktails.exceptions.DuplicateException;
 import com.example.persimmoncocktails.exceptions.UnknownException;
 import com.example.persimmoncocktails.mappers.CocktailMapper;
-import com.example.persimmoncocktails.models.Cocktail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -33,8 +34,8 @@ public class CocktailDaoImpl implements CocktailDao {
     private String sqlUpdateCocktail;
     @Value("${sql_cocktail_delete}")
     private String sqlDeleteCocktail;
-    @Value("${sql_cocktail_add_likes}")
-    private String sqlAddLikes;
+    @Value("${sql_cocktail_add_likes_counter}")
+    private String sqlAddLikesCount;
     @Value("${sql_cocktail_get_likes_by_id}")
     private String sqlGetLikes;
     @Value("${sql_cocktail_set_likes_by_id}")
@@ -49,6 +50,16 @@ public class CocktailDaoImpl implements CocktailDao {
     private String sqlColumnExists;
     @Value("${sql_cocktail_get_raw_cocktails}")
     private String sqlGetRawCocktails;
+    @Value("${sql_cocktail_get_labels}")
+    private String sqlGetLabels;
+    @Value("${sql_cocktail_set_labels}")
+    private String sqlSetLabels;
+    @Value("${sql_cocktails_like_exists}")
+    private String sqlLikeExists;
+    @Value("${sql_cocktails_dish_type_exists}")
+    private String sqlDishTypeExists;
+    @Value("${sql_cocktail_add_like_pair}")
+    private String sqlAddLikePair;
 
     @Value("${number_of_cocktails_per_page}")
     private Long cocktailsPerPage;
@@ -70,12 +81,22 @@ public class CocktailDaoImpl implements CocktailDao {
     }
 
     @Override
-    public Cocktail readById(Long personId) {
+    public CocktailResponseDto readById(Long personId) {
         return jdbcTemplate.queryForObject(sqlGetCocktailById, cocktailMapper, personId);
     }
 
     @Override
-    public void update(Cocktail cocktail) {
+    public Boolean likeExists(Long personId, Long dishId) {
+        return Boolean.TRUE.equals(jdbcTemplate.queryForObject(sqlLikeExists, Boolean.class, personId, dishId));
+    }
+
+    @Override
+    public Boolean dishTypeExists(String dishType) {
+        return Boolean.TRUE.equals(jdbcTemplate.queryForObject(sqlDishTypeExists, Boolean.class, dishType));
+    }
+
+    @Override
+    public void update(RequestCocktailUpdate cocktail) {
         jdbcTemplate.update(sqlUpdateCocktail, cocktail.getName(), cocktail.getDescription(), cocktail.getDishType(),
                 cocktail.getDishCategoryId(), cocktail.getLabel(), cocktail.getReceipt(),
                 cocktail.getIsActive(), cocktail.getDishId());
@@ -87,8 +108,13 @@ public class CocktailDaoImpl implements CocktailDao {
     }
 
     @Override
-    public void addLikes(Long dishId, Long likeNumber) {
-        jdbcTemplate.update(sqlAddLikes, dishId, likeNumber, dishId);
+    public void addLikeCount(Long dishId) {
+        jdbcTemplate.update(sqlAddLikesCount, dishId, 1, dishId);
+    }
+
+    @Override
+    public void addLikeTable(Long personId, Long dishId) {
+        jdbcTemplate.update(sqlAddLikePair, personId, dishId);
     }
 
     @Override
@@ -97,12 +123,7 @@ public class CocktailDaoImpl implements CocktailDao {
     }
 
     @Override
-    public void setLikes(Long dishId, Long likeNumber) {
-        jdbcTemplate.update(sqlSetLikes, likeNumber, dishId);
-    }
-
-    @Override
-    public List<Cocktail> searchFilterSort(String sqlRequest, Long pageNumber) {
+    public List<CocktailResponseDto> searchFilterSort(String sqlRequest, Long pageNumber) {
         return jdbcTemplate.query(sqlRequest, cocktailMapper, pageNumber*cocktailsPerPage, cocktailsPerPage);
     }
 
@@ -127,7 +148,22 @@ public class CocktailDaoImpl implements CocktailDao {
     }
 
     @Override
-    public List<Cocktail> getRawListOfCocktails(Long pageNumber) {
+    public List<CocktailResponseDto> getRawListOfCocktails(Long pageNumber) {
         return jdbcTemplate.query(sqlGetRawCocktails, cocktailMapper, pageNumber*cocktailsPerPage, cocktailsPerPage);
+    }
+
+    @Override
+    public void addLabel(Long dishId, String label) {
+        jdbcTemplate.update(sqlSetLabels, getLabels(dishId)+";"+label, dishId);
+    }
+
+    @Override
+    public String getLabels(Long dishId) {
+        return jdbcTemplate.queryForObject(sqlGetLabels, String.class, dishId);
+    }
+
+    @Override
+    public void updateLabels(Long dishId, String label) {
+        jdbcTemplate.update(sqlSetLabels, label, dishId);
     }
 }
