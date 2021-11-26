@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/kitchenware")
+@PreAuthorize("isAuthenticated")
 @RequiredArgsConstructor
 public class KitchenwareController {
     private final KitchenwareService kitchenwareService;
@@ -81,5 +82,4 @@ public class KitchenwareController {
     public void activateKitchenware(@PathVariable Long kitchenwareId){
         kitchenwareService.activate(kitchenwareId);
     }
-
 }
