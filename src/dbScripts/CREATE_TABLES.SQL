@@ -21,7 +21,8 @@ CREATE TABLE INGRIDIENT (
 	ingridient_id BIGSERIAL NOT NULL PRIMARY KEY,
 	name VARCHAR(256) NOT NULL UNIQUE ,
 	ingridient_category_id BIGINT,
-	photo_id BIGINT
+	photo_id BIGINT,
+	is_active BOOLEAN NOT NULL
 );
 
 
