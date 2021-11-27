@@ -42,4 +42,6 @@ public interface CocktailDao {
     String getLabels(Long dishId);
 
     void updateLabels(Long dishId, String label);
+
+    Boolean existsById(Long id);
 }

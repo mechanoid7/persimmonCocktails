@@ -23,7 +23,9 @@ public class CocktailService {
     CocktailDao cocktailDao;
 
     public CocktailResponseDto readById(Long dishId) {
-        return cocktailDao.readById(dishId);
+        var cocktail = cocktailDao.readById(dishId);
+        if(cocktail == null) throw new NotFoundException("Cocktail");
+        return cocktail;
     }
 
     public void create(RequestCreateCocktail cocktail) {
@@ -38,6 +40,7 @@ public class CocktailService {
     }
 
     public void deleteById(Long dishId) {
+        if(!cocktailDao.existsById(dishId)) throw new NotFoundException("Cocktail");
         cocktailDao.deleteById(dishId);
     }
 
@@ -113,13 +116,19 @@ public class CocktailService {
         return sqlSelect;
     }
 
+    private List<String> labelsFromString(String str){
+        if(str == null || str.equals("")) return new ArrayList<>();
+        return new ArrayList<>(List.of(str.split(";")));
+    }
+
     public void addLabel(Long dishId, String label) {
         if (!labelIsValid(label)) throw new IncorrectNameFormat("Label name has incorrect format.");
-        cocktailDao.updateLabels(dishId, cocktailDao.getLabels(dishId)+";"+label);
+        String labels = cocktailDao.getLabels(dishId);
+        cocktailDao.updateLabels(dishId, (labelsFromString(labels).isEmpty() ? "" : (labels+";"))+label);
     }
 
     public List<String> getLabels(Long dishId) {
-        return new ArrayList<>(List.of(cocktailDao.getLabels(dishId).split(";")));
+        return labelsFromString(cocktailDao.getLabels(dishId));
     }
 
     public void updateLabels(Long dishId, List<String> label) {

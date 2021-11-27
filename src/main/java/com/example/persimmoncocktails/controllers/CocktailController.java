@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,7 +33,7 @@ public class CocktailController {
 
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     @PostMapping("/create")
-    public void createCocktail(@RequestBody RequestCreateCocktail cocktail) {
+    public void createCocktail(@Valid @RequestBody RequestCreateCocktail cocktail) {
         cocktailService.create(cocktail);
     }
 
@@ -44,7 +45,7 @@ public class CocktailController {
 
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     @PatchMapping("/update")
-    public void updateCocktail(@RequestBody RequestCocktailUpdate cocktail) {
+    public void updateCocktail(@Valid @RequestBody RequestCocktailUpdate cocktail) {
         cocktailService.update(cocktail);
     }
 
@@ -54,8 +55,8 @@ public class CocktailController {
         cocktailService.changeStatus(dishId);
     }
 
-    @PatchMapping("/is-active")
-    public Boolean dishIsActive(@RequestBody Long dishId) {
+    @GetMapping("/{dishId}/is-active")
+    public Boolean dishIsActive(@PathVariable Long dishId) {
         return cocktailService.isActive(dishId);
     }
 
