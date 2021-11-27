@@ -1,4 +1,4 @@
-package com.example.persimmoncocktails.models;
+package com.example.persimmoncocktails.models.cocktail;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

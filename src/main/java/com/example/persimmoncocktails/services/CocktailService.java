@@ -9,6 +9,7 @@ import com.example.persimmoncocktails.exceptions.DuplicateException;
 import com.example.persimmoncocktails.exceptions.IncorrectNameFormat;
 import com.example.persimmoncocktails.exceptions.IncorrectRangeNumberFormat;
 import com.example.persimmoncocktails.exceptions.NotFoundException;
+import com.example.persimmoncocktails.models.cocktail.CocktailCategory;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,9 +29,10 @@ public class CocktailService {
         return cocktail;
     }
 
-    public void create(RequestCreateCocktail cocktail) {
+    public CocktailResponseDto create(RequestCreateCocktail cocktail) {
         if (!nameIsValid(cocktail.getName())) throw new IncorrectNameFormat();
         cocktailDao.create(cocktail);
+        return cocktailDao.readByName(cocktail.getName());
     }
 
     public void addLike(Long dishId, Long personId) {
@@ -86,7 +88,7 @@ public class CocktailService {
     }
 
     public String buildSqlRequest(RequestCocktailSelectDto cocktailSelect) {
-        String sqlSelect = "SELECT d.dish_id, d.name, d.description, d.dish_type, dc.name dish_name, d.dish_category_id category_id, d.label, d.receipt, d.likes, d.is_active " +
+        String sqlSelect = "SELECT d.dish_id, d.name, d.description, d.dish_type, dc.name dish_category_name, d.dish_category_id category_id, d.label, d.receipt, d.likes, d.is_active " +
                 "FROM dish d LEFT JOIN dish_category dc ON d.dish_category_id = dc.dish_category_id " +
                 "WHERE ";
         if (cocktailSelect.getDishType() != null && // filter
@@ -148,5 +150,9 @@ public class CocktailService {
 
     public Long getLikes(Long dishId){
         return cocktailDao.getLikes(dishId);
+    }
+
+    public List<CocktailCategory> getCocktailCategories(){
+        return cocktailDao.getCocktailCategories();
     }
 }

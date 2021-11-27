@@ -3,6 +3,7 @@ package com.example.persimmoncocktails.dao;
 import com.example.persimmoncocktails.dtos.cocktail.CocktailResponseDto;
 import com.example.persimmoncocktails.dtos.cocktail.RequestCocktailUpdate;
 import com.example.persimmoncocktails.dtos.cocktail.RequestCreateCocktail;
+import com.example.persimmoncocktails.models.cocktail.CocktailCategory;
 
 import java.util.List;
 
@@ -14,6 +15,8 @@ public interface CocktailDao {
     Boolean dishTypeExists(String dishType);
 
     CocktailResponseDto readById(Long dishId);
+
+    CocktailResponseDto readByName(String name);
 
     void update(RequestCocktailUpdate cocktail);
 
@@ -44,4 +47,6 @@ public interface CocktailDao {
     void updateLabels(Long dishId, String label);
 
     Boolean existsById(Long id);
+
+    List<CocktailCategory> getCocktailCategories();
 }

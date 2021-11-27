@@ -1,4 +1,4 @@
-package com.example.persimmoncocktails.mappers;
+package com.example.persimmoncocktails.mappers.cocktail;
 
 import com.example.persimmoncocktails.dtos.cocktail.CocktailResponseDto;
 import org.springframework.jdbc.core.RowMapper;
@@ -13,10 +13,10 @@ public class CocktailMapper implements RowMapper<CocktailResponseDto> {
         if (rs.wasNull()) description = null;
         String dishType = rs.getString("dish_type");
         if (rs.wasNull()) dishType = null;
-        String dishCategoryName = rs.getString("dish_name");
+        String dishCategoryName = rs.getString("dish_category_name");
         if (rs.wasNull()) dishCategoryName = null;
         Long dishCategoryId = rs.getLong("category_id");
-        if (rs.wasNull()) dishCategoryName = null;
+        if (rs.wasNull()) dishCategoryId = null;
         String label = rs.getString("label");
         if (rs.wasNull()) label = null;
         Long likes = rs.getLong("likes");

@@ -2,10 +2,9 @@ package com.example.persimmoncocktails.dao.impl;
 
 import com.example.persimmoncocktails.dao.KitchenwareDao;
 import com.example.persimmoncocktails.exceptions.DuplicateException;
-import com.example.persimmoncocktails.exceptions.NotFoundException;
 import com.example.persimmoncocktails.exceptions.UnknownException;
-import com.example.persimmoncocktails.mappers.KitchenwareCategoryMapper;
-import com.example.persimmoncocktails.mappers.KitchenwareWithCategoryMapper;
+import com.example.persimmoncocktails.mappers.kitchenware.KitchenwareCategoryMapper;
+import com.example.persimmoncocktails.mappers.kitchenware.KitchenwareWithCategoryMapper;
 import com.example.persimmoncocktails.models.kitchenware.Kitchenware;
 import com.example.persimmoncocktails.models.kitchenware.KitchenwareCategory;
 import com.example.persimmoncocktails.models.kitchenware.KitchenwareWithCategory;
@@ -13,14 +12,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor

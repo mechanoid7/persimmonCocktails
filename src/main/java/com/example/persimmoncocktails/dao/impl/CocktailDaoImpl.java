@@ -7,7 +7,9 @@ import com.example.persimmoncocktails.dtos.cocktail.RequestCreateCocktail;
 import com.example.persimmoncocktails.exceptions.DuplicateException;
 import com.example.persimmoncocktails.exceptions.NotFoundException;
 import com.example.persimmoncocktails.exceptions.UnknownException;
-import com.example.persimmoncocktails.mappers.CocktailMapper;
+import com.example.persimmoncocktails.mappers.cocktail.CocktailCategoryMapper;
+import com.example.persimmoncocktails.mappers.cocktail.CocktailMapper;
+import com.example.persimmoncocktails.models.cocktail.CocktailCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -31,6 +33,7 @@ public class CocktailDaoImpl implements CocktailDao {
 
     private final JdbcTemplate jdbcTemplate;
     private final CocktailMapper cocktailMapper = new CocktailMapper();
+    private final CocktailCategoryMapper cocktailCategoryMapper = new CocktailCategoryMapper();
     @Value("${sql_cocktail_add}")
     private String sqlCocktailAdd;
     @Value("${sql_cocktail_get_by_id}")
@@ -67,6 +70,10 @@ public class CocktailDaoImpl implements CocktailDao {
     private String sqlAddLikePair;
     @Value("${sql_dish_exists}")
     private String sqlDishExists;
+    @Value("${sql_cocktail_get_by_name}")
+    private String sqlGetByName;
+    @Value("${sql_cocktail_category_get_all}")
+    private String sqlGetCocktailCategories;
     @Value("${number_of_cocktails_per_page}")
     private Long cocktailsPerPage;
 
@@ -90,6 +97,19 @@ public class CocktailDaoImpl implements CocktailDao {
     public CocktailResponseDto readById(Long dishId) {
         try {
             return jdbcTemplate.queryForObject(sqlGetCocktailById, cocktailMapper, dishId);
+        } catch (EmptyResultDataAccessException emptyE) {
+            return null;
+        } catch (DataAccessException rootException) {
+            // we should log it
+            rootException.printStackTrace();
+            throw new UnknownException();
+        }
+    }
+
+    @Override
+    public CocktailResponseDto readByName(String name) {
+        try {
+            return jdbcTemplate.queryForObject(sqlGetByName, cocktailMapper, name);
         } catch (EmptyResultDataAccessException emptyE) {
             return null;
         } catch (DataAccessException rootException) {
@@ -259,5 +279,10 @@ public class CocktailDaoImpl implements CocktailDao {
     @Override
     public Boolean existsById(Long dishId) {
         return Boolean.TRUE.equals(jdbcTemplate.queryForObject(sqlDishExists, Boolean.class, dishId));
+    }
+
+    @Override
+    public List<CocktailCategory> getCocktailCategories(){
+        return jdbcTemplate.query(sqlGetCocktailCategories, cocktailCategoryMapper);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.persimmoncocktails.controllers;
 
 import com.example.persimmoncocktails.dtos.cocktail.*;
+import com.example.persimmoncocktails.models.cocktail.CocktailCategory;
 import com.example.persimmoncocktails.services.CocktailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,8 +34,8 @@ public class CocktailController {
 
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     @PostMapping("/create")
-    public void createCocktail(@Valid @RequestBody RequestCreateCocktail cocktail) {
-        cocktailService.create(cocktail);
+    public CocktailResponseDto createCocktail(@Valid @RequestBody RequestCreateCocktail cocktail) {
+        return cocktailService.create(cocktail);
     }
 
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
@@ -99,6 +100,11 @@ public class CocktailController {
     @DeleteMapping("/labels/clear")
     public void clearLabelsById(@RequestBody Long dishId) {
         cocktailService.clearLabelsLabels(dishId);
+    }
+
+    @GetMapping("/categories")
+    public List<CocktailCategory> getCocktailCategories(){
+        return cocktailService.getCocktailCategories();
     }
 }
 
