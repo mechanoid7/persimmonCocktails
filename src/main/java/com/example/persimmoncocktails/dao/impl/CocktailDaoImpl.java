@@ -77,7 +77,9 @@ public class CocktailDaoImpl implements CocktailDao {
             jdbcTemplate.update(sqlCocktailAdd, cocktail.getName(), cocktail.getDescription(), cocktail.getDishType(),
                     cocktail.getDishCategoryId(), "", cocktail.getReceipt(), 0, true);
         } catch (DuplicateKeyException e) {
-            throw new DuplicateException("Cocktail");
+            throw new DuplicateException("Cocktail", "name");
+        } catch (DataIntegrityViolationException dataIntegrityViolationException){
+            throw new NotFoundException("Cocktail category");
         } catch (DataAccessException rootException) {
             rootException.printStackTrace();
             throw new UnknownException();
@@ -113,6 +115,8 @@ public class CocktailDaoImpl implements CocktailDao {
             jdbcTemplate.update(sqlUpdateCocktail, cocktail.getName(), cocktail.getDescription(), cocktail.getDishType(),
                     cocktail.getDishCategoryId(), cocktail.getReceipt(),
                     cocktail.getIsActive(), cocktail.getDishId());
+        } catch (DuplicateKeyException duplicateKeyException) {
+            throw new DuplicateException("Cocktail", "name");
         } catch (EmptyResultDataAccessException emptyE) {
             throw new NotFoundException("Cocktail");
         } catch (DataIntegrityViolationException dataIntegrityViolationException){

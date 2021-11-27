@@ -87,7 +87,7 @@ public class CocktailService {
 
     public String buildSqlRequest(RequestCocktailSelectDto cocktailSelect) {
         String sqlSelect = "SELECT d.dish_id, d.name, d.description, d.dish_type, dc.name dish_name, d.dish_category_id category_id, d.label, d.receipt, d.likes, d.is_active " +
-                "FROM dish d INNER JOIN dish_category dc ON d.dish_category_id = dc.dish_category_id " +
+                "FROM dish d LEFT JOIN dish_category dc ON d.dish_category_id = dc.dish_category_id " +
                 "WHERE ";
         if (cocktailSelect.getDishType() != null && // filter
                 nameIsValid(cocktailSelect.getDishType())) {
