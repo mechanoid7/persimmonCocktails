@@ -23,5 +23,7 @@ public interface KitchenwareDao {
 
     List<KitchenwareWithCategory> readAllKitchenwares();
 
+    List<KitchenwareWithCategory> readAllKitchenwaresUsedByCocktail(Long cocktailId);
+
     List<KitchenwareCategory> readAllKitchenwareCategories();
 }

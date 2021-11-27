@@ -46,6 +46,8 @@ public class IngredientDaoImpl implements IngredientDao {
     private String sqlReadIngredientWithCategoryById;
     @Value("${sql_ingredient_with_category_read_by_name}")
     private String sqlReadIngredientWithCategoryByName;
+    @Value("${sql_ingredients_with_category_used_in_dish_by_id}")
+    private String getSqlReadAllIngredientsUsedByCocktail;
 
     @Override
     public void create(Ingredient ingredient) {
@@ -124,6 +126,11 @@ public class IngredientDaoImpl implements IngredientDao {
     @Override
     public List<IngredientWithCategory> readAllIngredients() {
         return jdbcTemplate.query(sqlReadAllIngredients, ingredientWithCategoryMapper);
+    }
+
+    @Override
+    public List<IngredientWithCategory> readAllIngredientsUsedByCocktail(Long cocktailId) {
+        return jdbcTemplate.query(getSqlReadAllIngredientsUsedByCocktail, ingredientWithCategoryMapper, cocktailId);
     }
 
     @Override

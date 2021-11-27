@@ -1,7 +1,10 @@
 package com.example.persimmoncocktails.dao.impl;
 
 import com.example.persimmoncocktails.dao.CocktailDao;
-import com.example.persimmoncocktails.dtos.cocktail.CocktailResponseDto;
+import com.example.persimmoncocktails.dao.IngredientDao;
+import com.example.persimmoncocktails.dao.KitchenwareDao;
+import com.example.persimmoncocktails.dtos.cocktail.BasicCocktailDto;
+import com.example.persimmoncocktails.dtos.cocktail.FullCocktailDto;
 import com.example.persimmoncocktails.dtos.cocktail.RequestCocktailUpdate;
 import com.example.persimmoncocktails.dtos.cocktail.RequestCreateCocktail;
 import com.example.persimmoncocktails.exceptions.DuplicateException;
@@ -10,6 +13,8 @@ import com.example.persimmoncocktails.exceptions.UnknownException;
 import com.example.persimmoncocktails.mappers.cocktail.CocktailCategoryMapper;
 import com.example.persimmoncocktails.mappers.cocktail.CocktailMapper;
 import com.example.persimmoncocktails.models.cocktail.CocktailCategory;
+import com.example.persimmoncocktails.models.ingredient.IngredientWithCategory;
+import com.example.persimmoncocktails.models.kitchenware.KitchenwareWithCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -34,6 +39,9 @@ public class CocktailDaoImpl implements CocktailDao {
     private final JdbcTemplate jdbcTemplate;
     private final CocktailMapper cocktailMapper = new CocktailMapper();
     private final CocktailCategoryMapper cocktailCategoryMapper = new CocktailCategoryMapper();
+    private final KitchenwareDao kitchenwareDao;
+    private final IngredientDao ingredientDao;
+
     @Value("${sql_cocktail_add}")
     private String sqlCocktailAdd;
     @Value("${sql_cocktail_get_by_id}")
@@ -94,7 +102,7 @@ public class CocktailDaoImpl implements CocktailDao {
     }
 
     @Override
-    public CocktailResponseDto readById(Long dishId) {
+    public BasicCocktailDto readById(Long dishId) {
         try {
             return jdbcTemplate.queryForObject(sqlGetCocktailById, cocktailMapper, dishId);
         } catch (EmptyResultDataAccessException emptyE) {
@@ -107,7 +115,7 @@ public class CocktailDaoImpl implements CocktailDao {
     }
 
     @Override
-    public CocktailResponseDto readByName(String name) {
+    public BasicCocktailDto readByName(String name) {
         try {
             return jdbcTemplate.queryForObject(sqlGetByName, cocktailMapper, name);
         } catch (EmptyResultDataAccessException emptyE) {
@@ -196,7 +204,7 @@ public class CocktailDaoImpl implements CocktailDao {
     }
 
     @Override
-    public List<CocktailResponseDto> searchFilterSort(String sqlRequest, Long pageNumber) {
+    public List<BasicCocktailDto> searchFilterSort(String sqlRequest, Long pageNumber) {
         return jdbcTemplate.query(sqlRequest, cocktailMapper, pageNumber * cocktailsPerPage, cocktailsPerPage);
     }
 
@@ -245,7 +253,7 @@ public class CocktailDaoImpl implements CocktailDao {
     }
 
     @Override
-    public List<CocktailResponseDto> getRawListOfCocktails(Long pageNumber) {
+    public List<BasicCocktailDto> getRawListOfCocktails(Long pageNumber) {
         return jdbcTemplate.query(sqlGetRawCocktails, cocktailMapper, pageNumber * cocktailsPerPage, cocktailsPerPage);
     }
 
@@ -284,5 +292,18 @@ public class CocktailDaoImpl implements CocktailDao {
     @Override
     public List<CocktailCategory> getCocktailCategories(){
         return jdbcTemplate.query(sqlGetCocktailCategories, cocktailCategoryMapper);
+    }
+
+    @Override
+    public FullCocktailDto getFullCocktailInfo(Long cocktailId){
+        BasicCocktailDto cocktail = readById(cocktailId);
+        if(cocktail == null) return null;
+        List<KitchenwareWithCategory> kitchenwareList = kitchenwareDao.readAllKitchenwaresUsedByCocktail(cocktailId);
+        List<IngredientWithCategory> ingredientList = ingredientDao.readAllIngredientsUsedByCocktail(cocktailId);
+        return new FullCocktailDto(
+                cocktail,
+                kitchenwareList,
+                ingredientList
+        );
     }
 }

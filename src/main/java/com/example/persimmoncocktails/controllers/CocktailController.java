@@ -23,7 +23,7 @@ public class CocktailController {
     }
 
     @GetMapping("/{dishId}")
-    public CocktailResponseDto getCocktailById(@PathVariable Long dishId) {
+    public FullCocktailDto getCocktailById(@PathVariable Long dishId) {
         return cocktailService.readById(dishId);
     }
 
@@ -34,7 +34,7 @@ public class CocktailController {
 
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     @PostMapping("/create")
-    public CocktailResponseDto createCocktail(@Valid @RequestBody RequestCreateCocktail cocktail) {
+    public BasicCocktailDto createCocktail(@Valid @RequestBody RequestCreateCocktail cocktail) {
         return cocktailService.create(cocktail);
     }
 
@@ -69,7 +69,7 @@ public class CocktailController {
     }
 
     @GetMapping("/search")
-    public List<CocktailResponseDto> searchFilterSortCocktails(
+    public List<BasicCocktailDto> searchFilterSortCocktails(
             @RequestParam(value = "search", required = false) String searchRequest,
             @RequestParam(value = "sort-by", required = false) String sortBy,
             @RequestParam(value = "dish-type", required = false) String dishType,

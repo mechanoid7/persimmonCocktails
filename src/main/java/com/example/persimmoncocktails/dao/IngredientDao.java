@@ -24,5 +24,7 @@ public interface IngredientDao {
 
     List<IngredientWithCategory> readAllIngredients();
 
+    List<IngredientWithCategory> readAllIngredientsUsedByCocktail(Long cocktailId);
+
     List<IngredientCategory> readAllIngredientCategories();
 }

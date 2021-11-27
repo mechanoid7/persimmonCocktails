@@ -1,10 +1,7 @@
 package com.example.persimmoncocktails.services;
 
 import com.example.persimmoncocktails.dao.CocktailDao;
-import com.example.persimmoncocktails.dtos.cocktail.CocktailResponseDto;
-import com.example.persimmoncocktails.dtos.cocktail.RequestCocktailSelectDto;
-import com.example.persimmoncocktails.dtos.cocktail.RequestCocktailUpdate;
-import com.example.persimmoncocktails.dtos.cocktail.RequestCreateCocktail;
+import com.example.persimmoncocktails.dtos.cocktail.*;
 import com.example.persimmoncocktails.exceptions.DuplicateException;
 import com.example.persimmoncocktails.exceptions.IncorrectNameFormat;
 import com.example.persimmoncocktails.exceptions.IncorrectRangeNumberFormat;
@@ -23,13 +20,13 @@ import java.util.regex.Pattern;
 public class CocktailService {
     CocktailDao cocktailDao;
 
-    public CocktailResponseDto readById(Long dishId) {
-        var cocktail = cocktailDao.readById(dishId);
+    public FullCocktailDto readById(Long dishId) {
+        FullCocktailDto cocktail = cocktailDao.getFullCocktailInfo(dishId);
         if(cocktail == null) throw new NotFoundException("Cocktail");
         return cocktail;
     }
 
-    public CocktailResponseDto create(RequestCreateCocktail cocktail) {
+    public BasicCocktailDto create(RequestCreateCocktail cocktail) {
         if (!nameIsValid(cocktail.getName())) throw new IncorrectNameFormat();
         cocktailDao.create(cocktail);
         return cocktailDao.readByName(cocktail.getName());
@@ -50,7 +47,7 @@ public class CocktailService {
         cocktailDao.update(cocktail);
     }
 
-    public List<CocktailResponseDto> searchFilterSort(RequestCocktailSelectDto cocktailSelect, Long pageNumber) {
+    public List<BasicCocktailDto> searchFilterSort(RequestCocktailSelectDto cocktailSelect, Long pageNumber) {
         if (cocktailSelect.isClear())
             return cocktailDao.getRawListOfCocktails(pageNumber); // list of cocktails without search/filter/sort
         if (cocktailSelect.getName() != null && !nameIsValid(cocktailSelect.getName())) {
@@ -118,7 +115,7 @@ public class CocktailService {
         return sqlSelect;
     }
 
-    private List<String> labelsFromString(String str){
+    public static List<String> labelsFromString(String str){
         if(str == null || str.equals("")) return new ArrayList<>();
         return new ArrayList<>(List.of(str.split(";")));
     }

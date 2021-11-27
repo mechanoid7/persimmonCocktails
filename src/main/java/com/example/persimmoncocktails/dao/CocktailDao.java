@@ -1,6 +1,7 @@
 package com.example.persimmoncocktails.dao;
 
-import com.example.persimmoncocktails.dtos.cocktail.CocktailResponseDto;
+import com.example.persimmoncocktails.dtos.cocktail.BasicCocktailDto;
+import com.example.persimmoncocktails.dtos.cocktail.FullCocktailDto;
 import com.example.persimmoncocktails.dtos.cocktail.RequestCocktailUpdate;
 import com.example.persimmoncocktails.dtos.cocktail.RequestCreateCocktail;
 import com.example.persimmoncocktails.models.cocktail.CocktailCategory;
@@ -14,9 +15,9 @@ public interface CocktailDao {
 
     Boolean dishTypeExists(String dishType);
 
-    CocktailResponseDto readById(Long dishId);
+    BasicCocktailDto readById(Long dishId);
 
-    CocktailResponseDto readByName(String name);
+    BasicCocktailDto readByName(String name);
 
     void update(RequestCocktailUpdate cocktail);
 
@@ -28,7 +29,7 @@ public interface CocktailDao {
 
     Long getLikes(Long dishId);
 
-    List<CocktailResponseDto> searchFilterSort(String sqlRequest, Long pageNumber);
+    List<BasicCocktailDto> searchFilterSort(String sqlRequest, Long pageNumber);
 
     boolean cocktailIsActive(Long dishId);
 
@@ -38,7 +39,7 @@ public interface CocktailDao {
 
     Boolean columnExists(String column);
 
-    List<CocktailResponseDto> getRawListOfCocktails(Long pageNumber);
+    List<BasicCocktailDto> getRawListOfCocktails(Long pageNumber);
 
     void addLabel(Long dishId, String label);
 
@@ -49,4 +50,6 @@ public interface CocktailDao {
     Boolean existsById(Long id);
 
     List<CocktailCategory> getCocktailCategories();
+
+    FullCocktailDto getFullCocktailInfo(Long cocktailId);
 }

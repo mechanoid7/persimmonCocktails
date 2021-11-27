@@ -46,6 +46,8 @@ public class KitchenwareDaoImpl implements KitchenwareDao {
     private String sqlReadAllKitchenwares;
     @Value("${sql_kitchenware_category_read_all}")
     private String sqlReadAllKitchenwareCategories;
+    @Value("${sql_kitchenwares_with_category_used_in_cocktail_by_id}")
+    private String sqlReadAllKitchenwaresUsedByCocktail;
 
     @Override
     public boolean existsById(Long kitchenwareId) {
@@ -126,6 +128,11 @@ public class KitchenwareDaoImpl implements KitchenwareDao {
     @Override
     public List<KitchenwareWithCategory> readAllKitchenwares() {
         return jdbcTemplate.query(sqlReadAllKitchenwares, kitchenwareWithCategoryMapper);
+    }
+
+    @Override
+    public List<KitchenwareWithCategory> readAllKitchenwaresUsedByCocktail(Long cocktailId) {
+        return jdbcTemplate.query(sqlReadAllKitchenwaresUsedByCocktail, kitchenwareWithCategoryMapper, cocktailId);
     }
 
     @Override
