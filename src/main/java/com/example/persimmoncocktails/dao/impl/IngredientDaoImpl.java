@@ -40,7 +40,7 @@ public class IngredientDaoImpl implements IngredientDao {
     private String sqlReadAllIngredients;
     @Value("${sql_ingredient_category_read_all}")
     private String sqlReadAllIngredientCategories;
-    @Value("{sql_ingredient_with_such_id_exists}")
+    @Value("${sql_ingredient_with_such_id_exists}")
     private String sqlIngredientWithSuchIdExists;
     @Value("${sql_ingredient_with_category_read_by_id}")
     private String sqlReadIngredientWithCategoryById;

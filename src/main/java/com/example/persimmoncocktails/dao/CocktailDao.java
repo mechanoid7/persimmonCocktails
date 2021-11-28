@@ -9,7 +9,7 @@ import com.example.persimmoncocktails.models.cocktail.CocktailCategory;
 import java.util.List;
 
 public interface CocktailDao {
-    void create(RequestCreateCocktail cocktail);
+    BasicCocktailDto create(RequestCreateCocktail cocktail);
 
     Boolean likeExists(Long personId, Long dishId);
 

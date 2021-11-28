@@ -46,8 +46,7 @@ public class CocktailService {
 
     public BasicCocktailDto create(RequestCreateCocktail cocktail) {
         if (!nameIsValid(cocktail.getName())) throw new IncorrectNameFormat();
-        cocktailDao.create(cocktail);
-        return cocktailDao.readByName(cocktail.getName());
+        return cocktailDao.create(cocktail);
     }
 
     public void addLike(Long dishId, Long personId) {

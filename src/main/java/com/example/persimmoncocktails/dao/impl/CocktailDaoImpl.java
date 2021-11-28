@@ -99,15 +99,46 @@ public class CocktailDaoImpl implements CocktailDao {
 
 
     @Override
-    public void create(RequestCreateCocktail cocktail) {
+    public BasicCocktailDto create(RequestCreateCocktail cocktail) {
+        //TODO: optimize check queries
+        if(cocktail.getKitchenwareIds() != null) {
+            for (Long kitchenwareId : cocktail.getUniqueKitchenwareIds()){
+                boolean exists = kitchenwareDao.existsById(kitchenwareId);
+                if(!exists) {
+                    throw new NotFoundException("Kitchenware");
+                }
+            }
+        }
+        if(cocktail.getIngredientIds() != null) {
+            for (Long ingredientId : cocktail.getUniqueIngredientIds()){
+                boolean exists = ingredientDao.existsById(ingredientId);
+                if(!exists) {
+                    throw new NotFoundException("Ingredient");
+                }
+            }
+        }
         try {
-            jdbcTemplate.update(sqlCocktailAdd, cocktail.getName(), cocktail.getDescription(), cocktail.getDishType(),
-                    cocktail.getDishCategoryId(), "", cocktail.getReceipt(), 0, true);
-        } catch (DuplicateKeyException e) {
-            throw new DuplicateException("Cocktail", "name");
-        } catch (DataIntegrityViolationException dataIntegrityViolationException){
-            throw new NotFoundException("Cocktail category");
-        } catch (DataAccessException rootException) {
+            try {
+                jdbcTemplate.update(sqlCocktailAdd, cocktail.getName(), cocktail.getDescription(), cocktail.getDishType(),
+                        cocktail.getDishCategoryId(), "", cocktail.getReceipt(), 0, true);
+            } catch (DuplicateKeyException e) {
+                throw new DuplicateException("Cocktail", "name");
+            } catch (DataIntegrityViolationException dataIntegrityViolationException) {
+                throw new NotFoundException("Cocktail category");
+            }
+
+            BasicCocktailDto savedCocktail = readByName(cocktail.getName());
+
+            //TODO: optimize queries for adding kitchenware, ingredients
+            for (Long kitchenwareId : cocktail.getUniqueKitchenwareIds()) {
+                addKitchenware(savedCocktail.getDishId(), kitchenwareId);
+            }
+            for (Long ingredientId : cocktail.getUniqueIngredientIds()) {
+                addIngredient(savedCocktail.getDishId(), ingredientId);
+            }
+            return savedCocktail;
+        }
+        catch (DataAccessException rootException) {
             rootException.printStackTrace();
             throw new UnknownException();
         }

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f34c1b16-cc93-46bf-b8be-65934f792ac4",
+		"_postman_id": "27b5b976-3576-446c-b24d-d4673e9e7a86",
 		"name": "OpenAPI definition",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -17,7 +17,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/person/friends?page=-495895",
+									"raw": "{{baseUrl}}/person/friends?page=-60508279",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -28,7 +28,7 @@
 									"query": [
 										{
 											"key": "page",
-											"value": "-495895",
+											"value": "-60508279",
 											"description": "(Required) "
 										}
 									]
@@ -41,7 +41,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseUrl}}/person/friends?page=-495895",
+											"raw": "{{baseUrl}}/person/friends?page=-60508279",
 											"host": [
 												"{{baseUrl}}"
 											],
@@ -52,7 +52,7 @@
 											"query": [
 												{
 													"key": "page",
-													"value": "-495895"
+													"value": "-60508279"
 												}
 											]
 										}
@@ -83,7 +83,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "-495895",
+									"raw": "-60508279",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -110,7 +110,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "-495895",
+											"raw": "-60508279",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -149,7 +149,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/person/friends/:substring?page=-495895",
+									"raw": "{{baseUrl}}/person/friends/:substring?page=-60508279",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -161,14 +161,14 @@
 									"query": [
 										{
 											"key": "page",
-											"value": "-495895",
+											"value": "-60508279",
 											"description": "(Required) "
 										}
 									],
 									"variable": [
 										{
 											"key": "substring",
-											"value": "sunt nisi in minim reprehenderit",
+											"value": "pariatur nulla",
 											"description": "(Required) "
 										}
 									]
@@ -181,7 +181,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseUrl}}/person/friends/:substring?page=-495895",
+											"raw": "{{baseUrl}}/person/friends/:substring?page=-60508279",
 											"host": [
 												"{{baseUrl}}"
 											],
@@ -193,13 +193,13 @@
 											"query": [
 												{
 													"key": "page",
-													"value": "-495895"
+													"value": "-60508279"
 												}
 											],
 											"variable": [
 												{
 													"key": "substring",
-													"value": "sunt nisi in minim reprehenderit",
+													"value": "pariatur nulla",
 													"description": "(Required) "
 												}
 											]
@@ -231,7 +231,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "-495895",
+									"raw": "-60508279",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -258,7 +258,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "-495895",
+											"raw": "-60508279",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -313,7 +313,7 @@
 									"variable": [
 										{
 											"key": "personId",
-											"value": "-495895",
+											"value": "-60508279",
 											"description": "(Required) "
 										}
 									]
@@ -337,7 +337,7 @@
 											"variable": [
 												{
 													"key": "personId",
-													"value": "-495895",
+													"value": "-60508279",
 													"description": "(Required) "
 												}
 											]
@@ -374,7 +374,7 @@
 									"variable": [
 										{
 											"key": "personId",
-											"value": "-495895",
+											"value": "-60508279",
 											"description": "(Required) "
 										}
 									]
@@ -398,7 +398,7 @@
 											"variable": [
 												{
 													"key": "personId",
-													"value": "-495895",
+													"value": "-60508279",
 													"description": "(Required) "
 												}
 											]
@@ -426,7 +426,7 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/person/update-photo?photoId=-495895",
+							"raw": "{{baseUrl}}/person/update-photo?photoId=-60508279",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -437,7 +437,7 @@
 							"query": [
 								{
 									"key": "photoId",
-									"value": "-495895",
+									"value": "-60508279",
 									"description": "(Required) "
 								}
 							]
@@ -450,7 +450,7 @@
 								"method": "PATCH",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/person/update-photo?photoId=-495895",
+									"raw": "{{baseUrl}}/person/update-photo?photoId=-60508279",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -461,7 +461,7 @@
 									"query": [
 										{
 											"key": "photoId",
-											"value": "-495895"
+											"value": "-60508279"
 										}
 									]
 								}
@@ -486,7 +486,7 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/person/update-name?name=sunt nisi in minim reprehenderit",
+							"raw": "{{baseUrl}}/person/update-name?name=pariatur nulla",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -497,7 +497,7 @@
 							"query": [
 								{
 									"key": "name",
-									"value": "sunt nisi in minim reprehenderit",
+									"value": "pariatur nulla",
 									"description": "(Required) "
 								}
 							]
@@ -510,7 +510,7 @@
 								"method": "PATCH",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/person/update-name?name=sunt nisi in minim reprehenderit",
+									"raw": "{{baseUrl}}/person/update-name?name=pariatur nulla",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -521,7 +521,7 @@
 									"query": [
 										{
 											"key": "name",
-											"value": "sunt nisi in minim reprehenderit"
+											"value": "pariatur nulla"
 										}
 									]
 								}
@@ -552,7 +552,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"newPassword\": \"u\",\n    \"oldPassword\": \"laboris\"\n}",
+							"raw": "{\n    \"newPassword\": \"irure adi\",\n    \"oldPassword\": \"in veniam aliqua\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -578,7 +578,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"newPassword\": \"u\",\n    \"oldPassword\": \"laboris\"\n}",
+									"raw": "{\n    \"newPassword\": \"irure adi\",\n    \"oldPassword\": \"in veniam aliqua\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -616,7 +616,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/person/search/:substring?page=-495895",
+							"raw": "{{baseUrl}}/person/search/:substring?page=-60508279",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -628,14 +628,14 @@
 							"query": [
 								{
 									"key": "page",
-									"value": "-495895",
+									"value": "-60508279",
 									"description": "(Required) "
 								}
 							],
 							"variable": [
 								{
 									"key": "substring",
-									"value": "sunt nisi in minim reprehenderit",
+									"value": "pariatur nulla",
 									"description": "(Required) "
 								}
 							]
@@ -648,7 +648,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/person/search/:substring?page=-495895",
+									"raw": "{{baseUrl}}/person/search/:substring?page=-60508279",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -660,13 +660,13 @@
 									"query": [
 										{
 											"key": "page",
-											"value": "-495895"
+											"value": "-60508279"
 										}
 									],
 									"variable": [
 										{
 											"key": "substring",
-											"value": "sunt nisi in minim reprehenderit",
+											"value": "pariatur nulla",
 											"description": "(Required) "
 										}
 									]
@@ -704,7 +704,7 @@
 							"variable": [
 								{
 									"key": "personEmail",
-									"value": "sunt nisi in minim reprehenderit",
+									"value": "pariatur nulla",
 									"description": "(Required) "
 								}
 							]
@@ -729,7 +729,7 @@
 									"variable": [
 										{
 											"key": "personEmail",
-											"value": "sunt nisi in minim reprehenderit",
+											"value": "pariatur nulla",
 											"description": "(Required) "
 										}
 									]
@@ -766,7 +766,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": \"exercitation\",\n    \"newPassword\": \"sint nisi velit\",\n    \"personId\": 97772384\n}",
+							"raw": "{\n    \"id\": \"dolor officia eiusmod incididunt\",\n    \"newPassword\": \"in ullamco officia\",\n    \"personId\": 68992401\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -792,7 +792,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"id\": \"exercitation\",\n    \"newPassword\": \"sint nisi velit\",\n    \"personId\": 97772384\n}",
+									"raw": "{\n    \"id\": \"dolor officia eiusmod incididunt\",\n    \"newPassword\": \"in ullamco officia\",\n    \"personId\": 68992401\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -836,7 +836,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "-495895",
+							"raw": "-60508279",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -862,7 +862,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "-495895",
+									"raw": "-60508279",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -906,7 +906,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"quis fugiat ea\",\n    \"name\": \"irure non aliqua\"\n}",
+							"raw": "{\n    \"email\": \"Lo\",\n    \"name\": \"consectetur aute labore\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -932,7 +932,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"email\": \"quis fugiat ea\",\n    \"name\": \"irure non aliqua\"\n}",
+									"raw": "{\n    \"email\": \"Lo\",\n    \"name\": \"consectetur aute labore\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -970,7 +970,7 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/moderator/update-photo?photoId=-495895",
+							"raw": "{{baseUrl}}/moderator/update-photo?photoId=-60508279",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -981,7 +981,7 @@
 							"query": [
 								{
 									"key": "photoId",
-									"value": "-495895",
+									"value": "-60508279",
 									"description": "(Required) "
 								}
 							]
@@ -994,7 +994,7 @@
 								"method": "PATCH",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/moderator/update-photo?photoId=-495895",
+									"raw": "{{baseUrl}}/moderator/update-photo?photoId=-60508279",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -1005,7 +1005,7 @@
 									"query": [
 										{
 											"key": "photoId",
-											"value": "-495895"
+											"value": "-60508279"
 										}
 									]
 								}
@@ -1030,7 +1030,7 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/moderator/update-name?name=sunt nisi in minim reprehenderit",
+							"raw": "{{baseUrl}}/moderator/update-name?name=pariatur nulla",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -1041,7 +1041,7 @@
 							"query": [
 								{
 									"key": "name",
-									"value": "sunt nisi in minim reprehenderit",
+									"value": "pariatur nulla",
 									"description": "(Required) "
 								}
 							]
@@ -1054,7 +1054,7 @@
 								"method": "PATCH",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/moderator/update-name?name=sunt nisi in minim reprehenderit",
+									"raw": "{{baseUrl}}/moderator/update-name?name=pariatur nulla",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -1065,7 +1065,7 @@
 									"query": [
 										{
 											"key": "name",
-											"value": "sunt nisi in minim reprehenderit"
+											"value": "pariatur nulla"
 										}
 									]
 								}
@@ -1096,7 +1096,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"newPassword\": \"u\",\n    \"oldPassword\": \"laboris\"\n}",
+							"raw": "{\n    \"newPassword\": \"irure adi\",\n    \"oldPassword\": \"in veniam aliqua\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1122,7 +1122,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"newPassword\": \"u\",\n    \"oldPassword\": \"laboris\"\n}",
+									"raw": "{\n    \"newPassword\": \"irure adi\",\n    \"oldPassword\": \"in veniam aliqua\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1171,7 +1171,7 @@
 							"variable": [
 								{
 									"key": "personId",
-									"value": "-495895",
+									"value": "-60508279",
 									"description": "(Required) "
 								}
 							]
@@ -1195,7 +1195,7 @@
 									"variable": [
 										{
 											"key": "personId",
-											"value": "-495895",
+											"value": "-60508279",
 											"description": "(Required) "
 										}
 									]
@@ -1335,7 +1335,7 @@
 									"variable": [
 										{
 											"key": "kitchenwareId",
-											"value": "-495895",
+											"value": "-60508279",
 											"description": "(Required) "
 										}
 									]
@@ -1360,7 +1360,7 @@
 											"variable": [
 												{
 													"key": "kitchenwareId",
-													"value": "-495895",
+													"value": "-60508279",
 													"description": "(Required) "
 												}
 											]
@@ -1439,7 +1439,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"commodo in Duis\",\n    \"kitchenwareCategoryId\": 86656480,\n    \"photoId\": -41549975\n}",
+							"raw": "{\n    \"name\": \"est mollit proident magna tempor\",\n    \"kitchenwareCategoryId\": -24900656,\n    \"photoId\": -37008919\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1464,7 +1464,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"commodo in Duis\",\n    \"kitchenwareCategoryId\": 86656480,\n    \"photoId\": -41549975\n}",
+									"raw": "{\n    \"name\": \"est mollit proident magna tempor\",\n    \"kitchenwareCategoryId\": -24900656,\n    \"photoId\": -37008919\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1507,7 +1507,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"kitchenwareId\": -12994518,\n    \"kitchenwarePhotoId\": -37947125\n}",
+							"raw": "{\n    \"kitchenwareId\": -44938895,\n    \"kitchenwarePhotoId\": -68201735\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1533,7 +1533,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"kitchenwareId\": -12994518,\n    \"kitchenwarePhotoId\": -37947125\n}",
+									"raw": "{\n    \"kitchenwareId\": -44938895,\n    \"kitchenwarePhotoId\": -68201735\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1577,7 +1577,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"kitchenwareId\": -20438003,\n    \"name\": \"Lorem mollit nu\"\n}",
+							"raw": "{\n    \"kitchenwareId\": 65381893,\n    \"name\": \"adipisicing dolor veniam\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1603,7 +1603,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"kitchenwareId\": -20438003,\n    \"name\": \"Lorem mollit nu\"\n}",
+									"raw": "{\n    \"kitchenwareId\": 65381893,\n    \"name\": \"adipisicing dolor veniam\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1647,7 +1647,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"kitchenwareId\": -25653168,\n    \"kitchenwareCategoryId\": -70492756\n}",
+							"raw": "{\n    \"kitchenwareId\": -24243509,\n    \"kitchenwareCategoryId\": 9193155\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1673,7 +1673,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"kitchenwareId\": -25653168,\n    \"kitchenwareCategoryId\": -70492756\n}",
+									"raw": "{\n    \"kitchenwareId\": -24243509,\n    \"kitchenwareCategoryId\": 9193155\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1723,7 +1723,7 @@
 							"variable": [
 								{
 									"key": "kitchenwareId",
-									"value": "-495895",
+									"value": "-60508279",
 									"description": "(Required) "
 								}
 							]
@@ -1748,7 +1748,7 @@
 									"variable": [
 										{
 											"key": "kitchenwareId",
-											"value": "-495895",
+											"value": "-60508279",
 											"description": "(Required) "
 										}
 									]
@@ -1786,7 +1786,7 @@
 							"variable": [
 								{
 									"key": "kitchenwareId",
-									"value": "-495895",
+									"value": "3",
 									"description": "(Required) "
 								}
 							]
@@ -1811,7 +1811,7 @@
 									"variable": [
 										{
 											"key": "kitchenwareId",
-											"value": "-495895",
+											"value": "-60508279",
 											"description": "(Required) "
 										}
 									]
@@ -1848,7 +1848,7 @@
 							"variable": [
 								{
 									"key": "kitchenwareId",
-									"value": "-495895",
+									"value": "-60508279",
 									"description": "(Required) "
 								}
 							]
@@ -1872,7 +1872,7 @@
 									"variable": [
 										{
 											"key": "kitchenwareId",
-											"value": "-495895",
+											"value": "-60508279",
 											"description": "(Required) "
 										}
 									]
@@ -1942,29 +1942,77 @@
 			]
 		},
 		{
-			"name": "cocktail",
+			"name": "ingredient",
 			"item": [
 				{
-					"name": "labels",
+					"name": "active",
 					"item": [
 						{
-							"name": "get Labels By Id",
+							"name": "get All Active Ingredient",
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/cocktail/labels?dishId=-495895",
+									"raw": "{{baseUrl}}/ingredient/active",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"cocktail",
-										"labels"
-									],
-									"query": [
+										"ingredient",
+										"active"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/ingredient/active",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"ingredient",
+												"active"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
 										{
-											"key": "dishId",
-											"value": "-495895",
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "get Active Ingredient By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/ingredient/active/:ingredientId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"ingredient",
+										"active",
+										":ingredientId"
+									],
+									"variable": [
+										{
+											"key": "ingredientId",
+											"value": "-60508279",
 											"description": "(Required) "
 										}
 									]
@@ -1977,7 +2025,636 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseUrl}}/cocktail/labels?dishId=-495895",
+											"raw": "{{baseUrl}}/ingredient/active/:ingredientId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"ingredient",
+												"active",
+												":ingredientId"
+											],
+											"variable": [
+												{
+													"key": "ingredientId",
+													"value": "-60508279",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "get All Ingredients",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ingredient",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ingredient"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/ingredient",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"ingredient"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "create Ingredient",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"sit\",\n    \"ingredientCategoryId\": -77869043,\n    \"photoId\": 47065223\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/ingredient",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ingredient"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"sit\",\n    \"ingredientCategoryId\": -77869043,\n    \"photoId\": 47065223\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/ingredient",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"ingredient"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "update Photo 3",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ingredientId\": -4826011,\n    \"ingredientPhotoId\": -11687992\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/ingredient/update-photo",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ingredient",
+								"update-photo"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ingredientId\": -4826011,\n    \"ingredientPhotoId\": -11687992\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/ingredient/update-photo",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"ingredient",
+										"update-photo"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "update Name 3",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ingredientId\": -22004720,\n    \"name\": \"aute nostrud sunt qui dolor\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/ingredient/update-name",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ingredient",
+								"update-name"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ingredientId\": -22004720,\n    \"name\": \"aute nostrud sunt qui dolor\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/ingredient/update-name",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"ingredient",
+										"update-name"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "update Category 1",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ingredientId\": 51197666,\n    \"ingredientCategoryId\": 36867387\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/ingredient/update-category",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ingredient",
+								"update-category"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ingredientId\": 51197666,\n    \"ingredientCategoryId\": 36867387\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/ingredient/update-category",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"ingredient",
+										"update-category"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "deactivate Ingredient",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ingredient/deactivate/:ingredientId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ingredient",
+								"deactivate",
+								":ingredientId"
+							],
+							"variable": [
+								{
+									"key": "ingredientId",
+									"value": "-60508279",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/ingredient/deactivate/:ingredientId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"ingredient",
+										"deactivate",
+										":ingredientId"
+									],
+									"variable": [
+										{
+											"key": "ingredientId",
+											"value": "-60508279",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "activate Ingredient",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ingredient/activate/:ingredientId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ingredient",
+								"activate",
+								":ingredientId"
+							],
+							"variable": [
+								{
+									"key": "ingredientId",
+									"value": "-60508279",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/ingredient/activate/:ingredientId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"ingredient",
+										"activate",
+										":ingredientId"
+									],
+									"variable": [
+										{
+											"key": "ingredientId",
+											"value": "-60508279",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "get Ingredient By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ingredient/:ingredientId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ingredient",
+								":ingredientId"
+							],
+							"variable": [
+								{
+									"key": "ingredientId",
+									"value": "-60508279",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/ingredient/:ingredientId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"ingredient",
+										":ingredientId"
+									],
+									"variable": [
+										{
+											"key": "ingredientId",
+											"value": "-60508279",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "get All Ingredient Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ingredient/categories",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ingredient",
+								"categories"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/ingredient/categories",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"ingredient",
+										"categories"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "cocktail",
+			"item": [
+				{
+					"name": "labels",
+					"item": [
+						{
+							"name": "get Labels By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cocktail/labels?dishId=-60508279",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cocktail",
+										"labels"
+									],
+									"query": [
+										{
+											"key": "dishId",
+											"value": "-60508279",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/cocktail/labels?dishId=-60508279",
 											"host": [
 												"{{baseUrl}}"
 											],
@@ -1988,7 +2665,7 @@
 											"query": [
 												{
 													"key": "dishId",
-													"value": "-495895"
+													"value": "-60508279"
 												}
 											]
 										}
@@ -2019,7 +2696,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"dishId\": -39939378,\n    \"label\": \"Lorem est dolor\"\n}",
+									"raw": "{\n    \"dishId\": -46846999,\n    \"label\": \"voluptate consequat\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2046,7 +2723,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"dishId\": -39939378,\n    \"label\": \"Lorem est dolor\"\n}",
+											"raw": "{\n    \"dishId\": -46846999,\n    \"label\": \"voluptate consequat\"\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -2091,7 +2768,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"dishId\": -39939378,\n    \"label\": \"Lorem est dolor\"\n}",
+									"raw": "{\n    \"dishId\": -46846999,\n    \"label\": \"voluptate consequat\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2118,7 +2795,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\n    \"dishId\": -39939378,\n    \"label\": \"Lorem est dolor\"\n}",
+											"raw": "{\n    \"dishId\": -46846999,\n    \"label\": \"voluptate consequat\"\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -2163,7 +2840,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "-495895",
+									"raw": "-60508279",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2190,7 +2867,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "-495895",
+											"raw": "-60508279",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -2206,6 +2883,304 @@
 												"cocktail",
 												"labels",
 												"clear"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "kitchenware",
+					"item": [
+						{
+							"name": "remove Kitchenware From Cocktail",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"kitchenwareId\": 3,\n    \"cocktailId\": 14\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cocktail/kitchenware/remove",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cocktail",
+										"kitchenware",
+										"remove"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"kitchenwareId\": -13076665,\n    \"cocktailId\": 60978755\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/cocktail/kitchenware/remove",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cocktail",
+												"kitchenware",
+												"remove"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "add Kitchenware To Cocktail",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"kitchenwareId\": 4,\n    \"cocktailId\": 14\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cocktail/kitchenware/add",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cocktail",
+										"kitchenware",
+										"add"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"kitchenwareId\": -13076665,\n    \"cocktailId\": 60978755\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/cocktail/kitchenware/add",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cocktail",
+												"kitchenware",
+												"add"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "ingredient",
+					"item": [
+						{
+							"name": "remove Ingredient From Cocktail",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ingredientId\": 6,\n    \"cocktailId\": 14\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cocktail/ingredient/remove",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cocktail",
+										"ingredient",
+										"remove"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"ingredientId\": 36742735,\n    \"cocktailId\": -93724418\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/cocktail/ingredient/remove",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cocktail",
+												"ingredient",
+												"remove"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "add Ingredient To Cocktail",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ingredientId\": 8,\n    \"cocktailId\": 14\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cocktail/ingredient/add",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cocktail",
+										"ingredient",
+										"add"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"ingredientId\": 36742735,\n    \"cocktailId\": -93724418\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/cocktail/ingredient/add",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cocktail",
+												"ingredient",
+												"add"
 											]
 										}
 									},
@@ -2245,7 +3220,7 @@
 									"variable": [
 										{
 											"key": "dishId",
-											"value": "11",
+											"value": "20",
 											"description": "(Required) "
 										}
 									]
@@ -2269,7 +3244,7 @@
 											"variable": [
 												{
 													"key": "dishId",
-													"value": "-495895",
+													"value": "-60508279",
 													"description": "(Required) "
 												}
 											]
@@ -2307,7 +3282,7 @@
 									"variable": [
 										{
 											"key": "dishId",
-											"value": "-495895",
+											"value": "-60508279",
 											"description": "(Required) "
 										}
 									]
@@ -2332,8 +3307,257 @@
 											"variable": [
 												{
 													"key": "dishId",
-													"value": "-495895",
+													"value": "-60508279",
 													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "dish Is Active",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cocktail/:dishId/is-active",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cocktail",
+										":dishId",
+										"is-active"
+									],
+									"variable": [
+										{
+											"key": "dishId",
+											"value": "-60508279",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/cocktail/:dishId/is-active",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cocktail",
+												":dishId",
+												"is-active"
+											],
+											"variable": [
+												{
+													"key": "dishId",
+													"value": "-60508279",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "active",
+					"item": [
+						{
+							"name": "get Restricted Cocktail Info",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cocktail/active/:dishId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cocktail",
+										"active",
+										":dishId"
+									],
+									"variable": [
+										{
+											"key": "dishId",
+											"value": "-60508279",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/cocktail/active/:dishId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cocktail",
+												"active",
+												":dishId"
+											],
+											"variable": [
+												{
+													"key": "dishId",
+													"value": "-60508279",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "restricted Search Filter Sort",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cocktail/active/search?search=pariatur nulla&sort-by=pariatur nulla&dish-type=pariatur nulla&dish-category-id=-60508279&sort-direction=true&ingredients=-61995382&ingredients=95112271&page=-60508279",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cocktail",
+										"active",
+										"search"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": "pariatur nulla"
+										},
+										{
+											"key": "sort-by",
+											"value": "pariatur nulla"
+										},
+										{
+											"key": "dish-type",
+											"value": "pariatur nulla"
+										},
+										{
+											"key": "dish-category-id",
+											"value": "-60508279"
+										},
+										{
+											"key": "sort-direction",
+											"value": "true"
+										},
+										{
+											"key": "ingredients",
+											"value": "-61995382"
+										},
+										{
+											"key": "ingredients",
+											"value": "95112271"
+										},
+										{
+											"key": "page",
+											"value": "-60508279",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/cocktail/active/search?search=pariatur nulla&sort-by=pariatur nulla&dish-type=pariatur nulla&dish-category-id=-60508279&sort-direction=true&ingredients=6089632&ingredients=72147658&page=-60508279",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cocktail",
+												"active",
+												"search"
+											],
+											"query": [
+												{
+													"key": "search",
+													"value": "pariatur nulla"
+												},
+												{
+													"key": "sort-by",
+													"value": "pariatur nulla"
+												},
+												{
+													"key": "dish-type",
+													"value": "pariatur nulla"
+												},
+												{
+													"key": "dish-category-id",
+													"value": "-60508279"
+												},
+												{
+													"key": "sort-direction",
+													"value": "true"
+												},
+												{
+													"key": "ingredients",
+													"value": "6089632"
+												},
+												{
+													"key": "ingredients",
+													"value": "72147658"
+												},
+												{
+													"key": "page",
+													"value": "-60508279"
 												}
 											]
 										}
@@ -2366,7 +3590,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "-495895",
+							"raw": "-60508279",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2392,7 +3616,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "-495895",
+									"raw": "-60508279",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2436,7 +3660,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "-495895",
+							"raw": "-60508279",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2462,7 +3686,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "-495895",
+									"raw": "-60508279",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2506,7 +3730,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"cupidatat do pariatur aute adipisicing\",\n    \"description\": \"consequat\",\n    \"dishType\": \"officia\",\n    \"dishCategoryId\": -89693315,\n    \"label\": \"exercitation culpa mollit elit\",\n    \"receipt\": \"anim qui\"\n}",
+							"raw": "{\n    \"ingredientIds\": [\n        6,\n        6\n    ],\n    \"kitchenwareIds\": [\n    ],\n    \"name\": \"new coolddjj cocktail\",\n    \"receipt\": \"in nulla aliquip\",\n    \"description\": \"esse laborum laboris aute\",\n    \"dishType\": \"anim cupidatat Lorem cillum\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2532,7 +3756,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"name\": \"cupidatat do pariatur aute adipisicing\",\n    \"description\": \"consequat\",\n    \"dishType\": \"officia\",\n    \"dishCategoryId\": -89693315,\n    \"label\": \"exercitation culpa mollit elit\",\n    \"receipt\": \"anim qui\"\n}",
+									"raw": "{\n    \"ingredientIds\": [\n        -84691480,\n        -23962857\n    ],\n    \"kitchenwareIds\": [\n        69708160,\n        -54693325\n    ],\n    \"name\": \"esse sed aliquip dolore\",\n    \"receipt\": \"proident amet eu\",\n    \"description\": \"aute proident eu magna\",\n    \"dishType\": \"consectetur eu minim\",\n    \"dishCategoryId\": 2167834\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2556,7 +3780,7 @@
 							"header": [
 								{
 									"key": "Content-Type",
-									"value": "text/plain"
+									"value": "*/*"
 								}
 							],
 							"cookie": [],
@@ -2576,7 +3800,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"dishId\": 58470991,\n    \"name\": \"Ut cillum sin\",\n    \"description\": \"ad pariatur\",\n    \"dishType\": \"non\",\n    \"dishCategoryId\": 50886016,\n    \"label\": \"fugiat anim minim quis in\",\n    \"receipt\": \"sit occaecat\",\n    \"isActive\": true\n}",
+							"raw": "{\n    \"dishId\": -80308881,\n    \"isActive\": false,\n    \"name\": \"minim exercitation\",\n    \"receipt\": \"non cupidatat deserunt veniam dolore\",\n    \"description\": \"exercitation\",\n    \"dishType\": \"est qui dolore Excepteu\",\n    \"dishCategoryId\": -76121457\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2602,7 +3826,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"dishId\": 58470991,\n    \"name\": \"Ut cillum sin\",\n    \"description\": \"ad pariatur\",\n    \"dishType\": \"non\",\n    \"dishCategoryId\": 50886016,\n    \"label\": \"fugiat anim minim quis in\",\n    \"receipt\": \"sit occaecat\",\n    \"isActive\": true\n}",
+									"raw": "{\n    \"dishId\": -80308881,\n    \"isActive\": false,\n    \"name\": \"minim exercitation\",\n    \"receipt\": \"non cupidatat deserunt veniam dolore\",\n    \"description\": \"exercitation\",\n    \"dishType\": \"est qui dolore Excepteu\",\n    \"dishCategoryId\": -76121457\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2635,76 +3859,6 @@
 					]
 				},
 				{
-					"name": "dish Is Active",
-					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "-495895",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/cocktail/is-active",
-							"host": [
-								"{{baseUrl}}"
-							],
-							"path": [
-								"cocktail",
-								"is-active"
-							]
-						}
-					},
-					"response": [
-						{
-							"name": "OK",
-							"originalRequest": {
-								"method": "PATCH",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "-495895",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{baseUrl}}/cocktail/is-active",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"cocktail",
-										"is-active"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "text",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "*/*"
-								}
-							],
-							"cookie": [],
-							"body": ""
-						}
-					]
-				},
-				{
 					"name": "change Status 1",
 					"request": {
 						"method": "PATCH",
@@ -2716,7 +3870,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "-495895",
+							"raw": "-60508279",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2742,7 +3896,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "-495895",
+									"raw": "-60508279",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2780,7 +3934,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/cocktail/search?search=sunt nisi in minim reprehenderit&sort-by=sunt nisi in minim reprehenderit&dish-type=sunt nisi in minim reprehenderit&dish-category-id=-495895&sort-direction=true&page=-495895",
+							"raw": "{{baseUrl}}/cocktail/search?show-active=false&page=0",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -2791,27 +3945,51 @@
 							"query": [
 								{
 									"key": "search",
-									"value": "sunt nisi in minim reprehenderit"
+									"value": "pariatur nulla",
+									"disabled": true
 								},
 								{
 									"key": "sort-by",
-									"value": "sunt nisi in minim reprehenderit"
+									"value": "pariatur nulla",
+									"disabled": true
 								},
 								{
 									"key": "dish-type",
-									"value": "sunt nisi in minim reprehenderit"
+									"value": "pariatur nulla",
+									"disabled": true
 								},
 								{
 									"key": "dish-category-id",
-									"value": "-495895"
+									"value": "-60508279",
+									"disabled": true
 								},
 								{
 									"key": "sort-direction",
-									"value": "true"
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "ingredients",
+									"value": "-61995382",
+									"disabled": true
+								},
+								{
+									"key": "ingredients",
+									"value": "95112271",
+									"disabled": true
+								},
+								{
+									"key": "show-active",
+									"value": "false"
+								},
+								{
+									"key": "show-inactive",
+									"value": "true",
+									"disabled": true
 								},
 								{
 									"key": "page",
-									"value": "-495895",
+									"value": "0",
 									"description": "(Required) "
 								}
 							]
@@ -2824,7 +4002,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/cocktail/search?search=sunt nisi in minim reprehenderit&sort-by=sunt nisi in minim reprehenderit&dish-type=sunt nisi in minim reprehenderit&dish-category-id=-495895&sort-direction=true&page=-495895",
+									"raw": "{{baseUrl}}/cocktail/search?search=pariatur nulla&sort-by=pariatur nulla&dish-type=pariatur nulla&dish-category-id=-60508279&sort-direction=true&ingredients=6089632&ingredients=72147658&show-active=true&show-inactive=true&page=-60508279",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -2835,28 +4013,91 @@
 									"query": [
 										{
 											"key": "search",
-											"value": "sunt nisi in minim reprehenderit"
+											"value": "pariatur nulla"
 										},
 										{
 											"key": "sort-by",
-											"value": "sunt nisi in minim reprehenderit"
+											"value": "pariatur nulla"
 										},
 										{
 											"key": "dish-type",
-											"value": "sunt nisi in minim reprehenderit"
+											"value": "pariatur nulla"
 										},
 										{
 											"key": "dish-category-id",
-											"value": "-495895"
+											"value": "-60508279"
 										},
 										{
 											"key": "sort-direction",
 											"value": "true"
 										},
 										{
+											"key": "ingredients",
+											"value": "6089632"
+										},
+										{
+											"key": "ingredients",
+											"value": "72147658"
+										},
+										{
+											"key": "show-active",
+											"value": "true"
+										},
+										{
+											"key": "show-inactive",
+											"value": "true"
+										},
+										{
 											"key": "page",
-											"value": "-495895"
+											"value": "-60508279"
 										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "get Cocktail Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/cocktail/categories",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"cocktail",
+								"categories"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cocktail/categories",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cocktail",
+										"categories"
 									]
 								}
 							},
@@ -2888,7 +4129,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"velit\",\n    \"name\": \"laborum ipsum\",\n    \"password\": \"quis Ut aute\"\n}",
+					"raw": "{\n    \"email\": \"dolor nostrud Ut sit\",\n    \"name\": \"pariatur consectetur incididunt aute reprehenderit\",\n    \"password\": \"magna Lorem Duis adipisicing\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -2913,7 +4154,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"velit\",\n    \"name\": \"laborum ipsum\",\n    \"password\": \"quis Ut aute\"\n}",
+							"raw": "{\n    \"email\": \"dolor nostrud Ut sit\",\n    \"name\": \"pariatur consectetur incididunt aute reprehenderit\",\n    \"password\": \"magna Lorem Duis adipisicing\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2956,7 +4197,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": \"anim\",\n    \"newPassword\": \"ipsum\",\n    \"localDateTime\": \"2017-10-05T14:49:03.242Z\"\n}",
+					"raw": "{\n    \"id\": \"exercitation\",\n    \"newPassword\": \"nisi nostrud adipisicing\",\n    \"localDateTime\": \"1970-01-21T03:11:14.325Z\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -2981,7 +4222,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": \"anim\",\n    \"newPassword\": \"ipsum\",\n    \"localDateTime\": \"2017-10-05T14:49:03.242Z\"\n}",
+							"raw": "{\n    \"id\": \"exercitation\",\n    \"newPassword\": \"nisi nostrud adipisicing\",\n    \"localDateTime\": \"1970-01-21T03:11:14.325Z\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3024,7 +4265,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"nisi velit do\"\n}",
+					"raw": "{\n    \"email\": \"Lorem cillum velit\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -3049,7 +4290,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"nisi velit do\"\n}",
+							"raw": "{\n    \"email\": \"Lorem cillum velit\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3081,11 +4322,40 @@
 			]
 		}
 	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreXJ5bG8ua29tb25vdkBnbWFpbC5jb20iLCJ1c2VyX2lkIjozLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoibW9kZXJhdG9yOnJlYWQifSx7ImF1dGhvcml0eSI6ImNvbnRlbnQ6dXBkYXRlIn0seyJhdXRob3JpdHkiOiJhbGw6cmVhZCJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9NT0RFUkFUT1IifSx7ImF1dGhvcml0eSI6ImluYWN0aXZlOnJlYWQifV0sImlhdCI6MTYzODA5NzUwNiwiZXhwIjoxNjM4MTM2ODAwfQ._xkkpvhxxYuv32tQPl6j1p9MuTX5w2bZ9fsv_fsZQ_ew99SkhLrUQu5wtvbChZK__s5nwNF26srru3gmCeCnrg",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
 	"variable": [
 		{
 			"key": "baseUrl",
-			"value": "http://localhost:8080/",
-			"type": "string"
+			"value": "http://localhost:8080"
 		}
 	]
 }
