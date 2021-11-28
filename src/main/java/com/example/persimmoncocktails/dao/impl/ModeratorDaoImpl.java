@@ -1,7 +1,7 @@
 package com.example.persimmoncocktails.dao.impl;
 
 import com.example.persimmoncocktails.dao.ModeratorDao;
-import com.example.persimmoncocktails.mapper.PersonMapper;
+import com.example.persimmoncocktails.mappers.PersonMapper;
 import com.example.persimmoncocktails.models.Person;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,9 +25,6 @@ public class ModeratorDaoImpl implements ModeratorDao {
 
     @Override
     public List<Person> getAllModerators() {
-        List<Person> result = jdbcTemplate.query(sqlGetAllModerators, personMapper);
-        if (result.isEmpty())
-            return new ArrayList<>();
-        return result;
+        return jdbcTemplate.query(sqlGetAllModerators, personMapper);
     }
 }

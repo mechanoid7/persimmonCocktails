@@ -2,7 +2,7 @@ package com.example.persimmoncocktails.dao.impl;
 
 import com.example.persimmoncocktails.dao.FriendsDao;
 import com.example.persimmoncocktails.dtos.friend.FriendResponseDto;
-import com.example.persimmoncocktails.mapper.FriendMapper;
+import com.example.persimmoncocktails.mappers.FriendMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -10,7 +10,6 @@ import org.springframework.context.annotation.PropertySources;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -39,18 +38,18 @@ public class FriendsDaoImpl implements FriendsDao {
 
 
     @Override
-    public List<FriendResponseDto> getPersonFriends(Long personId, Long pageNumber){ // get person friends by ID
-        return jdbcTemplate.query(sqlGetAllFriends, friendMapper, personId, personId, pageNumber*personsPerPage, personsPerPage);
+    public List<FriendResponseDto> getPersonFriends(Long personId, Long pageNumber) { // get person friends by ID
+        return jdbcTemplate.query(sqlGetAllFriends, friendMapper, personId, personId, pageNumber * personsPerPage, personsPerPage);
     }
 
     @Override
     public List<FriendResponseDto> getListFriendByNameSubstring(Long personId, String substring, Long pageNumber) {
-        return jdbcTemplate.query(sqlGetListFriendBySubstring, friendMapper, personId, personId, substring.toLowerCase(), pageNumber*personsPerPage, personsPerPage);
+        return jdbcTemplate.query(sqlGetListFriendBySubstring, friendMapper, personId, personId, substring.toLowerCase(), pageNumber * personsPerPage, personsPerPage);
     }
 
     @Override
     public List<FriendResponseDto> searchPersonsByNameSubstring(String substring, Long pageNumber) {
-        return jdbcTemplate.query(sqlGetListUsersBySubstring, friendMapper, substring.toLowerCase(), pageNumber*personsPerPage, personsPerPage);
+        return jdbcTemplate.query(sqlGetListUsersBySubstring, friendMapper, substring.toLowerCase(), pageNumber * personsPerPage, personsPerPage);
     }
 
     @Override
@@ -60,7 +59,7 @@ public class FriendsDaoImpl implements FriendsDao {
     }
 
     @Override
-    public void addFriend(Long personIdInitiator, Long personIdReciever) {
-        jdbcTemplate.update(sqlAddFriendship, personIdInitiator, personIdReciever);
+    public void addFriend(Long personIdInitiator, Long personIdReceiver) {
+        jdbcTemplate.update(sqlAddFriendship, personIdInitiator, personIdReceiver);
     }
 }

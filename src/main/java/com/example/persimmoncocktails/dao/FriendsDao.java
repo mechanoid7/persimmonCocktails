@@ -1,7 +1,6 @@
 package com.example.persimmoncocktails.dao;
 
 import com.example.persimmoncocktails.dtos.friend.FriendResponseDto;
-import com.example.persimmoncocktails.models.Person;
 
 import java.util.List;
 
@@ -14,5 +13,5 @@ public interface FriendsDao {
 
     void removeFriendById(Long personIdInitiator, Long friendId);
 
-    void addFriend(Long personIdInitiator, Long personIdReciever);
+    void addFriend(Long personIdInitiator, Long personIdReceiver);
 }

@@ -1,18 +1,21 @@
 package com.example.persimmoncocktails.services;
 
+import com.example.persimmoncocktails.configurations.PersonRolesConfig;
 import com.example.persimmoncocktails.dao.PersonDao;
 import com.example.persimmoncocktails.dtos.auth.RequestRegistrationDataDto;
-import com.example.persimmoncocktails.dtos.auth.RequestSigninDataDto;
 import com.example.persimmoncocktails.dtos.auth.RestorePasswordDataDto;
 import com.example.persimmoncocktails.exceptions.*;
 import com.example.persimmoncocktails.models.Person;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -25,9 +28,9 @@ import java.util.regex.Pattern;
 @Service
 @AllArgsConstructor
 @PropertySource("classpath:var/general.properties")
-public class AuthorizationService {
+public class AuthorizationService implements UserDetailsService{
     PersonDao personDao;
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+    PasswordEncoder passwordEncoder;
 
     private final JavaMailSender emailSender;
 
@@ -37,29 +40,13 @@ public class AuthorizationService {
     private Integer linkRestorePasswordLifetime;
 
     @Autowired
-    public AuthorizationService(JavaMailSender emailSender, BCryptPasswordEncoder bCryptPasswordEncoder, PersonDao personDao) {
+    public AuthorizationService(JavaMailSender emailSender, PasswordEncoder passwordEncoder, PersonDao personDao) {
         this.emailSender = emailSender;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.passwordEncoder = passwordEncoder;
         this.personDao = personDao;
     }
 
-    public Long authorizeUser(RequestSigninDataDto signinData){
-        Person person = personDao.readByEmail(signinData.getEmail());
-        if(person != null) {
-            if(!bCryptPasswordEncoder.matches(signinData.getPassword(), person.getPassword())) {
-                throw new WrongCredentialsException();
-            }
-        }
-        else {
-            throw new WrongCredentialsException();
-        }
-
-
-        // generate and send token
-        return person.getPersonId();
-    }
-
-    public Long registerUser(RequestRegistrationDataDto registrationData) {
+    public void registerUser(RequestRegistrationDataDto registrationData) {
         if(!nameIsValid(registrationData.getName())){
             throw new IncorrectNameFormat();
         }
@@ -74,18 +61,13 @@ public class AuthorizationService {
                 .name(registrationData.getName())
                 .password(hashPassword(registrationData.getPassword()))
                 .email(registrationData.getEmail())
-                .roleId(3)
+                .roleId(PersonRolesConfig.clientRoleId)
+                .isActive(true)
                 .build();// default user
 
         personDao.create(person);
 
-        return personDao.readByEmail(person.getEmail()).getPersonId();
-    }
-
-    public void logoutUser() {
-        //end session, delete cookies
-        // disable access token
-//        return ResponseEntity.ok("user logged out");
+        personDao.readByEmail(person.getEmail());
     }
 
     public void forgotPassword(String email) { // send recover link on email
@@ -109,11 +91,9 @@ public class AuthorizationService {
     }
 
     public void recoverPassword(String id, Long personId, String newPassword) {
-        if(!passwordIsValid(newPassword)){
-            throw new IncorrectPasswordFormat();
-        }
+        if(!passwordIsValid(newPassword)) throw new IncorrectPasswordFormat();
 
-        List<RestorePasswordDataDto> dataDto = personDao.restorePassword(id, personId);
+        List<RestorePasswordDataDto> dataDto = personDao.restorePassword(personId);
         LocalDateTime currentDateTime = LocalDateTime.now();
 
         if (dataDto.isEmpty()) throw new NotFoundException("Request for password restore");
@@ -131,20 +111,12 @@ public class AuthorizationService {
         }
         if (!updatePerson) throw new LinkExpired("Recover");
 
-        personDao.deactivateRequestsBuPersonId(personId);
+        personDao.deactivateRequestsByPersonId(personId);
     }
 
-    public static boolean passwordIsValid(String password) { // method is correct?
-        return true;
-//        String regex = "^(?=.*[0-9])"
-//                + "(?=.*[a-z])"
-//                + "(?=.*[A-Z])"
-//                + "(?=\\S+$){8,20}$";
-//
-//        Pattern pattern = Pattern.compile(regex);
-//        Matcher matcher = pattern.matcher(password);
-//
-//        return matcher.matches();
+    public static boolean passwordIsValid(String password) {
+        String regex = "^[0-9a-zA-Z]{6,100}$";
+        return Pattern.compile(regex).matcher(password).matches();
     }
 
     public static boolean emailIsValid(String email) {
@@ -162,7 +134,7 @@ public class AuthorizationService {
     }
 
     private String hashPassword(String password) {
-        return bCryptPasswordEncoder.encode(password);
+        return passwordEncoder.encode(password);
     }
 
     private String generatePasswordRecoveryLink(String id, Long personId){
@@ -183,6 +155,13 @@ public class AuthorizationService {
     }
 
     private boolean matchHash(String hash1, String hash2){
-        return bCryptPasswordEncoder.matches(hash1, hash2);
+        return passwordEncoder.matches(hash1, hash2);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        Person person = personDao.readByEmail(s);
+        if(person == null) throw new UsernameNotFoundException(s);
+        return person;
     }
 }

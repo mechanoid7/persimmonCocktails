@@ -1,15 +1,18 @@
 package com.example.persimmoncocktails.controllers;
 
-import com.example.persimmoncocktails.dao.PersonDao;
 import com.example.persimmoncocktails.dtos.auth.*;
+import com.example.persimmoncocktails.dtos.person.ModeratorResponseDto;
 import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
-import com.example.persimmoncocktails.models.Person;
+import com.example.persimmoncocktails.dtos.person.RequestPersonIdDto;
 import com.example.persimmoncocktails.services.ModeratorService;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@PreAuthorize("isAuthenticated")
 @RequestMapping("/moderator")
 public class ModeratorController {
 
@@ -20,43 +23,54 @@ public class ModeratorController {
     }
 
     @GetMapping("/all")
-    public List<PersonResponseDto> getAllModerators() {
+    @PreAuthorize("hasAuthority('moderator:read')")
+    public List<ModeratorResponseDto> getAllModerators() {
         return moderatorService.getAllModerators();
     }
 
     @PostMapping("/add")
-    private void addModerator(@RequestBody RequestAddModeratorDataDto requestAddModeratorData) {
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void addModerator(@RequestBody RequestAddModeratorDataDto requestAddModeratorData) {
         moderatorService.create(requestAddModeratorData.getName(), requestAddModeratorData.getEmail());
     }
 
     @GetMapping("/{personId}")
-    public PersonResponseDto getPersonById(@PathVariable Long personId){
+    public ModeratorResponseDto getModeratorById(@PathVariable Long personId) {
         return moderatorService.readModeratorById(personId);
     }
 
     @PatchMapping("/update-name")
-    private void updateName(@RequestParam RequestUpdateNameDataDto requestUpdateNameData){
-        moderatorService.updateName(requestUpdateNameData.getPersonId(), requestUpdateNameData.getName());
+    @PreAuthorize("hasPermission('moderator:update')")
+    public void updateName(@RequestParam String name) {
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        moderatorService.updateName(personId, name);
     }
 
     @PatchMapping("/update-photo")
-    private void updatePhoto(@RequestParam RequestUpdatePhotoDataDto requestUpdatePhotoData){
-        moderatorService.updatePhotoId(requestUpdatePhotoData.getPersonId(), requestUpdatePhotoData.getPhotoId());
+    @PreAuthorize("hasPermission('moderator:update')")
+    public void updatePhoto(@RequestParam Long photoId) {
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        moderatorService.updatePhotoId(personId, photoId);
     }
 
     @PatchMapping("/change-password")
-    private void changePasswordPerson(@RequestBody RequestChangePasswordDataDto requestChangePasswordData){
-        moderatorService.changePassword(
-                requestChangePasswordData.getPersonId(),
-                requestChangePasswordData.getOldPassword(),
-                requestChangePasswordData.getNewPassword());
+    @PreAuthorize("hasPermission('moderator:update')")
+    public void changePasswordPerson(@RequestBody RequestChangePasswordDataDto requestChangePasswordDto) {
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        moderatorService.changePassword(personId, requestChangePasswordDto.getOldPassword(), requestChangePasswordDto.getOldPassword());
     }
 
     @PostMapping(path = "/create-password")
-    public void recoverPassword(@RequestBody RequestCreatePasswordDataDto requestCreatePasswordData){ // get id, personId from email link
+    public void recoverPassword(@RequestBody RequestCreatePasswordDataDto requestCreatePasswordData) { // get id, personId from email link
         moderatorService.createPassword(
                 requestCreatePasswordData.getId(),
                 requestCreatePasswordData.getPersonId(),
                 requestCreatePasswordData.getNewPassword());
+    }
+
+    @PostMapping(path = "/change-status")
+    @PreAuthorize("hasRole('ROLE_ADMIN')") // admin can change
+    public void changeStatus(@RequestBody Long personId) {
+        moderatorService.changeStatus(personId);
     }
 }
