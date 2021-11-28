@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -127,6 +128,11 @@ public class CocktailService {
         if (cocktailSelect.getName() != null) { // search by name
             sqlSelect += "LOWER(d.name) LIKE '%" + cocktailSelect.getName().toLowerCase() + "%' AND ";
         }
+        if(cocktailSelect.getIngredients() != null && !cocktailSelect.getIngredients().isEmpty()){
+            sqlSelect += "(SELECT 0 = (SELECT COUNT(*) FROM ("+unionOfValues(cocktailSelect.getIngredients())+"\n" +
+                    "EXCEPT\n" +
+                    "SELECT ingridient_id FROM ingridient_dish WHERE dish_id = d.dish_id) AS a)) AND ";
+        }
         sqlSelect += "1=1 ORDER BY ";
         if (cocktailSelect.getSortBy() != null){ //sort
             if (!cocktailDao.columnExists(cocktailSelect.getSortBy().toLowerCase())) throw new NotFoundException("sort column");     // check column exists
@@ -141,6 +147,18 @@ public class CocktailService {
         sqlSelect += "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
         System.out.println("SQL: "+sqlSelect);
         return sqlSelect;
+    }
+
+    private String unionOfValues(List<Long> ingredients) {
+        StringBuilder sb = new StringBuilder("(");
+        Iterator<Long> iterator = ingredients.listIterator();
+        while (iterator.hasNext()){
+            long ingredientId = iterator.next();
+            sb.append("VALUES(").append(ingredientId).append(")");
+            if(iterator.hasNext()) sb.append(" UNION ");
+        }
+        sb.append(")");
+        return sb.toString();
     }
 
     public static List<String> labelsFromString(String str){

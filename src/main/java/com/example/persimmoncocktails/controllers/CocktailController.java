@@ -83,11 +83,12 @@ public class CocktailController {
             @RequestParam(value = "dish-type", required = false) String dishType,
             @RequestParam(value = "dish-category-id", required = false) Long dishCategoryId,
             @RequestParam(value = "sort-direction", required = false) Boolean sortDirection,
+            @RequestParam(value = "ingredients", required = false) List<Long> ingredients,
             @RequestParam(value = "show-active", required = false) Boolean showActive,
             @RequestParam(value = "show-inactive", required = false) Boolean showInactive,
             @RequestParam("page") Long pageNumber) {
         return cocktailService.searchFilterSort(new RequestCocktailSelectDto(searchRequest, sortBy, dishType,
-                dishCategoryId, sortDirection, showActive==null ? true : showActive,
+                dishCategoryId, sortDirection, ingredients, showActive==null ? true : showActive,
                 showInactive == null ? true : showInactive), pageNumber);
     }
 
@@ -98,9 +99,10 @@ public class CocktailController {
             @RequestParam(value = "dish-type", required = false) String dishType,
             @RequestParam(value = "dish-category-id", required = false) Long dishCategoryId,
             @RequestParam(value = "sort-direction", required = false) Boolean sortDirection,
+            @RequestParam(value = "ingredients", required = false) List<Long> ingredients,
             @RequestParam("page") Long pageNumber) {
         return cocktailService.searchFilterSort(new RequestCocktailSelectDto(searchRequest, sortBy, dishType, dishCategoryId,
-                sortDirection, true, false), pageNumber);
+                sortDirection, ingredients, true, false), pageNumber);
     }
 
     @GetMapping("/labels")
