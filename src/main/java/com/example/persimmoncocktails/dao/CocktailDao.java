@@ -1,19 +1,23 @@
 package com.example.persimmoncocktails.dao;
 
-import com.example.persimmoncocktails.dtos.cocktail.CocktailResponseDto;
+import com.example.persimmoncocktails.dtos.cocktail.BasicCocktailDto;
+import com.example.persimmoncocktails.dtos.cocktail.FullCocktailDto;
 import com.example.persimmoncocktails.dtos.cocktail.RequestCocktailUpdate;
 import com.example.persimmoncocktails.dtos.cocktail.RequestCreateCocktail;
+import com.example.persimmoncocktails.models.cocktail.CocktailCategory;
 
 import java.util.List;
 
 public interface CocktailDao {
-    void create(RequestCreateCocktail cocktail);
+    BasicCocktailDto create(RequestCreateCocktail cocktail);
 
     Boolean likeExists(Long personId, Long dishId);
 
     Boolean dishTypeExists(String dishType);
 
-    CocktailResponseDto readById(Long dishId);
+    BasicCocktailDto readById(Long dishId);
+
+    BasicCocktailDto readByName(String name);
 
     void update(RequestCocktailUpdate cocktail);
 
@@ -25,7 +29,7 @@ public interface CocktailDao {
 
     Long getLikes(Long dishId);
 
-    List<CocktailResponseDto> searchFilterSort(String sqlRequest, Long pageNumber);
+    List<BasicCocktailDto> searchFilterSort(String sqlRequest, Long pageNumber);
 
     boolean cocktailIsActive(Long dishId);
 
@@ -35,11 +39,29 @@ public interface CocktailDao {
 
     Boolean columnExists(String column);
 
-    List<CocktailResponseDto> getRawListOfCocktails(Long pageNumber);
+    List<BasicCocktailDto> getRawListOfCocktails(Long pageNumber);
 
     void addLabel(Long dishId, String label);
 
     String getLabels(Long dishId);
 
     void updateLabels(Long dishId, String label);
+
+    Boolean existsById(Long id);
+
+    List<CocktailCategory> getCocktailCategories();
+
+    FullCocktailDto getFullCocktailInfo(Long cocktailId);
+
+    Boolean hasKitchenware(Long cocktailId, Long kitchenwareId);
+
+    void addKitchenware(Long cocktailId, Long kitchenwareId);
+
+    void removeKitchenware(Long cocktailId, Long kitchenwareId);
+
+    Boolean hasIngredient(Long cocktailId, Long ingredientId);
+
+    void addIngredient(Long cocktailId, Long ingredientId);
+
+    void removeIngredient(Long cocktailId, Long ingredientId);
 }

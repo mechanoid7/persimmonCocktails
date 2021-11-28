@@ -1,4 +1,4 @@
-package com.example.persimmoncocktails.dtos.cocktail;
+package com.example.persimmoncocktails.models.cocktail;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,12 +9,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CocktailResponseDto {
+public class Cocktail {
     private Long dishId;
     private String name;
     private String description;
     private String dishType;
-    private String dishCategoryName;
     private Long dishCategoryId;
     private String label;
     private String receipt;

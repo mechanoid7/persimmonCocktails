@@ -19,15 +19,16 @@ CREATE TABLE EVENT (
 
 CREATE TABLE INGRIDIENT (
 	ingridient_id BIGSERIAL NOT NULL PRIMARY KEY,
-	name VARCHAR(256) NOT NULL,
+	name VARCHAR(256) NOT NULL UNIQUE ,
 	ingridient_category_id BIGINT,
-	photo_id BIGINT
+	photo_id BIGINT,
+	is_active BOOLEAN NOT NULL
 );
 
 
 CREATE TABLE DISH (
 	dish_id BIGSERIAL NOT NULL PRIMARY KEY,
-	name VARCHAR(256) NOT NULL,
+	name VARCHAR(256) UNIQUE NOT NULL,
 	description VARCHAR(2000),
 	dish_type VARCHAR(256),
 	dish_category_id BIGINT,

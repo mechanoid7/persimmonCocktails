@@ -1,34 +1,52 @@
 package com.example.persimmoncocktails.services;
 
 import com.example.persimmoncocktails.dao.CocktailDao;
-import com.example.persimmoncocktails.dtos.cocktail.CocktailResponseDto;
-import com.example.persimmoncocktails.dtos.cocktail.RequestCocktailSelectDto;
-import com.example.persimmoncocktails.dtos.cocktail.RequestCocktailUpdate;
-import com.example.persimmoncocktails.dtos.cocktail.RequestCreateCocktail;
+import com.example.persimmoncocktails.dtos.cocktail.*;
 import com.example.persimmoncocktails.exceptions.DuplicateException;
 import com.example.persimmoncocktails.exceptions.IncorrectNameFormat;
 import com.example.persimmoncocktails.exceptions.IncorrectRangeNumberFormat;
 import com.example.persimmoncocktails.exceptions.NotFoundException;
+import com.example.persimmoncocktails.models.cocktail.CocktailCategory;
+import com.example.persimmoncocktails.models.ingredient.IngredientWithCategory;
+import com.example.persimmoncocktails.models.kitchenware.KitchenwareWithCategory;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class CocktailService {
     CocktailDao cocktailDao;
 
-    public CocktailResponseDto readById(Long dishId) {
-        return cocktailDao.readById(dishId);
+    public FullCocktailDto readById(Long dishId, boolean isAuthorizedToSeeNotActive) {
+        FullCocktailDto cocktail = cocktailDao.getFullCocktailInfo(dishId);
+        if(!isAuthorizedToSeeNotActive) cocktail = hideNotActive(cocktail);
+        if(cocktail == null) throw new NotFoundException("Cocktail");
+        return cocktail;
     }
 
-    public void create(RequestCreateCocktail cocktail) {
+    private FullCocktailDto hideNotActive(FullCocktailDto cocktail) {
+        if(!cocktail.getIsActive()) return null;
+        cocktail.setIngredientList(cocktail.getIngredientList()
+                .stream()
+                .filter(IngredientWithCategory::isActive)
+                .collect(Collectors.toList()));
+        cocktail.setKitchenwareList(cocktail.getKitchenwareList()
+                .stream()
+                .filter(KitchenwareWithCategory::isActive)
+                .collect(Collectors.toList()));
+        return cocktail;
+    }
+
+    public BasicCocktailDto create(RequestCreateCocktail cocktail) {
         if (!nameIsValid(cocktail.getName())) throw new IncorrectNameFormat();
-        cocktailDao.create(cocktail);
+        return cocktailDao.create(cocktail);
     }
 
     public void addLike(Long dishId, Long personId) {
@@ -38,6 +56,7 @@ public class CocktailService {
     }
 
     public void deleteById(Long dishId) {
+        if(!cocktailDao.existsById(dishId)) throw new NotFoundException("Cocktail");
         cocktailDao.deleteById(dishId);
     }
 
@@ -45,9 +64,10 @@ public class CocktailService {
         cocktailDao.update(cocktail);
     }
 
-    public List<CocktailResponseDto> searchFilterSort(RequestCocktailSelectDto cocktailSelect, Long pageNumber) {
+    public List<BasicCocktailDto> searchFilterSort(RequestCocktailSelectDto cocktailSelect, Long pageNumber) {
         if (cocktailSelect.isClear())
-            return cocktailDao.getRawListOfCocktails(pageNumber); // list of cocktails without search/filter/sort
+            return getRawListOfCocktails(pageNumber, cocktailSelect.getShowActive(), cocktailSelect.getShowInactive());
+            // list of cocktails without search/filter/sort
         if (cocktailSelect.getName() != null && !nameIsValid(cocktailSelect.getName())) {
             if (cocktailSelect.getName().length() < 2) throw new IncorrectNameFormat("Search request too short");
             throw new IncorrectNameFormat();
@@ -56,6 +76,14 @@ public class CocktailService {
             throw new IncorrectNameFormat("Provided column name has incorrect format");
         if (pageNumber < 0) throw new IncorrectRangeNumberFormat("of page");
         return cocktailDao.searchFilterSort(buildSqlRequest(cocktailSelect), pageNumber);
+    }
+
+    private List<BasicCocktailDto> getRawListOfCocktails(Long pageNumber, Boolean showActive, Boolean showInactive) {
+        List<BasicCocktailDto> cocktails = cocktailDao.getRawListOfCocktails(pageNumber);
+        return cocktails
+                .stream()
+                .filter(c -> c.getIsActive() ? showActive : showInactive)
+                .collect(Collectors.toList());
     }
 
     public void changeStatus(Long dishId) {
@@ -83,9 +111,11 @@ public class CocktailService {
     }
 
     public String buildSqlRequest(RequestCocktailSelectDto cocktailSelect) {
-        String sqlSelect = "SELECT d.dish_id, d.name, d.description, d.dish_type, dc.name dish_name, d.dish_category_id category_id, d.label, d.receipt, d.likes, d.is_active " +
-                "FROM dish d INNER JOIN dish_category dc ON d.dish_category_id = dc.dish_category_id " +
+        String sqlSelect = "SELECT d.dish_id, d.name, d.description, d.dish_type, dc.name dish_category_name, d.dish_category_id category_id, d.label, d.receipt, d.likes, d.is_active " +
+                "FROM dish d LEFT JOIN dish_category dc ON d.dish_category_id = dc.dish_category_id " +
                 "WHERE ";
+        if(!cocktailSelect.getShowActive()) sqlSelect += "d.is_active <> true AND ";
+        if(!cocktailSelect.getShowInactive()) sqlSelect += "d.is_active <> false AND ";
         if (cocktailSelect.getDishType() != null && // filter
                 nameIsValid(cocktailSelect.getDishType())) {
             if (!cocktailDao.dishTypeExists(cocktailSelect.getDishType())) throw new NotFoundException("dish type");
@@ -96,6 +126,11 @@ public class CocktailService {
         }
         if (cocktailSelect.getName() != null) { // search by name
             sqlSelect += "LOWER(d.name) LIKE '%" + cocktailSelect.getName().toLowerCase() + "%' AND ";
+        }
+        if(cocktailSelect.getIngredients() != null && !cocktailSelect.getIngredients().isEmpty()){ // filter by ingredients
+            sqlSelect += "(SELECT 0 = (SELECT COUNT(*) FROM ("+unionOfValues(cocktailSelect.getIngredients())+"\n" +
+                    "EXCEPT\n" +
+                    "SELECT ingridient_id FROM ingridient_dish WHERE dish_id = d.dish_id) AS a)) AND ";
         }
         sqlSelect += "1=1 ORDER BY ";
         if (cocktailSelect.getSortBy() != null){ //sort
@@ -113,13 +148,31 @@ public class CocktailService {
         return sqlSelect;
     }
 
+    private String unionOfValues(List<Long> ingredients) {
+        StringBuilder sb = new StringBuilder("(");
+        Iterator<Long> iterator = ingredients.listIterator();
+        while (iterator.hasNext()){
+            long ingredientId = iterator.next();
+            sb.append("VALUES(").append(ingredientId).append(")");
+            if(iterator.hasNext()) sb.append(" UNION ");
+        }
+        sb.append(")");
+        return sb.toString();
+    }
+
+    public static List<String> labelsFromString(String str){
+        if(str == null || str.equals("")) return new ArrayList<>();
+        return new ArrayList<>(List.of(str.split(";")));
+    }
+
     public void addLabel(Long dishId, String label) {
         if (!labelIsValid(label)) throw new IncorrectNameFormat("Label name has incorrect format.");
-        cocktailDao.updateLabels(dishId, cocktailDao.getLabels(dishId)+";"+label);
+        String labels = cocktailDao.getLabels(dishId);
+        cocktailDao.updateLabels(dishId, (labelsFromString(labels).isEmpty() ? "" : (labels+";"))+label);
     }
 
     public List<String> getLabels(Long dishId) {
-        return new ArrayList<>(List.of(cocktailDao.getLabels(dishId).split(";")));
+        return labelsFromString(cocktailDao.getLabels(dishId));
     }
 
     public void updateLabels(Long dishId, List<String> label) {
@@ -139,5 +192,33 @@ public class CocktailService {
 
     public Long getLikes(Long dishId){
         return cocktailDao.getLikes(dishId);
+    }
+
+    public List<CocktailCategory> getCocktailCategories(){
+        return cocktailDao.getCocktailCategories();
+    }
+
+    public void addIngredient(RequestIngredientCocktailDto request) {
+        if(cocktailDao.hasIngredient(request.getCocktailId(), request.getIngredientId()))
+            throw new DuplicateException("Ingredient in Cocktail");
+        cocktailDao.addIngredient(request.getCocktailId(), request.getIngredientId());
+    }
+
+    public void removeIngredient(RequestIngredientCocktailDto request) {
+        if(!cocktailDao.hasIngredient(request.getCocktailId(), request.getIngredientId()))
+            throw new NotFoundException("Ingredient in Cocktail");
+        cocktailDao.removeIngredient(request.getCocktailId(), request.getIngredientId());
+    }
+
+    public void addKitchenware(RequestKitchenwareCocktailDto request) {
+        if(cocktailDao.hasKitchenware(request.getCocktailId(), request.getKitchenwareId()))
+            throw new DuplicateException("Kitchenware in Cocktail");
+        cocktailDao.addKitchenware(request.getCocktailId(), request.getKitchenwareId());
+    }
+
+    public void removeKitchenware(RequestKitchenwareCocktailDto request) {
+        if(!cocktailDao.hasKitchenware(request.getCocktailId(), request.getKitchenwareId()))
+            throw new NotFoundException("Kitchenware in Cocktail");
+        cocktailDao.removeKitchenware(request.getCocktailId(), request.getKitchenwareId());
     }
 }

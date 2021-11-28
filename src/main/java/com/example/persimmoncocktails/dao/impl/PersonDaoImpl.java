@@ -128,11 +128,13 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public void delete(Long personId) { // delete person by ID
-        jdbcTemplate.update(sqlDeletePerson, personId);
-    }
-
-    @Override
-    public void changePassword() {
+        try {
+            jdbcTemplate.update(sqlDeletePerson, personId);
+        } catch (DataAccessException rootException) {
+            // we should log it
+            rootException.printStackTrace();
+            throw new UnknownException();
+        }
     }
 
     @Override
