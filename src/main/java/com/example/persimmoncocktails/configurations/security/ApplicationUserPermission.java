@@ -1,7 +1,8 @@
 package com.example.persimmoncocktails.configurations.security;
 
-public enum ApplicationUserPermission{
+public enum ApplicationUserPermission {
     READ_ALL("all:read"),
+    READ_INACTIVE("inactive:read"),
     UPDATE_CONTENT("content:update"),
     UPDATE_MODERATOR("moderator:update"), // permission to update moderator info
     UPDATE_ADMIN("admin:update"),

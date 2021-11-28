@@ -13,5 +13,5 @@ public interface FriendsDao {
 
     void removeFriendById(Long personIdInitiator, Long friendId);
 
-    void addFriend(Long personIdInitiator, Long personIdReciever);
+    void addFriend(Long personIdInitiator, Long personIdReceiver);
 }

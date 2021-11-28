@@ -83,7 +83,7 @@ public class KitchenwareService {
     public void activate(Long kitchenwareId) {
         if(!kitchenwareDao.existsById(kitchenwareId)) throw new NotFoundException("Kitchenware");
         KitchenwareWithCategory kitchenware = kitchenwareDao.read(kitchenwareId);
-        if(!kitchenware.isActive()) throw new StateException("This item is activate already");
+        if(kitchenware.isActive()) throw new StateException("This item is activated already");
         kitchenware.setActive(true);
         kitchenwareDao.update(kitchenware.toKitchenware());
     }

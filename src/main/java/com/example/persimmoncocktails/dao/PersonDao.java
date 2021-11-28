@@ -19,8 +19,6 @@ public interface PersonDao {
 
     void delete(Long personId);
 
-    void changePassword();
-
     void saveRecoverPasswordRequest(Long personId, LocalDateTime localDateTime, String hashedId);
 
     List<RestorePasswordDataDto> restorePassword(Long personId);
