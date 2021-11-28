@@ -115,7 +115,7 @@ public class AuthorizationService implements UserDetailsService{
     }
 
     public static boolean passwordIsValid(String password) {
-        String regex = "^(?=.[a-z])(?=.[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$";
+        String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z0-9]).{8,255}$";
         return Pattern.compile(regex).matcher(password).matches();
     }
 
