@@ -7,6 +7,8 @@ import com.example.persimmoncocktails.exceptions.IncorrectNameFormat;
 import com.example.persimmoncocktails.exceptions.IncorrectRangeNumberFormat;
 import com.example.persimmoncocktails.exceptions.NotFoundException;
 import com.example.persimmoncocktails.models.cocktail.CocktailCategory;
+import com.example.persimmoncocktails.models.ingredient.IngredientWithCategory;
+import com.example.persimmoncocktails.models.kitchenware.KitchenwareWithCategory;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,15 +16,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class CocktailService {
     CocktailDao cocktailDao;
 
-    public FullCocktailDto readById(Long dishId) {
+    public FullCocktailDto readById(Long dishId, boolean isAuthorizedToSeeNotActive) {
         FullCocktailDto cocktail = cocktailDao.getFullCocktailInfo(dishId);
+        if(!isAuthorizedToSeeNotActive) cocktail = hideNotActive(cocktail);
         if(cocktail == null) throw new NotFoundException("Cocktail");
+        return cocktail;
+    }
+
+    private FullCocktailDto hideNotActive(FullCocktailDto cocktail) {
+        if(!cocktail.getIsActive()) return null;
+        cocktail.setIngredientList(cocktail.getIngredientList()
+                .stream()
+                .filter(IngredientWithCategory::isActive)
+                .collect(Collectors.toList()));
+        cocktail.setKitchenwareList(cocktail.getKitchenwareList()
+                .stream()
+                .filter(KitchenwareWithCategory::isActive)
+                .collect(Collectors.toList()));
         return cocktail;
     }
 
@@ -49,7 +66,8 @@ public class CocktailService {
 
     public List<BasicCocktailDto> searchFilterSort(RequestCocktailSelectDto cocktailSelect, Long pageNumber) {
         if (cocktailSelect.isClear())
-            return cocktailDao.getRawListOfCocktails(pageNumber); // list of cocktails without search/filter/sort
+            return getRawListOfCocktails(pageNumber, cocktailSelect.getShowActive(), cocktailSelect.getShowInactive());
+            // list of cocktails without search/filter/sort
         if (cocktailSelect.getName() != null && !nameIsValid(cocktailSelect.getName())) {
             if (cocktailSelect.getName().length() < 2) throw new IncorrectNameFormat("Search request too short");
             throw new IncorrectNameFormat();
@@ -58,6 +76,14 @@ public class CocktailService {
             throw new IncorrectNameFormat("Provided column name has incorrect format");
         if (pageNumber < 0) throw new IncorrectRangeNumberFormat("of page");
         return cocktailDao.searchFilterSort(buildSqlRequest(cocktailSelect), pageNumber);
+    }
+
+    private List<BasicCocktailDto> getRawListOfCocktails(Long pageNumber, Boolean showActive, Boolean showInactive) {
+        List<BasicCocktailDto> cocktails = cocktailDao.getRawListOfCocktails(pageNumber);
+        return cocktails
+                .stream()
+                .filter(c -> c.getIsActive() ? showActive : showInactive)
+                .collect(Collectors.toList());
     }
 
     public void changeStatus(Long dishId) {
@@ -88,6 +114,8 @@ public class CocktailService {
         String sqlSelect = "SELECT d.dish_id, d.name, d.description, d.dish_type, dc.name dish_category_name, d.dish_category_id category_id, d.label, d.receipt, d.likes, d.is_active " +
                 "FROM dish d LEFT JOIN dish_category dc ON d.dish_category_id = dc.dish_category_id " +
                 "WHERE ";
+        if(!cocktailSelect.getShowActive()) sqlSelect += "d.is_active <> true AND ";
+        if(!cocktailSelect.getShowInactive()) sqlSelect += "d.is_active <> false AND ";
         if (cocktailSelect.getDishType() != null && // filter
                 nameIsValid(cocktailSelect.getDishType())) {
             if (!cocktailDao.dishTypeExists(cocktailSelect.getDishType())) throw new NotFoundException("dish type");

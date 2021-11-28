@@ -16,6 +16,8 @@ public class RequestCocktailSelectDto {
     String dishType; // filter
     Long dishCategoryId; // filter
     Boolean sortDirection; // asc/desc
+    Boolean showActive;
+    Boolean showInactive;
 
     public Boolean isClear() {
         return Stream.of(name, sortBy, dishType, dishCategoryId).allMatch(Objects::isNull); // all fields are null?

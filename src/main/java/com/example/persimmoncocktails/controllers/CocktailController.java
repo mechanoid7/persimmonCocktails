@@ -6,6 +6,7 @@ import com.example.persimmoncocktails.services.CocktailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,9 +23,15 @@ public class CocktailController {
         this.cocktailService = cocktailService;
     }
 
+    @PreAuthorize("hasAuthority('inactive:read')")
     @GetMapping("/{dishId}")
     public FullCocktailDto getCocktailById(@PathVariable Long dishId) {
-        return cocktailService.readById(dishId);
+        return cocktailService.readById(dishId, true);
+    }
+
+    @GetMapping("/active/{dishId}")
+    public FullCocktailDto getRestrictedCocktailInfo(@PathVariable Long dishId) {
+        return cocktailService.readById(dishId, false);
     }
 
     @GetMapping("/{dishId}/likes")
@@ -68,6 +75,7 @@ public class CocktailController {
         cocktailService.addLike(dishId, personId);
     }
 
+    @PreAuthorize("hasAuthority('inactive:read')")
     @GetMapping("/search")
     public List<BasicCocktailDto> searchFilterSortCocktails(
             @RequestParam(value = "search", required = false) String searchRequest,
@@ -75,8 +83,24 @@ public class CocktailController {
             @RequestParam(value = "dish-type", required = false) String dishType,
             @RequestParam(value = "dish-category-id", required = false) Long dishCategoryId,
             @RequestParam(value = "sort-direction", required = false) Boolean sortDirection,
+            @RequestParam(value = "show-active", required = false) Boolean showActive,
+            @RequestParam(value = "show-inactive", required = false) Boolean showInactive,
             @RequestParam("page") Long pageNumber) {
-        return cocktailService.searchFilterSort(new RequestCocktailSelectDto(searchRequest, sortBy, dishType, dishCategoryId, sortDirection), pageNumber);
+        return cocktailService.searchFilterSort(new RequestCocktailSelectDto(searchRequest, sortBy, dishType,
+                dishCategoryId, sortDirection, showActive==null ? true : showActive,
+                showInactive == null ? true : showInactive), pageNumber);
+    }
+
+    @GetMapping("/active/search")
+    public List<BasicCocktailDto> restrictedSearchFilterSort(
+            @RequestParam(value = "search", required = false) String searchRequest,
+            @RequestParam(value = "sort-by", required = false) String sortBy,
+            @RequestParam(value = "dish-type", required = false) String dishType,
+            @RequestParam(value = "dish-category-id", required = false) Long dishCategoryId,
+            @RequestParam(value = "sort-direction", required = false) Boolean sortDirection,
+            @RequestParam("page") Long pageNumber) {
+        return cocktailService.searchFilterSort(new RequestCocktailSelectDto(searchRequest, sortBy, dishType, dishCategoryId,
+                sortDirection, true, false), pageNumber);
     }
 
     @GetMapping("/labels")

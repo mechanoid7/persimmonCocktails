@@ -36,8 +36,8 @@ public class FriendsService {
         return friendsDao.getListFriendByNameSubstring(personId, "%"+substring+"%", pageNumber);
     }
 
-    public void addFriend(Long personIdInitiator, Long personIdReciever){
-        if (personIdInitiator.equals(personIdReciever)) throw new WrongCredentialsException("The user cannot have friendship with himself.");
-        friendsDao.addFriend(personIdInitiator, personIdReciever);
+    public void addFriend(Long personIdInitiator, Long personIdReceiver){
+        if (personIdInitiator.equals(personIdReceiver)) throw new WrongCredentialsException("The user cannot have friendship with himself.");
+        friendsDao.addFriend(personIdInitiator, personIdReceiver);
     }
 }

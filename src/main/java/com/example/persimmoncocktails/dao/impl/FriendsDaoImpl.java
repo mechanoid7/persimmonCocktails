@@ -59,7 +59,7 @@ public class FriendsDaoImpl implements FriendsDao {
     }
 
     @Override
-    public void addFriend(Long personIdInitiator, Long personIdReciever) {
-        jdbcTemplate.update(sqlAddFriendship, personIdInitiator, personIdReciever);
+    public void addFriend(Long personIdInitiator, Long personIdReceiver) {
+        jdbcTemplate.update(sqlAddFriendship, personIdInitiator, personIdReceiver);
     }
 }
