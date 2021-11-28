@@ -1,5 +1,6 @@
 package com.example.persimmoncocktails.configurations.security;
 
+import com.example.persimmoncocktails.configurations.CorsFilter;
 import com.example.persimmoncocktails.configurations.jwt.JwtConfig;
 import com.example.persimmoncocktails.configurations.jwt.JwtTokenVerifier;
 import com.example.persimmoncocktails.configurations.jwt.UsernameAndPasswordAuthenticationFilter;
@@ -38,6 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                .addFilterBefore(new CorsFilter(), UsernameAndPasswordAuthenticationFilter.class)
                 .addFilter(new UsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig, authorizationService))
                 .addFilterAfter(new JwtTokenVerifier(jwtConfig), UsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests()
