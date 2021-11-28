@@ -43,20 +43,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new UsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig, authorizationService))
                 .addFilterAfter(new JwtTokenVerifier(jwtConfig), UsernameAndPasswordAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/login","/registration").permitAll()
-                .antMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-//                .antMatchers("/person/**").hasRole(ApplicationUserRole.CLIENT.name())
-                .anyRequest()
-                .authenticated();
+                .antMatchers("/login", "/registration").permitAll()
+                .antMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll();
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder){
+    protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) {
         authenticationManagerBuilder.authenticationProvider(daoAuthenticationProvider());
     }
 
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(){
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
         daoAuthenticationProvider.setUserDetailsService(authorizationService);

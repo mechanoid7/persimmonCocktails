@@ -31,7 +31,7 @@ public class AuthorizationController {
     }
 
     @PostMapping(path = "/recover-password")
-    public void recoverPassword(@RequestBody RequestRecoverPasswordDataDto requestRecoverPasswordData){ // get id, personId from email link
+    public void recoverPassword(@RequestBody RequestRecoverPasswordDataDto requestRecoverPasswordData) { // get id, personId from email link
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         authorizationService.recoverPassword(
                 requestRecoverPasswordData.getId(),

@@ -1,4 +1,4 @@
-package com.example.persimmoncocktails.mappers;
+package com.example.persimmoncocktails.mappers.kitchenware;
 
 import com.example.persimmoncocktails.models.kitchenware.KitchenwareCategory;
 import com.example.persimmoncocktails.models.kitchenware.KitchenwareWithCategory;

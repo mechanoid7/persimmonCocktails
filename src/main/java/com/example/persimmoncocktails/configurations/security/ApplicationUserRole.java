@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.example.persimmoncocktails.configurations.security.ApplicationUserPermission;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 public enum ApplicationUserRole {
@@ -19,6 +18,7 @@ public enum ApplicationUserRole {
         res.add(ApplicationUserPermission.UPDATE_ADMIN);
         res.add(ApplicationUserPermission.READ_MODERATOR);
         res.add(ApplicationUserPermission.UPDATE_CONTENT);
+        res.add(ApplicationUserPermission.READ_INACTIVE);
         return res;
     }
 
@@ -27,6 +27,7 @@ public enum ApplicationUserRole {
         res.add(ApplicationUserPermission.READ_ALL);
         res.add(ApplicationUserPermission.READ_MODERATOR);
         res.add(ApplicationUserPermission.UPDATE_CONTENT);
+        res.add(ApplicationUserPermission.READ_INACTIVE);
         return res;
     }
 

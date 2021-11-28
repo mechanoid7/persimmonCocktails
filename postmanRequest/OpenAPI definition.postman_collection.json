@@ -1,10 +1,756 @@
 {
 	"info": {
-		"_postman_id": "fc91c842-a377-4d8f-9717-48be6b1c63df",
+		"_postman_id": "27b5b976-3576-446c-b24d-d4673e9e7a86",
 		"name": "OpenAPI definition",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "person",
+			"item": [
+				{
+					"name": "friends",
+					"item": [
+						{
+							"name": "get Person Friends By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/person/friends?page=-60508279",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"friends"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "-60508279",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/person/friends?page=-60508279",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"person",
+												"friends"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "-60508279"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "add Friend",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "-60508279",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person/friends/add",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"friends",
+										"add"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "-60508279",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/person/friends/add",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"person",
+												"friends",
+												"add"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "get Person Friends By Id And Substring",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/person/friends/:substring?page=-60508279",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"friends",
+										":substring"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "-60508279",
+											"description": "(Required) "
+										}
+									],
+									"variable": [
+										{
+											"key": "substring",
+											"value": "pariatur nulla",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/person/friends/:substring?page=-60508279",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"person",
+												"friends",
+												":substring"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "-60508279"
+												}
+											],
+											"variable": [
+												{
+													"key": "substring",
+													"value": "pariatur nulla",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "delete Friend",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "-60508279",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person/friends/delete",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"friends",
+										"delete"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "-60508279",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/person/friends/delete",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"person",
+												"friends",
+												"delete"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "{person Id}",
+					"item": [
+						{
+							"name": "get Person By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/person/:personId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										":personId"
+									],
+									"variable": [
+										{
+											"key": "personId",
+											"value": "-60508279",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/person/:personId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"person",
+												":personId"
+											],
+											"variable": [
+												{
+													"key": "personId",
+													"value": "-60508279",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "delete Person By Id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/person/:personId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										":personId"
+									],
+									"variable": [
+										{
+											"key": "personId",
+											"value": "-60508279",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/person/:personId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"person",
+												":personId"
+											],
+											"variable": [
+												{
+													"key": "personId",
+													"value": "-60508279",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "update Photo",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/person/update-photo?photoId=-60508279",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"person",
+								"update-photo"
+							],
+							"query": [
+								{
+									"key": "photoId",
+									"value": "-60508279",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/person/update-photo?photoId=-60508279",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"update-photo"
+									],
+									"query": [
+										{
+											"key": "photoId",
+											"value": "-60508279"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "update Name",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/person/update-name?name=pariatur nulla",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"person",
+								"update-name"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "pariatur nulla",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/person/update-name?name=pariatur nulla",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"update-name"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": "pariatur nulla"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "change Password Person",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"newPassword\": \"irure adi\",\n    \"oldPassword\": \"in veniam aliqua\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/person/change-password",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"person",
+								"change-password"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"newPassword\": \"irure adi\",\n    \"oldPassword\": \"in veniam aliqua\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/person/change-password",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"change-password"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "get Persons By Substring",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/person/search/:substring?page=-60508279",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"person",
+								"search",
+								":substring"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "-60508279",
+									"description": "(Required) "
+								}
+							],
+							"variable": [
+								{
+									"key": "substring",
+									"value": "pariatur nulla",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/person/search/:substring?page=-60508279",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"search",
+										":substring"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "-60508279"
+										}
+									],
+									"variable": [
+										{
+											"key": "substring",
+											"value": "pariatur nulla",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "get Person By Email",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/person/email/:personEmail",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"person",
+								"email",
+								":personEmail"
+							],
+							"variable": [
+								{
+									"key": "personEmail",
+									"value": "pariatur nulla",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/person/email/:personEmail",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"person",
+										"email",
+										":personEmail"
+									],
+									"variable": [
+										{
+											"key": "personEmail",
+											"value": "pariatur nulla",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
 		{
 			"name": "moderator",
 			"item": [
@@ -20,7 +766,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": \"amet\",\n    \"newPassword\": \"labore pariatur non aliqua\",\n    \"personId\": -1125029\n}",
+							"raw": "{\n    \"id\": \"dolor officia eiusmod incididunt\",\n    \"newPassword\": \"in ullamco officia\",\n    \"personId\": 68992401\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -46,7 +792,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"id\": \"amet\",\n    \"newPassword\": \"labore pariatur non aliqua\",\n    \"personId\": -1125029\n}",
+									"raw": "{\n    \"id\": \"dolor officia eiusmod incididunt\",\n    \"newPassword\": \"in ullamco officia\",\n    \"personId\": 68992401\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -79,6 +825,76 @@
 					]
 				},
 				{
+					"name": "change Status",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "-60508279",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/moderator/change-status",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"moderator",
+								"change-status"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "-60508279",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/moderator/change-status",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"moderator",
+										"change-status"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
 					"name": "add Moderator",
 					"request": {
 						"method": "POST",
@@ -90,7 +906,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"dolore Lorem eu ad\",\n    \"name\": \"nostrud ut\"\n}",
+							"raw": "{\n    \"email\": \"Lo\",\n    \"name\": \"consectetur aute labore\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -116,7 +932,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"email\": \"dolore Lorem eu ad\",\n    \"name\": \"nostrud ut\"\n}",
+									"raw": "{\n    \"email\": \"Lo\",\n    \"name\": \"consectetur aute labore\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -154,7 +970,7 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/moderator/update-photo?photoId=22782871",
+							"raw": "{{baseUrl}}/moderator/update-photo?photoId=-60508279",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -165,7 +981,7 @@
 							"query": [
 								{
 									"key": "photoId",
-									"value": "22782871",
+									"value": "-60508279",
 									"description": "(Required) "
 								}
 							]
@@ -178,7 +994,7 @@
 								"method": "PATCH",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/moderator/update-photo?photoId=22782871",
+									"raw": "{{baseUrl}}/moderator/update-photo?photoId=-60508279",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -189,7 +1005,7 @@
 									"query": [
 										{
 											"key": "photoId",
-											"value": "22782871"
+											"value": "-60508279"
 										}
 									]
 								}
@@ -214,7 +1030,7 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/moderator/update-name?name=aute Ut nisi",
+							"raw": "{{baseUrl}}/moderator/update-name?name=pariatur nulla",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -225,7 +1041,7 @@
 							"query": [
 								{
 									"key": "name",
-									"value": "aute Ut nisi",
+									"value": "pariatur nulla",
 									"description": "(Required) "
 								}
 							]
@@ -238,7 +1054,7 @@
 								"method": "PATCH",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/moderator/update-name?name=aute Ut nisi",
+									"raw": "{{baseUrl}}/moderator/update-name?name=pariatur nulla",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -249,7 +1065,7 @@
 									"query": [
 										{
 											"key": "name",
-											"value": "aute Ut nisi"
+											"value": "pariatur nulla"
 										}
 									]
 								}
@@ -272,27 +1088,29 @@
 					"name": "change Password Person 1",
 					"request": {
 						"method": "PATCH",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"newPassword\": \"irure adi\",\n    \"oldPassword\": \"in veniam aliqua\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{baseUrl}}/moderator/change-password?oldPassword=aute Ut nisi&newPassword=aute Ut nisi",
+							"raw": "{{baseUrl}}/moderator/change-password",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"moderator",
 								"change-password"
-							],
-							"query": [
-								{
-									"key": "oldPassword",
-									"value": "aute Ut nisi",
-									"description": "(Required) "
-								},
-								{
-									"key": "newPassword",
-									"value": "aute Ut nisi",
-									"description": "(Required) "
-								}
 							]
 						}
 					},
@@ -302,24 +1120,23 @@
 							"originalRequest": {
 								"method": "PATCH",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"newPassword\": \"irure adi\",\n    \"oldPassword\": \"in veniam aliqua\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
-									"raw": "{{baseUrl}}/moderator/change-password?oldPassword=aute Ut nisi&newPassword=aute Ut nisi",
+									"raw": "{{baseUrl}}/moderator/change-password",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
 										"moderator",
 										"change-password"
-									],
-									"query": [
-										{
-											"key": "oldPassword",
-											"value": "aute Ut nisi"
-										},
-										{
-											"key": "newPassword",
-											"value": "aute Ut nisi"
-										}
 									]
 								}
 							},
@@ -338,7 +1155,7 @@
 					]
 				},
 				{
-					"name": "get Person By Id 1",
+					"name": "get Moderator By Id",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -354,7 +1171,7 @@
 							"variable": [
 								{
 									"key": "personId",
-									"value": "22782871",
+									"value": "-60508279",
 									"description": "(Required) "
 								}
 							]
@@ -378,7 +1195,7 @@
 									"variable": [
 										{
 											"key": "personId",
-											"value": "22782871",
+											"value": "-60508279",
 											"description": "(Required) "
 										}
 									]
@@ -448,29 +1265,77 @@
 			]
 		},
 		{
-			"name": "person",
+			"name": "kitchenware",
 			"item": [
 				{
-					"name": "friends",
+					"name": "active",
 					"item": [
 						{
-							"name": "get Person Friends By Id",
+							"name": "get All Active Kitchenware",
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/person/friends?page=22782871",
+									"raw": "{{baseUrl}}/kitchenware/active",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"person",
-										"friends"
-									],
-									"query": [
+										"kitchenware",
+										"active"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/kitchenware/active",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"kitchenware",
+												"active"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
 										{
-											"key": "page",
-											"value": "22782871",
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "get Active Kitchenware By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/kitchenware/active/:kitchenwareId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"kitchenware",
+										"active",
+										":kitchenwareId"
+									],
+									"variable": [
+										{
+											"key": "kitchenwareId",
+											"value": "-60508279",
 											"description": "(Required) "
 										}
 									]
@@ -483,18 +1348,1324 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseUrl}}/person/friends?page=22782871",
+											"raw": "{{baseUrl}}/kitchenware/active/:kitchenwareId",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
-												"person",
-												"friends"
+												"kitchenware",
+												"active",
+												":kitchenwareId"
+											],
+											"variable": [
+												{
+													"key": "kitchenwareId",
+													"value": "-60508279",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "get All Kitchenwares",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/kitchenware",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"kitchenware"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/kitchenware",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"kitchenware"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "create Kitchenware",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"est mollit proident magna tempor\",\n    \"kitchenwareCategoryId\": -24900656,\n    \"photoId\": -37008919\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/kitchenware",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"kitchenware"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"est mollit proident magna tempor\",\n    \"kitchenwareCategoryId\": -24900656,\n    \"photoId\": -37008919\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/kitchenware",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"kitchenware"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "update Photo 2",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"kitchenwareId\": -44938895,\n    \"kitchenwarePhotoId\": -68201735\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/kitchenware/update-photo",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"kitchenware",
+								"update-photo"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"kitchenwareId\": -44938895,\n    \"kitchenwarePhotoId\": -68201735\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/kitchenware/update-photo",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"kitchenware",
+										"update-photo"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "update Name 2",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"kitchenwareId\": 65381893,\n    \"name\": \"adipisicing dolor veniam\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/kitchenware/update-name",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"kitchenware",
+								"update-name"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"kitchenwareId\": 65381893,\n    \"name\": \"adipisicing dolor veniam\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/kitchenware/update-name",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"kitchenware",
+										"update-name"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "update Category",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"kitchenwareId\": -24243509,\n    \"kitchenwareCategoryId\": 9193155\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/kitchenware/update-category",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"kitchenware",
+								"update-category"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"kitchenwareId\": -24243509,\n    \"kitchenwareCategoryId\": 9193155\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/kitchenware/update-category",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"kitchenware",
+										"update-category"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "deactivate Kitchenware",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/kitchenware/deactivate/:kitchenwareId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"kitchenware",
+								"deactivate",
+								":kitchenwareId"
+							],
+							"variable": [
+								{
+									"key": "kitchenwareId",
+									"value": "-60508279",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/kitchenware/deactivate/:kitchenwareId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"kitchenware",
+										"deactivate",
+										":kitchenwareId"
+									],
+									"variable": [
+										{
+											"key": "kitchenwareId",
+											"value": "-60508279",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "activate Kitchenware",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/kitchenware/activate/:kitchenwareId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"kitchenware",
+								"activate",
+								":kitchenwareId"
+							],
+							"variable": [
+								{
+									"key": "kitchenwareId",
+									"value": "3",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/kitchenware/activate/:kitchenwareId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"kitchenware",
+										"activate",
+										":kitchenwareId"
+									],
+									"variable": [
+										{
+											"key": "kitchenwareId",
+											"value": "-60508279",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "get Kitchenware By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/kitchenware/:kitchenwareId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"kitchenware",
+								":kitchenwareId"
+							],
+							"variable": [
+								{
+									"key": "kitchenwareId",
+									"value": "-60508279",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/kitchenware/:kitchenwareId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"kitchenware",
+										":kitchenwareId"
+									],
+									"variable": [
+										{
+											"key": "kitchenwareId",
+											"value": "-60508279",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "get All Kitchenware Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/kitchenware/categories",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"kitchenware",
+								"categories"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/kitchenware/categories",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"kitchenware",
+										"categories"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "ingredient",
+			"item": [
+				{
+					"name": "active",
+					"item": [
+						{
+							"name": "get All Active Ingredient",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/ingredient/active",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"ingredient",
+										"active"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/ingredient/active",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"ingredient",
+												"active"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "get Active Ingredient By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/ingredient/active/:ingredientId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"ingredient",
+										"active",
+										":ingredientId"
+									],
+									"variable": [
+										{
+											"key": "ingredientId",
+											"value": "-60508279",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/ingredient/active/:ingredientId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"ingredient",
+												"active",
+												":ingredientId"
+											],
+											"variable": [
+												{
+													"key": "ingredientId",
+													"value": "-60508279",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "get All Ingredients",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ingredient",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ingredient"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/ingredient",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"ingredient"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "create Ingredient",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"sit\",\n    \"ingredientCategoryId\": -77869043,\n    \"photoId\": 47065223\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/ingredient",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ingredient"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"sit\",\n    \"ingredientCategoryId\": -77869043,\n    \"photoId\": 47065223\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/ingredient",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"ingredient"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "update Photo 3",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ingredientId\": -4826011,\n    \"ingredientPhotoId\": -11687992\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/ingredient/update-photo",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ingredient",
+								"update-photo"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ingredientId\": -4826011,\n    \"ingredientPhotoId\": -11687992\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/ingredient/update-photo",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"ingredient",
+										"update-photo"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "update Name 3",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ingredientId\": -22004720,\n    \"name\": \"aute nostrud sunt qui dolor\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/ingredient/update-name",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ingredient",
+								"update-name"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ingredientId\": -22004720,\n    \"name\": \"aute nostrud sunt qui dolor\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/ingredient/update-name",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"ingredient",
+										"update-name"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "update Category 1",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ingredientId\": 51197666,\n    \"ingredientCategoryId\": 36867387\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/ingredient/update-category",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ingredient",
+								"update-category"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ingredientId\": 51197666,\n    \"ingredientCategoryId\": 36867387\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/ingredient/update-category",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"ingredient",
+										"update-category"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "deactivate Ingredient",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ingredient/deactivate/:ingredientId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ingredient",
+								"deactivate",
+								":ingredientId"
+							],
+							"variable": [
+								{
+									"key": "ingredientId",
+									"value": "-60508279",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/ingredient/deactivate/:ingredientId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"ingredient",
+										"deactivate",
+										":ingredientId"
+									],
+									"variable": [
+										{
+											"key": "ingredientId",
+											"value": "-60508279",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "activate Ingredient",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ingredient/activate/:ingredientId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ingredient",
+								"activate",
+								":ingredientId"
+							],
+							"variable": [
+								{
+									"key": "ingredientId",
+									"value": "-60508279",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/ingredient/activate/:ingredientId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"ingredient",
+										"activate",
+										":ingredientId"
+									],
+									"variable": [
+										{
+											"key": "ingredientId",
+											"value": "-60508279",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "get Ingredient By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ingredient/:ingredientId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ingredient",
+								":ingredientId"
+							],
+							"variable": [
+								{
+									"key": "ingredientId",
+									"value": "-60508279",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/ingredient/:ingredientId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"ingredient",
+										":ingredientId"
+									],
+									"variable": [
+										{
+											"key": "ingredientId",
+											"value": "-60508279",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "get All Ingredient Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/ingredient/categories",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"ingredient",
+								"categories"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/ingredient/categories",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"ingredient",
+										"categories"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "cocktail",
+			"item": [
+				{
+					"name": "labels",
+					"item": [
+						{
+							"name": "get Labels By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cocktail/labels?dishId=-60508279",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cocktail",
+										"labels"
+									],
+									"query": [
+										{
+											"key": "dishId",
+											"value": "-60508279",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/cocktail/labels?dishId=-60508279",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cocktail",
+												"labels"
 											],
 											"query": [
 												{
-													"key": "page",
-													"value": "22782871"
+													"key": "dishId",
+													"value": "-60508279"
 												}
 											]
 										}
@@ -514,7 +2685,7 @@
 							]
 						},
 						{
-							"name": "add Friend",
+							"name": "add Label By Id",
 							"request": {
 								"method": "POST",
 								"header": [
@@ -525,7 +2696,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "22782871",
+									"raw": "{\n    \"dishId\": -46846999,\n    \"label\": \"voluptate consequat\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -533,13 +2704,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/person/friends/add",
+									"raw": "{{baseUrl}}/cocktail/labels/add",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"person",
-										"friends",
+										"cocktail",
+										"labels",
 										"add"
 									]
 								}
@@ -552,7 +2723,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "22782871",
+											"raw": "{\n    \"dishId\": -46846999,\n    \"label\": \"voluptate consequat\"\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -560,13 +2731,13 @@
 											}
 										},
 										"url": {
-											"raw": "{{baseUrl}}/person/friends/add",
+											"raw": "{{baseUrl}}/cocktail/labels/add",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
-												"person",
-												"friends",
+												"cocktail",
+												"labels",
 												"add"
 											]
 										}
@@ -586,83 +2757,7 @@
 							]
 						},
 						{
-							"name": "get Person Friends By Id And Substring",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/person/friends/:substring?page=22782871",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"person",
-										"friends",
-										":substring"
-									],
-									"query": [
-										{
-											"key": "page",
-											"value": "22782871",
-											"description": "(Required) "
-										}
-									],
-									"variable": [
-										{
-											"key": "substring",
-											"value": "aute Ut nisi",
-											"description": "(Required) "
-										}
-									]
-								}
-							},
-							"response": [
-								{
-									"name": "OK",
-									"originalRequest": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{baseUrl}}/person/friends/:substring?page=22782871",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"person",
-												"friends",
-												":substring"
-											],
-											"query": [
-												{
-													"key": "page",
-													"value": "22782871"
-												}
-											],
-											"variable": [
-												{
-													"key": "substring",
-													"value": "aute Ut nisi",
-													"description": "(Required) "
-												}
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "text",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "*/*"
-										}
-									],
-									"cookie": [],
-									"body": ""
-								}
-							]
-						},
-						{
-							"name": "delete Friend",
+							"name": "delete Label By Id",
 							"request": {
 								"method": "DELETE",
 								"header": [
@@ -673,7 +2768,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "22782871",
+									"raw": "{\n    \"dishId\": -46846999,\n    \"label\": \"voluptate consequat\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -681,13 +2776,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/person/friends/delete",
+									"raw": "{{baseUrl}}/cocktail/labels/delete",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"person",
-										"friends",
+										"cocktail",
+										"labels",
 										"delete"
 									]
 								}
@@ -700,7 +2795,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "22782871",
+											"raw": "{\n    \"dishId\": -46846999,\n    \"label\": \"voluptate consequat\"\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -708,13 +2803,13 @@
 											}
 										},
 										"url": {
-											"raw": "{{baseUrl}}/person/friends/delete",
+											"raw": "{{baseUrl}}/cocktail/labels/delete",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
-												"person",
-												"friends",
+												"cocktail",
+												"labels",
 												"delete"
 											]
 										}
@@ -732,93 +2827,35 @@
 									"body": ""
 								}
 							]
-						}
-					]
-				},
-				{
-					"name": "{person Id}",
-					"item": [
-						{
-							"name": "get Person By Id",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/person/:personId",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"person",
-										":personId"
-									],
-									"variable": [
-										{
-											"key": "personId",
-											"value": "22782871",
-											"description": "(Required) "
-										}
-									]
-								}
-							},
-							"response": [
-								{
-									"name": "OK",
-									"originalRequest": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{baseUrl}}/person/:personId",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"person",
-												":personId"
-											],
-											"variable": [
-												{
-													"key": "personId",
-													"value": "22782871",
-													"description": "(Required) "
-												}
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "text",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "*/*"
-										}
-									],
-									"cookie": [],
-									"body": ""
-								}
-							]
 						},
 						{
-							"name": "delete Person By Id",
+							"name": "clear Labels By Id",
 							"request": {
 								"method": "DELETE",
-								"header": [],
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "-60508279",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
-									"raw": "{{baseUrl}}/person/:personId",
+									"raw": "{{baseUrl}}/cocktail/labels/clear",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"person",
-										":personId"
-									],
-									"variable": [
-										{
-											"key": "personId",
-											"value": "22782871",
-											"description": "(Required) "
-										}
+										"cocktail",
+										"labels",
+										"clear"
 									]
 								}
 							},
@@ -828,21 +2865,24 @@
 									"originalRequest": {
 										"method": "DELETE",
 										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "-60508279",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
 										"url": {
-											"raw": "{{baseUrl}}/person/:personId",
+											"raw": "{{baseUrl}}/cocktail/labels/clear",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
-												"person",
-												":personId"
-											],
-											"variable": [
-												{
-													"key": "personId",
-													"value": "22782871",
-													"description": "(Required) "
-												}
+												"cocktail",
+												"labels",
+												"clear"
 											]
 										}
 									},
@@ -863,25 +2903,708 @@
 					]
 				},
 				{
-					"name": "update Photo",
+					"name": "kitchenware",
+					"item": [
+						{
+							"name": "remove Kitchenware From Cocktail",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"kitchenwareId\": 3,\n    \"cocktailId\": 14\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cocktail/kitchenware/remove",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cocktail",
+										"kitchenware",
+										"remove"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"kitchenwareId\": -13076665,\n    \"cocktailId\": 60978755\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/cocktail/kitchenware/remove",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cocktail",
+												"kitchenware",
+												"remove"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "add Kitchenware To Cocktail",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"kitchenwareId\": 4,\n    \"cocktailId\": 14\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cocktail/kitchenware/add",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cocktail",
+										"kitchenware",
+										"add"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"kitchenwareId\": -13076665,\n    \"cocktailId\": 60978755\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/cocktail/kitchenware/add",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cocktail",
+												"kitchenware",
+												"add"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "ingredient",
+					"item": [
+						{
+							"name": "remove Ingredient From Cocktail",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ingredientId\": 6,\n    \"cocktailId\": 14\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cocktail/ingredient/remove",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cocktail",
+										"ingredient",
+										"remove"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"ingredientId\": 36742735,\n    \"cocktailId\": -93724418\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/cocktail/ingredient/remove",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cocktail",
+												"ingredient",
+												"remove"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "add Ingredient To Cocktail",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ingredientId\": 8,\n    \"cocktailId\": 14\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cocktail/ingredient/add",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cocktail",
+										"ingredient",
+										"add"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"ingredientId\": 36742735,\n    \"cocktailId\": -93724418\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/cocktail/ingredient/add",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cocktail",
+												"ingredient",
+												"add"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "{dish Id}",
+					"item": [
+						{
+							"name": "get Cocktail By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cocktail/:dishId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cocktail",
+										":dishId"
+									],
+									"variable": [
+										{
+											"key": "dishId",
+											"value": "20",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/cocktail/:dishId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cocktail",
+												":dishId"
+											],
+											"variable": [
+												{
+													"key": "dishId",
+													"value": "-60508279",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "get Likes By Id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cocktail/:dishId/likes",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cocktail",
+										":dishId",
+										"likes"
+									],
+									"variable": [
+										{
+											"key": "dishId",
+											"value": "-60508279",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/cocktail/:dishId/likes",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cocktail",
+												":dishId",
+												"likes"
+											],
+											"variable": [
+												{
+													"key": "dishId",
+													"value": "-60508279",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "dish Is Active",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cocktail/:dishId/is-active",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cocktail",
+										":dishId",
+										"is-active"
+									],
+									"variable": [
+										{
+											"key": "dishId",
+											"value": "-60508279",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/cocktail/:dishId/is-active",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cocktail",
+												":dishId",
+												"is-active"
+											],
+											"variable": [
+												{
+													"key": "dishId",
+													"value": "-60508279",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "active",
+					"item": [
+						{
+							"name": "get Restricted Cocktail Info",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cocktail/active/:dishId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cocktail",
+										"active",
+										":dishId"
+									],
+									"variable": [
+										{
+											"key": "dishId",
+											"value": "-60508279",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/cocktail/active/:dishId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cocktail",
+												"active",
+												":dishId"
+											],
+											"variable": [
+												{
+													"key": "dishId",
+													"value": "-60508279",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "restricted Search Filter Sort",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cocktail/active/search?search=pariatur nulla&sort-by=pariatur nulla&dish-type=pariatur nulla&dish-category-id=-60508279&sort-direction=true&ingredients=-61995382&ingredients=95112271&page=-60508279",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cocktail",
+										"active",
+										"search"
+									],
+									"query": [
+										{
+											"key": "search",
+											"value": "pariatur nulla"
+										},
+										{
+											"key": "sort-by",
+											"value": "pariatur nulla"
+										},
+										{
+											"key": "dish-type",
+											"value": "pariatur nulla"
+										},
+										{
+											"key": "dish-category-id",
+											"value": "-60508279"
+										},
+										{
+											"key": "sort-direction",
+											"value": "true"
+										},
+										{
+											"key": "ingredients",
+											"value": "-61995382"
+										},
+										{
+											"key": "ingredients",
+											"value": "95112271"
+										},
+										{
+											"key": "page",
+											"value": "-60508279",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/cocktail/active/search?search=pariatur nulla&sort-by=pariatur nulla&dish-type=pariatur nulla&dish-category-id=-60508279&sort-direction=true&ingredients=6089632&ingredients=72147658&page=-60508279",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"cocktail",
+												"active",
+												"search"
+											],
+											"query": [
+												{
+													"key": "search",
+													"value": "pariatur nulla"
+												},
+												{
+													"key": "sort-by",
+													"value": "pariatur nulla"
+												},
+												{
+													"key": "dish-type",
+													"value": "pariatur nulla"
+												},
+												{
+													"key": "dish-category-id",
+													"value": "-60508279"
+												},
+												{
+													"key": "sort-direction",
+													"value": "true"
+												},
+												{
+													"key": "ingredients",
+													"value": "6089632"
+												},
+												{
+													"key": "ingredients",
+													"value": "72147658"
+												},
+												{
+													"key": "page",
+													"value": "-60508279"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "add Like",
 					"request": {
-						"method": "PATCH",
-						"header": [],
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "-60508279",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{baseUrl}}/person/update-photo?photoId=22782871",
+							"raw": "{{baseUrl}}/cocktail/like",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"person",
-								"update-photo"
-							],
-							"query": [
-								{
-									"key": "photoId",
-									"value": "22782871",
-									"description": "(Required) "
-								}
+								"cocktail",
+								"like"
 							]
 						}
 					},
@@ -889,22 +3612,25 @@
 						{
 							"name": "OK",
 							"originalRequest": {
-								"method": "PATCH",
+								"method": "POST",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "-60508279",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
-									"raw": "{{baseUrl}}/person/update-photo?photoId=22782871",
+									"raw": "{{baseUrl}}/cocktail/like",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"person",
-										"update-photo"
-									],
-									"query": [
-										{
-											"key": "photoId",
-											"value": "22782871"
-										}
+										"cocktail",
+										"like"
 									]
 								}
 							},
@@ -923,25 +3649,32 @@
 					]
 				},
 				{
-					"name": "update Name",
+					"name": "delete Cocktail By Id",
 					"request": {
-						"method": "PATCH",
-						"header": [],
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "-60508279",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{baseUrl}}/person/update-name?name=aute Ut nisi",
+							"raw": "{{baseUrl}}/cocktail/delete",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"person",
-								"update-name"
-							],
-							"query": [
-								{
-									"key": "name",
-									"value": "aute Ut nisi",
-									"description": "(Required) "
-								}
+								"cocktail",
+								"delete"
 							]
 						}
 					},
@@ -949,22 +3682,25 @@
 						{
 							"name": "OK",
 							"originalRequest": {
-								"method": "PATCH",
+								"method": "POST",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "-60508279",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
 								"url": {
-									"raw": "{{baseUrl}}/person/update-name?name=aute Ut nisi",
+									"raw": "{{baseUrl}}/cocktail/delete",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"person",
-										"update-name"
-									],
-									"query": [
-										{
-											"key": "name",
-											"value": "aute Ut nisi"
-										}
+										"cocktail",
+										"delete"
 									]
 								}
 							},
@@ -983,7 +3719,77 @@
 					]
 				},
 				{
-					"name": "change Password Person",
+					"name": "create Cocktail",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ingredientIds\": [\n        6,\n        6\n    ],\n    \"kitchenwareIds\": [\n    ],\n    \"name\": \"new coolddjj cocktail\",\n    \"receipt\": \"in nulla aliquip\",\n    \"description\": \"esse laborum laboris aute\",\n    \"dishType\": \"anim cupidatat Lorem cillum\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/cocktail/create",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"cocktail",
+								"create"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"ingredientIds\": [\n        -84691480,\n        -23962857\n    ],\n    \"kitchenwareIds\": [\n        69708160,\n        -54693325\n    ],\n    \"name\": \"esse sed aliquip dolore\",\n    \"receipt\": \"proident amet eu\",\n    \"description\": \"aute proident eu magna\",\n    \"dishType\": \"consectetur eu minim\",\n    \"dishCategoryId\": 2167834\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cocktail/create",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cocktail",
+										"create"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "update Cocktail",
 					"request": {
 						"method": "PATCH",
 						"header": [
@@ -994,7 +3800,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"newPassword\": \"\",\n    \"oldPassword\": \"adipisicing fugiat cillum dolore\"\n}",
+							"raw": "{\n    \"dishId\": -80308881,\n    \"isActive\": false,\n    \"name\": \"minim exercitation\",\n    \"receipt\": \"non cupidatat deserunt veniam dolore\",\n    \"description\": \"exercitation\",\n    \"dishType\": \"est qui dolore Excepteu\",\n    \"dishCategoryId\": -76121457\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1002,13 +3808,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/person/change-password",
+							"raw": "{{baseUrl}}/cocktail/update",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"person",
-								"change-password"
+								"cocktail",
+								"update"
 							]
 						}
 					},
@@ -1020,7 +3826,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"newPassword\": \"\",\n    \"oldPassword\": \"adipisicing fugiat cillum dolore\"\n}",
+									"raw": "{\n    \"dishId\": -80308881,\n    \"isActive\": false,\n    \"name\": \"minim exercitation\",\n    \"receipt\": \"non cupidatat deserunt veniam dolore\",\n    \"description\": \"exercitation\",\n    \"dishType\": \"est qui dolore Excepteu\",\n    \"dishCategoryId\": -76121457\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1028,13 +3834,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/person/change-password",
+									"raw": "{{baseUrl}}/cocktail/update",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"person",
-										"change-password"
+										"cocktail",
+										"update"
 									]
 								}
 							},
@@ -1053,24 +3859,137 @@
 					]
 				},
 				{
-					"name": "get Person By Email",
+					"name": "change Status 1",
 					"request": {
-						"method": "GET",
-						"header": [],
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "-60508279",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{baseUrl}}/person/email/:personEmail",
+							"raw": "{{baseUrl}}/cocktail/change-status",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"person",
-								"email",
-								":personEmail"
-							],
-							"variable": [
+								"cocktail",
+								"change-status"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "-60508279",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/cocktail/change-status",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cocktail",
+										"change-status"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
 								{
-									"key": "personEmail",
-									"value": "aute Ut nisi",
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "search Filter Sort Cocktails",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/cocktail/search?show-active=false&page=0",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"cocktail",
+								"search"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "pariatur nulla",
+									"disabled": true
+								},
+								{
+									"key": "sort-by",
+									"value": "pariatur nulla",
+									"disabled": true
+								},
+								{
+									"key": "dish-type",
+									"value": "pariatur nulla",
+									"disabled": true
+								},
+								{
+									"key": "dish-category-id",
+									"value": "-60508279",
+									"disabled": true
+								},
+								{
+									"key": "sort-direction",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "ingredients",
+									"value": "-61995382",
+									"disabled": true
+								},
+								{
+									"key": "ingredients",
+									"value": "95112271",
+									"disabled": true
+								},
+								{
+									"key": "show-active",
+									"value": "false"
+								},
+								{
+									"key": "show-inactive",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "0",
 									"description": "(Required) "
 								}
 							]
@@ -1083,21 +4002,102 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/person/email/:personEmail",
+									"raw": "{{baseUrl}}/cocktail/search?search=pariatur nulla&sort-by=pariatur nulla&dish-type=pariatur nulla&dish-category-id=-60508279&sort-direction=true&ingredients=6089632&ingredients=72147658&show-active=true&show-inactive=true&page=-60508279",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"person",
-										"email",
-										":personEmail"
+										"cocktail",
+										"search"
 									],
-									"variable": [
+									"query": [
 										{
-											"key": "personEmail",
-											"value": "aute Ut nisi",
-											"description": "(Required) "
+											"key": "search",
+											"value": "pariatur nulla"
+										},
+										{
+											"key": "sort-by",
+											"value": "pariatur nulla"
+										},
+										{
+											"key": "dish-type",
+											"value": "pariatur nulla"
+										},
+										{
+											"key": "dish-category-id",
+											"value": "-60508279"
+										},
+										{
+											"key": "sort-direction",
+											"value": "true"
+										},
+										{
+											"key": "ingredients",
+											"value": "6089632"
+										},
+										{
+											"key": "ingredients",
+											"value": "72147658"
+										},
+										{
+											"key": "show-active",
+											"value": "true"
+										},
+										{
+											"key": "show-inactive",
+											"value": "true"
+										},
+										{
+											"key": "page",
+											"value": "-60508279"
 										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "get Cocktail Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/cocktail/categories",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"cocktail",
+								"categories"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/cocktail/categories",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"cocktail",
+										"categories"
 									]
 								}
 							},
@@ -1129,7 +4129,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"commodo nisi qui exercitation\",\n    \"name\": \"ipsum enim Excepteur\",\n    \"password\": \"Lorem amet ad esse\"\n}",
+					"raw": "{\n    \"email\": \"dolor nostrud Ut sit\",\n    \"name\": \"pariatur consectetur incididunt aute reprehenderit\",\n    \"password\": \"magna Lorem Duis adipisicing\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1154,7 +4154,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"commodo nisi qui exercitation\",\n    \"name\": \"ipsum enim Excepteur\",\n    \"password\": \"Lorem amet ad esse\"\n}",
+							"raw": "{\n    \"email\": \"dolor nostrud Ut sit\",\n    \"name\": \"pariatur consectetur incididunt aute reprehenderit\",\n    \"password\": \"magna Lorem Duis adipisicing\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1197,7 +4197,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": \"consequat esse\",\n    \"newPassword\": \"officia laborum proident\",\n    \"localDateTime\": \"1989-08-24T15:46:52.709Z\"\n}",
+					"raw": "{\n    \"id\": \"exercitation\",\n    \"newPassword\": \"nisi nostrud adipisicing\",\n    \"localDateTime\": \"1970-01-21T03:11:14.325Z\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1222,7 +4222,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": \"consequat esse\",\n    \"newPassword\": \"officia laborum proident\",\n    \"localDateTime\": \"1989-08-24T15:46:52.709Z\"\n}",
+							"raw": "{\n    \"id\": \"exercitation\",\n    \"newPassword\": \"nisi nostrud adipisicing\",\n    \"localDateTime\": \"1970-01-21T03:11:14.325Z\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1265,7 +4265,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"aliquip magna nostrud Duis\"\n}",
+					"raw": "{\n    \"email\": \"Lorem cillum velit\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1290,7 +4290,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"aliquip magna nostrud Duis\"\n}",
+							"raw": "{\n    \"email\": \"Lorem cillum velit\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1322,11 +4322,40 @@
 			]
 		}
 	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJreXJ5bG8ua29tb25vdkBnbWFpbC5jb20iLCJ1c2VyX2lkIjozLCJhdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoibW9kZXJhdG9yOnJlYWQifSx7ImF1dGhvcml0eSI6ImNvbnRlbnQ6dXBkYXRlIn0seyJhdXRob3JpdHkiOiJhbGw6cmVhZCJ9LHsiYXV0aG9yaXR5IjoiUk9MRV9NT0RFUkFUT1IifSx7ImF1dGhvcml0eSI6ImluYWN0aXZlOnJlYWQifV0sImlhdCI6MTYzODA5NzUwNiwiZXhwIjoxNjM4MTM2ODAwfQ._xkkpvhxxYuv32tQPl6j1p9MuTX5w2bZ9fsv_fsZQ_ew99SkhLrUQu5wtvbChZK__s5nwNF26srru3gmCeCnrg",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
 	"variable": [
 		{
 			"key": "baseUrl",
-			"value": "http://localhost:8080",
-			"type": "string"
+			"value": "http://localhost:8080"
 		}
 	]
 }
