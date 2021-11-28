@@ -115,13 +115,13 @@ public class AuthorizationService implements UserDetailsService{
     }
 
     public static boolean passwordIsValid(String password) {
-        String regex = "^[0-9a-zA-Z]{6,100}$";
+        String regex = "^(?=.[a-z])(?=.[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$";
         return Pattern.compile(regex).matcher(password).matches();
     }
 
     public static boolean emailIsValid(String email) {
         String regex = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
-        Pattern pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+        Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(email);
         return matcher.find();
     }
