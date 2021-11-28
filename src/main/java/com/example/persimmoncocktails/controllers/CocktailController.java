@@ -132,5 +132,25 @@ public class CocktailController {
     public List<CocktailCategory> getCocktailCategories(){
         return cocktailService.getCocktailCategories();
     }
+
+    @PatchMapping("/ingredient/add")
+    public void addIngredientToCocktail(@RequestBody RequestIngredientCocktailDto request){
+        cocktailService.addIngredient(request);
+    }
+
+    @PatchMapping("/ingredient/remove")
+    public void removeIngredientFromCocktail(@RequestBody RequestIngredientCocktailDto request){
+        cocktailService.removeIngredient(request);
+    }
+
+    @PatchMapping("/kitchenware/add")
+    public void addKitchenwareToCocktail(@RequestBody RequestKitchenwareCocktailDto request){
+        cocktailService.addKitchenware(request);
+    }
+
+    @PatchMapping("/kitchenware/remove")
+    public void removeKitchenwareFromCocktail(@RequestBody RequestKitchenwareCocktailDto request){
+        cocktailService.removeKitchenware(request);
+    }
 }
 

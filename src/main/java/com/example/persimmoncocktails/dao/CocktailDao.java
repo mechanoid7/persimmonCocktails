@@ -52,4 +52,16 @@ public interface CocktailDao {
     List<CocktailCategory> getCocktailCategories();
 
     FullCocktailDto getFullCocktailInfo(Long cocktailId);
+
+    Boolean hasKitchenware(Long cocktailId, Long kitchenwareId);
+
+    void addKitchenware(Long cocktailId, Long kitchenwareId);
+
+    void removeKitchenware(Long cocktailId, Long kitchenwareId);
+
+    Boolean hasIngredient(Long cocktailId, Long ingredientId);
+
+    void addIngredient(Long cocktailId, Long ingredientId);
+
+    void removeIngredient(Long cocktailId, Long ingredientId);
 }

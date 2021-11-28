@@ -128,7 +128,7 @@ public class CocktailService {
         if (cocktailSelect.getName() != null) { // search by name
             sqlSelect += "LOWER(d.name) LIKE '%" + cocktailSelect.getName().toLowerCase() + "%' AND ";
         }
-        if(cocktailSelect.getIngredients() != null && !cocktailSelect.getIngredients().isEmpty()){
+        if(cocktailSelect.getIngredients() != null && !cocktailSelect.getIngredients().isEmpty()){ // filter by ingredients
             sqlSelect += "(SELECT 0 = (SELECT COUNT(*) FROM ("+unionOfValues(cocktailSelect.getIngredients())+"\n" +
                     "EXCEPT\n" +
                     "SELECT ingridient_id FROM ingridient_dish WHERE dish_id = d.dish_id) AS a)) AND ";
@@ -197,5 +197,29 @@ public class CocktailService {
 
     public List<CocktailCategory> getCocktailCategories(){
         return cocktailDao.getCocktailCategories();
+    }
+
+    public void addIngredient(RequestIngredientCocktailDto request) {
+        if(cocktailDao.hasIngredient(request.getCocktailId(), request.getIngredientId()))
+            throw new DuplicateException("Ingredient in Cocktail");
+        cocktailDao.addIngredient(request.getCocktailId(), request.getIngredientId());
+    }
+
+    public void removeIngredient(RequestIngredientCocktailDto request) {
+        if(!cocktailDao.hasIngredient(request.getCocktailId(), request.getIngredientId()))
+            throw new NotFoundException("Ingredient in Cocktail");
+        cocktailDao.removeIngredient(request.getCocktailId(), request.getIngredientId());
+    }
+
+    public void addKitchenware(RequestKitchenwareCocktailDto request) {
+        if(cocktailDao.hasKitchenware(request.getCocktailId(), request.getKitchenwareId()))
+            throw new DuplicateException("Kitchenware in Cocktail");
+        cocktailDao.addKitchenware(request.getCocktailId(), request.getKitchenwareId());
+    }
+
+    public void removeKitchenware(RequestKitchenwareCocktailDto request) {
+        if(!cocktailDao.hasKitchenware(request.getCocktailId(), request.getKitchenwareId()))
+            throw new NotFoundException("Kitchenware in Cocktail");
+        cocktailDao.removeKitchenware(request.getCocktailId(), request.getKitchenwareId());
     }
 }

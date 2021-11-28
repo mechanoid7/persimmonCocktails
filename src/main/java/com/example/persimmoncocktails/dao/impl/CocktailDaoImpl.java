@@ -82,6 +82,18 @@ public class CocktailDaoImpl implements CocktailDao {
     private String sqlGetByName;
     @Value("${sql_cocktail_category_get_all}")
     private String sqlGetCocktailCategories;
+    @Value("${sql_cocktail_kitchenware_exist}")
+    private String sqlKitchenwareExists;
+    @Value("${sql_cocktail_kitchenware_add}")
+    private String sqlAddKitchenware;
+    @Value("${sql_cocktail_kitchenware_remove}")
+    private String sqlRemoveKitchenware;
+    @Value("${sql_cocktail_ingredient_exist}")
+    private String sqlIngredientExists;
+    @Value("${sql_cocktail_ingredient_add}")
+    private String sqlAddIngredient;
+    @Value("${sql_cocktail_ingredient_remove}")
+    private String sqlRemoveIngredient;
     @Value("${number_of_cocktails_per_page}")
     private Long cocktailsPerPage;
 
@@ -305,5 +317,63 @@ public class CocktailDaoImpl implements CocktailDao {
                 kitchenwareList,
                 ingredientList
         );
+    }
+
+    @Override
+    public Boolean hasKitchenware(Long cocktailId, Long kitchenwareId) {
+        return Boolean.TRUE.equals(jdbcTemplate.queryForObject(sqlKitchenwareExists, Boolean.class, cocktailId, kitchenwareId));
+    }
+
+    @Override
+    public void addKitchenware(Long cocktailId, Long kitchenwareId) {
+        try{
+            jdbcTemplate.update(sqlAddKitchenware, cocktailId, kitchenwareId);
+        } catch (DataIntegrityViolationException dataIntegrityViolationException){
+            throw new NotFoundException("Cocktail or Kitchenware");
+        } catch (DataAccessException rootException) {
+            rootException.printStackTrace();
+            throw new UnknownException();
+        }
+    }
+
+    @Override
+    public void removeKitchenware(Long cocktailId, Long kitchenwareId) {
+        try {
+            jdbcTemplate.update(sqlRemoveKitchenware, cocktailId, kitchenwareId);
+        } catch (EmptyResultDataAccessException emptyE) {
+            throw new NotFoundException("Cocktail-Kitchenware");
+        } catch (DataAccessException rootException) {
+            rootException.printStackTrace();
+            throw new UnknownException();
+        }
+    }
+
+    @Override
+    public Boolean hasIngredient(Long cocktailId, Long ingredientId) {
+        return Boolean.TRUE.equals(jdbcTemplate.queryForObject(sqlIngredientExists, Boolean.class, cocktailId, ingredientId));
+    }
+
+    @Override
+    public void addIngredient(Long cocktailId, Long ingredientId) {
+        try{
+            jdbcTemplate.update(sqlAddIngredient, cocktailId, ingredientId);
+        } catch (DataIntegrityViolationException dataIntegrityViolationException){
+            throw new NotFoundException("Cocktail or Ingredient");
+        } catch (DataAccessException rootException) {
+            rootException.printStackTrace();
+            throw new UnknownException();
+        }
+    }
+
+    @Override
+    public void removeIngredient(Long cocktailId, Long ingredientId) {
+        try {
+            jdbcTemplate.update(sqlRemoveIngredient, cocktailId, ingredientId);
+        } catch (EmptyResultDataAccessException emptyE) {
+            throw new NotFoundException("Cocktail-Ingredient");
+        } catch (DataAccessException rootException) {
+            rootException.printStackTrace();
+            throw new UnknownException();
+        }
     }
 }

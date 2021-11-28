@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 @Builder
@@ -19,5 +20,9 @@ public class RequestCreateCocktail {
     private Long dishCategoryId;
     @NotNull
     private String receipt;
+    @NotNull
+    private List<Long> kitchenwareIds;
+    @NotNull
+    private List<Long> ingredientIds;
 }
 
