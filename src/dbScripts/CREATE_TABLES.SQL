@@ -35,6 +35,7 @@ CREATE TABLE DISH (
 	label VARCHAR(256),
 	receipt VARCHAR(2000) NOT NULL,
 	likes BIGINT NOT NULL,
+    photo_id BIGINT,
 	is_active BOOLEAN NOT NULL
 );
 
