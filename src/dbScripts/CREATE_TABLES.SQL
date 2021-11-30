@@ -91,8 +91,7 @@ CREATE TABLE ROLE (
 CREATE TABLE FRIENDSHIP (
 	friendship_id BIGSERIAL NOT NULL PRIMARY KEY,
 	person_id_reciever BIGINT,
-	person_id_initiator BIGINT,
-	status VARCHAR(256)
+	person_id_initiator BIGINT
 );
 
 
@@ -175,4 +174,12 @@ CREATE TABLE LIKES (
          pair_id BIGSERIAL NOT NULL PRIMARY KEY,
          person_id BIGINT NOT NULL,
          dish_id BIGINT NOT NULL
+);
+
+CREATE TABLE FRIENDSHIP_INVITATION (
+    friendship_id BIGSERIAL NOT NULL PRIMARY KEY,
+    person_id_initiator BIGINT NOT NULL,
+    person_id_receiver BIGINT NOT NULL,
+    datetime TIMESTAMP,
+    message VARCHAR(256)
 );

@@ -33,10 +33,6 @@ public class FriendshipInvitationDaoImpl implements FriendshipInvitationDao {
     @Value("${number_of_users_per_page}")
     private Long personsPerPage;
 
-
-
-
-
     @Override
     public void addFriendshipInvitation(Long personIdInitiator, Long personIdReceiver, String massage) {
         jdbcTemplate.update(sqlAddFriendshipInvitation, personIdInitiator, personIdReceiver, massage);

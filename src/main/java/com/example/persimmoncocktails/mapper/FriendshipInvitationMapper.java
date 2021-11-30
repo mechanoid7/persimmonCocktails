@@ -16,7 +16,8 @@ public class FriendshipInvitationMapper implements RowMapper<FriendshipInvitatio
         return new FriendshipInvitationResponseDto(rs.getLong("person_id"),
                 rs.getString("name"),
                 rs.getString("message"),
-                photoId, blogId,
-                rs.getDate("date"));
+                photoId,
+                blogId,
+                rs.getTimestamp("datetime").toLocalDateTime());
     }
 }

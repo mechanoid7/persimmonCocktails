@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -14,10 +15,8 @@ import java.util.Date;
 public class FriendshipInvitationResponseDto {
     private Long personId;
     private String message;
-
-    // add name photoId blogId date
     private String name;
     private Long photoId;
     private Long blogId;
-    private Date date;
+    private LocalDateTime localDateTime;
 }
