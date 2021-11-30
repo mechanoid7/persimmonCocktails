@@ -4,6 +4,7 @@ import com.example.persimmoncocktails.dao.FriendshipInvitationDao;
 import com.example.persimmoncocktails.dao.PersonDao;
 import com.example.persimmoncocktails.dtos.friend.FriendResponseDto;
 import com.example.persimmoncocktails.dtos.friendshipInvitation.FriendshipInvitationResponseDto;
+import com.example.persimmoncocktails.exceptions.DuplicateException;
 import com.example.persimmoncocktails.exceptions.IncorrectRangeNumberFormat;
 import com.example.persimmoncocktails.exceptions.NotFoundException;
 import com.example.persimmoncocktails.exceptions.WrongCredentialsException;
@@ -23,6 +24,8 @@ public class FriendshipInvitationService {
         if (!personDao.existsById(personIdReceiver)) throw new NotFoundException("Person receiver");
         if (personIdInitiator.equals(personIdReceiver))
             throw new WrongCredentialsException("The user cannot invite himself to become friends.");
+        if (!friendshipInvitationDao.friendshipHasInInvitation(personIdInitiator, personIdInitiator))
+            throw new DuplicateException("friendship invitation pair");
         friendshipInvitationDao.addFriendshipInvitation(personIdInitiator, personIdReceiver, massage);
     }
 

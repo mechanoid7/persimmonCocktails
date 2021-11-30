@@ -9,7 +9,9 @@ public interface FriendsDao {
 
     List<FriendResponseDto> getListFriendByNameSubstring(Long personId, String substring, Long pageNumber);
 
-    List<FriendResponseDto> searchPersonsByNameSubstring(String name, Long pageNumber);
+    List<FriendResponseDto> searchPersonsByNameSubstring(String substring, Long pageNumber);
+
+    List<FriendResponseDto> searchPersonsByNameSubstringWithoutFriends(Long personId, String substring, Long pageNumber);
 
     void removeFriendById(Long personIdInitiator, Long friendId);
 

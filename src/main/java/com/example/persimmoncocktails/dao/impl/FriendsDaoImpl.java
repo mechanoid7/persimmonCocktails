@@ -33,23 +33,33 @@ public class FriendsDaoImpl implements FriendsDao {
     private String sqlDeleteFriend;
     @Value("${sql_friend_add_friendship}")
     private String sqlAddFriendship;
+    @Value("${sql_friend_get_all_persons_by_substring_without_friends}")
+    private String sqlGetListUsersBySubstringWithoutFriends;
     @Value("${number_of_users_per_page}")
     private Long personsPerPage;
 
-
     @Override
     public List<FriendResponseDto> getPersonFriends(Long personId, Long pageNumber) { // get person friends by ID
-        return jdbcTemplate.query(sqlGetAllFriends, friendMapper, personId, personId, pageNumber * personsPerPage, personsPerPage);
+        return jdbcTemplate.query(sqlGetAllFriends, friendMapper, personId, personId,
+                pageNumber * personsPerPage, personsPerPage);
     }
 
     @Override
     public List<FriendResponseDto> getListFriendByNameSubstring(Long personId, String substring, Long pageNumber) {
-        return jdbcTemplate.query(sqlGetListFriendBySubstring, friendMapper, personId, personId, substring.toLowerCase(), pageNumber * personsPerPage, personsPerPage);
+        return jdbcTemplate.query(sqlGetListFriendBySubstring, friendMapper, personId, personId,
+                substring.toLowerCase(), pageNumber * personsPerPage, personsPerPage);
     }
 
     @Override
     public List<FriendResponseDto> searchPersonsByNameSubstring(String substring, Long pageNumber) {
-        return jdbcTemplate.query(sqlGetListUsersBySubstring, friendMapper, substring.toLowerCase(), pageNumber * personsPerPage, personsPerPage);
+        return jdbcTemplate.query(sqlGetListUsersBySubstring, friendMapper, substring.toLowerCase(),
+                pageNumber * personsPerPage, personsPerPage);
+    }
+
+    @Override
+    public List<FriendResponseDto> searchPersonsByNameSubstringWithoutFriends(Long personId, String substring, Long pageNumber) {
+        return jdbcTemplate.query(sqlGetListUsersBySubstringWithoutFriends, friendMapper, personId, personId,
+                substring.toLowerCase(), pageNumber * personsPerPage, personsPerPage);
     }
 
     @Override

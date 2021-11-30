@@ -30,6 +30,8 @@ public class FriendshipInvitationDaoImpl implements FriendshipInvitationDao {
     private String sqlDeleteFriendshipInvitation;
     @Value("${sql_get_all_friendship_invitations}")
     private String sqlGetPersonFriendshipInvitations;
+    @Value("${sql_friend_invitation_exists}")
+    private String sqlFriendshipInviteExists;
     @Value("${number_of_users_per_page}")
     private Long personsPerPage;
 
@@ -46,5 +48,10 @@ public class FriendshipInvitationDaoImpl implements FriendshipInvitationDao {
     @Override
     public List<FriendshipInvitationResponseDto> getPersonFriendshipInvitations(Long personId, Long pageNumber) {
         return jdbcTemplate.query(sqlGetPersonFriendshipInvitations, friendshipInvitationMapper, personId, pageNumber * personsPerPage, personsPerPage);
+    }
+
+    @Override
+    public Boolean friendshipHasInInvitation(Long personIdInitiator, Long personIdReceiver) {
+        return Boolean.TRUE.equals(jdbcTemplate.queryForObject(sqlFriendshipInviteExists, Boolean.class, personIdInitiator, personIdReceiver));
     }
 }
