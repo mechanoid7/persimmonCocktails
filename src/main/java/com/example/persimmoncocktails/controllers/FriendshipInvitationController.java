@@ -19,17 +19,17 @@ public class FriendshipInvitationController {
     }
 
     @PostMapping("/{personId}/friend-invitation/add")
-    private void addFriendshipInvitation(@PathVariable Long personId, @RequestBody RequestFriendshipInvitationDto requestFriendshipInvitationDto){
+    public void addFriendshipInvitation(@PathVariable Long personId, @RequestBody RequestFriendshipInvitationDto requestFriendshipInvitationDto){
         friendshipInvitationService.addFriendshipInvitation(personId, requestFriendshipInvitationDto.getPersonReceiverId(), requestFriendshipInvitationDto.getMassage());
     }
 
     @DeleteMapping("/{personId}/friendship-invitation/delete")
-    private void deleteFriendshipInvitation(@PathVariable Long personId, @RequestBody RequestFriendshipInvitationDto  requestFriendshipInvitationDto){
+    public void deleteFriendshipInvitation(@PathVariable Long personId, @RequestBody RequestFriendshipInvitationDto  requestFriendshipInvitationDto){
         friendshipInvitationService.deleteFriendshipInvitationById(personId, requestFriendshipInvitationDto.getPersonReceiverId());
     }
 
     @GetMapping("/{personId}/friendship-invitations")
-    private List<FriendshipInvitationResponseDto>  getPersonFriendshipInvitationsById(@PathVariable Long personId, @RequestParam("page") Long pageNumber){ /// @RequestBody Long pageNumber
+    public List<FriendshipInvitationResponseDto>  getPersonFriendshipInvitationsById(@PathVariable Long personId, @RequestParam("page") Long pageNumber){ /// @RequestBody Long pageNumber
         return friendshipInvitationService.getPersonFriendshipInvitations(personId, pageNumber);
     }
 }
