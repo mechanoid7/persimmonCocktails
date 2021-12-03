@@ -75,16 +75,40 @@ public class PersonController {
         return friendsService.searchPersonsByNameSubstringWithoutFriends(personId, substring, pageNumber);
     }
 
-    @GetMapping("/friends")
+    @GetMapping("/search-exists/{substring}")
+    public Boolean isPersonsBySubstringWithoutFriendsExists(@PathVariable String substring, @RequestParam("page") Long pageNumber) {
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        return friendsService.isPersonsBySubstringWithoutFriendsExists(personId, substring, pageNumber);
+    }
+
+    @GetMapping("/search-pages-number/{substring}")
+    public Long numberOfPagesPersonsBySubstringWithoutFriends(@PathVariable String substring) {
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        return friendsService.numberOfPagesPersonsBySubstringWithoutFriends(personId, substring);
+    }
+
+    @GetMapping("/friends") // deprecated
     public List<FriendResponseDto> getSelfFriends(@RequestParam("page") Long pageNumber) {
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         return friendsService.getPersonFriends(personId, pageNumber);
     }
 
-    @GetMapping("/friends/{substring}")
+    @GetMapping("/friends/{substring}") // use empty substring for get list of friends without search
     public List<FriendResponseDto> getPersonFriendsByIdAndSubstring(@PathVariable String substring, @RequestParam("page") Long pageNumber) {
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         return friendsService.getListFriendsBySubstring(personId, substring, pageNumber);
+    }
+
+    @GetMapping("/friends-pages-number")
+    public Long numberOfPagesFriends() {
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        return friendsService.numberOfPagesFriendsBySubstring(personId, "");
+    }
+
+    @GetMapping("/friends-pages-number/{substring}")
+    public Long numberOfPagesFriendsBySubstring(@PathVariable String substring) {
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        return friendsService.numberOfPagesFriendsBySubstring(personId, substring);
     }
 
     @DeleteMapping("/friends/delete")
