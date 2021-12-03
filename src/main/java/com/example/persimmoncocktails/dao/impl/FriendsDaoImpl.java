@@ -1,9 +1,11 @@
 package com.example.persimmoncocktails.dao.impl;
 
 import com.example.persimmoncocktails.dao.FriendsDao;
+import com.example.persimmoncocktails.dtos.friend.FoundPersonsResponseDto;
 import com.example.persimmoncocktails.dtos.friend.FriendResponseDto;
 import com.example.persimmoncocktails.exceptions.UnknownException;
-import com.example.persimmoncocktails.mappers.FriendMapper;
+import com.example.persimmoncocktails.mappers.friend.FriendMapper;
+import com.example.persimmoncocktails.mappers.person.FoundPersonMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -22,10 +24,9 @@ import java.util.List;
 public class FriendsDaoImpl implements FriendsDao {
 
     private final FriendMapper friendMapper = new FriendMapper();
+    private final FoundPersonMapper foundPersonMapper = new FoundPersonMapper();
     private final JdbcTemplate jdbcTemplate;
 
-//    @Value("${sql_friend_get_all_friends}")
-//    private String sqlGetAllFriends;
     @Value("${sql_friend_get_all_friends_by_substring}")
     private String sqlGetListFriendBySubstring;
     @Value("${sql_friend_get_all_persons_by_substring}")
@@ -45,11 +46,6 @@ public class FriendsDaoImpl implements FriendsDao {
     @Value("${number_of_users_per_page}")
     private Long personsPerPage;
 
-//    @Override
-//    public List<FriendResponseDto> getPersonFriends(Long personId, Long pageNumber) { // get person friends by ID
-//        return jdbcTemplate.query(sqlGetAllFriends, friendMapper, personId, personId,
-//                pageNumber * personsPerPage, personsPerPage);
-//    }
 
     @Override
     public List<FriendResponseDto> getListFriendByNameSubstring(Long personId, String substring, Long pageNumber) {
@@ -64,8 +60,8 @@ public class FriendsDaoImpl implements FriendsDao {
     }
 
     @Override
-    public List<FriendResponseDto> searchPersonsByNameSubstringWithoutFriends(Long personId, String substring, Long pageNumber) {
-        return jdbcTemplate.query(sqlGetListUsersBySubstringWithoutFriends, friendMapper, personId, personId,
+    public List<FoundPersonsResponseDto> searchPersonsByNameSubstringWithoutFriends(Long personId, String substring, Long pageNumber) {
+        return jdbcTemplate.query(sqlGetListUsersBySubstringWithoutFriends, foundPersonMapper, personId, personId,
                 substring.toLowerCase(), pageNumber * personsPerPage, personsPerPage);
     }
 
@@ -83,17 +79,17 @@ public class FriendsDaoImpl implements FriendsDao {
     @Override
     public Boolean isPersonsBySubstringWithoutFriendsExists(Long personId, String substring, Long pageNumber) { // on page
         List<Long> personIds = jdbcTemplate.query(sqlUsersBySubstringWithoutFriendsExists,
-                (rs, rowNum)-> rs.getLong("person_id"), personId, personId, substring.toLowerCase(),
+                (rs, rowNum) -> rs.getLong("person_id"), personId, personId, substring.toLowerCase(),
                 pageNumber * personsPerPage, personsPerPage);
-        if (personIds.size()>1) return Boolean.TRUE;
+        if (personIds.size() > 1) return Boolean.TRUE;
         else return Boolean.FALSE;
     }
 
     @Override
     public Long getNumberOfPagePersonsBySubstringWithoutFriends(Long personId, String substring) {
         try {
-            return (long) Math.ceil((double)jdbcTemplate.queryForObject(sqlPersonsCountBySubstringWithoutFriends, Long.class, personId, personId, substring)/personsPerPage);
-        } catch (NullPointerException e){
+            return (long) Math.ceil((double) jdbcTemplate.queryForObject(sqlPersonsCountBySubstringWithoutFriends, Long.class, personId, personId, substring) / personsPerPage);
+        } catch (NullPointerException e) {
             throw new UnknownException("Failed to get the number of users from the database.");
         }
     }
@@ -101,8 +97,8 @@ public class FriendsDaoImpl implements FriendsDao {
     @Override
     public Long getNumberOfPageFriends(Long personId, String substring) {
         try {
-            return (long) Math.ceil((double)jdbcTemplate.queryForObject(sqlFriendsCountBySubstring, Long.class, personId, personId, substring)/personsPerPage);
-        } catch (NullPointerException e){
+            return (long) Math.ceil((double) jdbcTemplate.queryForObject(sqlFriendsCountBySubstring, Long.class, personId, personId, substring) / personsPerPage);
+        } catch (NullPointerException e) {
             throw new UnknownException("Failed to get the number of friends from the database.");
         }
     }

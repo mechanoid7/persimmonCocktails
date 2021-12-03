@@ -3,6 +3,7 @@ package com.example.persimmoncocktails.services;
 import com.example.persimmoncocktails.dao.FriendsDao;
 import com.example.persimmoncocktails.dao.FriendshipInvitationDao;
 import com.example.persimmoncocktails.dao.PersonDao;
+import com.example.persimmoncocktails.dtos.friend.FoundPersonsResponseDto;
 import com.example.persimmoncocktails.dtos.friend.FriendResponseDto;
 import com.example.persimmoncocktails.exceptions.IncorrectNameFormat;
 import com.example.persimmoncocktails.exceptions.IncorrectRangeNumberFormat;
@@ -26,7 +27,7 @@ public class FriendsService {
         return friendsDao.searchPersonsByNameSubstring("%" + substring + "%", pageNumber);
     }
 
-    public List<FriendResponseDto> searchPersonsByNameSubstringWithoutFriends(Long personId, String substring, Long pageNumber) {
+    public List<FoundPersonsResponseDto> searchPersonsByNameSubstringWithoutFriends(Long personId, String substring, Long pageNumber) {
         // return list of persons by page, who is not an administrator and moderator and is not a friend
         if (!personDao.existsById(personId)) throw new NotFoundException("Person");
         if (!AuthorizationService.nameIsValid(substring)) throw new IncorrectNameFormat();

@@ -1,6 +1,7 @@
 package com.example.persimmoncocktails.controllers;
 
 import com.example.persimmoncocktails.dtos.auth.RequestChangePasswordDataDto;
+import com.example.persimmoncocktails.dtos.friend.FoundPersonsResponseDto;
 import com.example.persimmoncocktails.dtos.friend.FriendResponseDto;
 import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
 import com.example.persimmoncocktails.services.FriendsService;
@@ -70,7 +71,7 @@ public class PersonController {
     }
 
     @GetMapping("/search/{substring}")
-    public List<FriendResponseDto> getPersonsBySubstringWithoutFriends(@PathVariable String substring, @RequestParam("page") Long pageNumber) {
+    public List<FoundPersonsResponseDto> getPersonsBySubstringWithoutFriends(@PathVariable String substring, @RequestParam("page") Long pageNumber) {
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         return friendsService.searchPersonsByNameSubstringWithoutFriends(personId, substring, pageNumber);
     }

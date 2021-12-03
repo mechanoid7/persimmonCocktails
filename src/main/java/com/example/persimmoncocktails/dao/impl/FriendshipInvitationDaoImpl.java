@@ -3,7 +3,7 @@ package com.example.persimmoncocktails.dao.impl;
 import com.example.persimmoncocktails.dao.FriendshipInvitationDao;
 import com.example.persimmoncocktails.dtos.friendshipInvitation.FriendshipInvitationResponseDto;
 import com.example.persimmoncocktails.exceptions.UnknownException;
-import com.example.persimmoncocktails.mapper.FriendshipInvitationMapper;
+import com.example.persimmoncocktails.mappers.friendship.FriendshipInvitationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
