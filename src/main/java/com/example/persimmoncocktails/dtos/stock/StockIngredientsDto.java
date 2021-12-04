@@ -14,4 +14,5 @@ public class StockIngredientsDto {
     private String name;
     private String measureType;
     private int amount;
+    private Long photoId;
 }

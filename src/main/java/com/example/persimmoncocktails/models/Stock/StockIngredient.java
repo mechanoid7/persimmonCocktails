@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Ingredient {
+public class StockIngredient {
     private Long id;
     private String name;
     private String measureType;

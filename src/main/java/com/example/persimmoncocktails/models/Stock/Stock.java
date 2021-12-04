@@ -13,7 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 public class Stock {
     private Long personId;
-    private Long stockId;
-    private List<Ingredient> ingredients;
+    private List<StockIngredient> ingredients;
 
 }

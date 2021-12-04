@@ -1,6 +1,11 @@
 package com.example.persimmoncocktails.controllers;
 
+import com.example.persimmoncocktails.dtos.cocktail.BasicCocktailDto;
+import com.example.persimmoncocktails.dtos.cocktail.RequestCocktailSelectDto;
+import com.example.persimmoncocktails.dtos.friend.FriendResponseDto;
+import com.example.persimmoncocktails.dtos.stock.RequestStockIngredientSelectDto;
 import com.example.persimmoncocktails.dtos.stock.StockIngredientsDto;
+import com.example.persimmoncocktails.models.Stock.StockIngredient;
 import com.example.persimmoncocktails.models.ingredient.IngredientWithCategory;
 import com.example.persimmoncocktails.services.StockService;
 import lombok.RequiredArgsConstructor;
@@ -33,8 +38,8 @@ public class StockController {
     }
 
     @PatchMapping("/update-stock")
-    public void updateStock(@RequestParam int amount, @RequestParam Long ingredientId) {
-        stockService.update(amount, ingredientId);
+    public void updateStock(@RequestParam int amount, @RequestParam Long ingredientId, @RequestParam Long photoId) {
+        stockService.update(amount, ingredientId, photoId);
     }
 
     @PostMapping("/add-ingredient")
@@ -42,5 +47,22 @@ public class StockController {
         stockService.add(id, name, measureType, amount);
     }
 
+    @GetMapping("/search/{substring}")
+    public List<StockIngredientsDto> getPersonsBySubstring(@PathVariable String substring, @RequestParam("page") Long pageNumber) {
+        return stockService.searchIngredientByNameSubstring(substring, pageNumber);
+    }
+
+    @PreAuthorize("isAuthenticated")
+    @GetMapping("/search")
+    public List<StockIngredientsDto> searchFilterSortStock(
+            @RequestParam(value = "search", required = false) String searchRequest,
+            @RequestParam(value = "sort-by", required = false) String sortBy,
+            @RequestParam(value = "amount", required = false) int amount,
+            @RequestParam(value = "measure-type", required = false) String measureType,
+            @RequestParam(value = "ingredient-category-id", required = false) Long ingredientCategoryId,
+            @RequestParam(value = "sort-direction", required = false) Boolean sortDirection,
+            @RequestParam("page") Long pageNumber) {
+        return stockService.searchFilterSort(new RequestStockIngredientSelectDto(searchRequest, sortBy, amount, measureType, ingredientCategoryId, sortDirection), pageNumber);
+    }
 
 }
