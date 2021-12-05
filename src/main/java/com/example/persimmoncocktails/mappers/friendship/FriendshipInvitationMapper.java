@@ -1,4 +1,4 @@
-package com.example.persimmoncocktails.mapper;
+package com.example.persimmoncocktails.mappers.friendship;
 
 import com.example.persimmoncocktails.dtos.friendshipInvitation.FriendshipInvitationResponseDto;
 import org.springframework.jdbc.core.RowMapper;

@@ -2,7 +2,8 @@ package com.example.persimmoncocktails.dao.impl;
 
 import com.example.persimmoncocktails.dao.FriendshipInvitationDao;
 import com.example.persimmoncocktails.dtos.friendshipInvitation.FriendshipInvitationResponseDto;
-import com.example.persimmoncocktails.mapper.FriendshipInvitationMapper;
+import com.example.persimmoncocktails.exceptions.UnknownException;
+import com.example.persimmoncocktails.mappers.friendship.FriendshipInvitationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -30,6 +31,10 @@ public class FriendshipInvitationDaoImpl implements FriendshipInvitationDao {
     private String sqlDeleteFriendshipInvitation;
     @Value("${sql_get_all_friendship_invitations}")
     private String sqlGetPersonFriendshipInvitations;
+    @Value("${sql_friend_invitation_exists}")
+    private String sqlFriendshipInviteExists;
+    @Value("${sql_get_all_friendship_invitations_amount_pages}")
+    private String sqlGetPersonFriendshipInvitationsAmountPages;
     @Value("${number_of_users_per_page}")
     private Long personsPerPage;
 
@@ -46,5 +51,19 @@ public class FriendshipInvitationDaoImpl implements FriendshipInvitationDao {
     @Override
     public List<FriendshipInvitationResponseDto> getPersonFriendshipInvitations(Long personId, Long pageNumber) {
         return jdbcTemplate.query(sqlGetPersonFriendshipInvitations, friendshipInvitationMapper, personId, pageNumber * personsPerPage, personsPerPage);
+    }
+
+    @Override
+    public Boolean friendshipInvitationPairExists(Long personIdInitiator, Long personIdReceiver) {
+        return Boolean.TRUE.equals(jdbcTemplate.queryForObject(sqlFriendshipInviteExists, Boolean.class, personIdInitiator, personIdReceiver));
+    }
+
+    @Override
+    public Long getPagesAmountFriendshipInvitations(Long personId) {
+        try {
+            return (long) Math.ceil((double)jdbcTemplate.queryForObject(sqlGetPersonFriendshipInvitationsAmountPages, Long.class, personId)/personsPerPage);
+        } catch (NullPointerException e){
+            throw new UnknownException("Failed to get the number of friendship invitations from the database.");
+        }
     }
 }
