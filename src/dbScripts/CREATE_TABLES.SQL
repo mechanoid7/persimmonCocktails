@@ -181,5 +181,5 @@ CREATE TABLE FRIENDSHIP_INVITATION (
     person_id_initiator BIGINT NOT NULL,
     person_id_receiver BIGINT NOT NULL,
     datetime TIMESTAMP,
-    message VARCHAR(256)
+    message VARCHAR(100)
 );

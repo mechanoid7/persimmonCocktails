@@ -12,4 +12,7 @@ public interface FriendshipInvitationDao {
 
     List<FriendshipInvitationResponseDto> getPersonFriendshipInvitations(Long personId, Long pageNumber);
 
+    Boolean friendshipInvitationPairExists(Long personIdInitiator, Long personIdReceiver);
+
+    Long getPagesAmountFriendshipInvitations(Long personId);
 }

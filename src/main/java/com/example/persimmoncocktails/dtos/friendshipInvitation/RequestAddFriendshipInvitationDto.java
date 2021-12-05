@@ -11,7 +11,7 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RequestFriendshipInvitationDto {
+public class RequestAddFriendshipInvitationDto {
     private Long personReceiverId;
-    private String massage;
+    private String message;
 }
