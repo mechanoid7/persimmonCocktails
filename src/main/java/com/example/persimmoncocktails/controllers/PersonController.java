@@ -4,7 +4,6 @@ import com.example.persimmoncocktails.dtos.auth.RequestChangePasswordDataDto;
 import com.example.persimmoncocktails.dtos.friend.FriendResponseDto;
 import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
 import com.example.persimmoncocktails.services.FriendsService;
-import com.example.persimmoncocktails.services.FriendshipInvitationService;
 import com.example.persimmoncocktails.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,7 +11,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @RestController
 @PreAuthorize("isAuthenticated")
 @RequestMapping("/person")
@@ -72,7 +70,7 @@ public class PersonController {
     }
 
     @GetMapping("/friends")
-    private List<FriendResponseDto> getPersonFriendsById(@RequestParam("page") Long pageNumber) {
+    public List<FriendResponseDto> getSelfFriends(@RequestParam("page") Long pageNumber) {
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         return friendsService.getPersonFriends(personId, pageNumber);
     }
@@ -84,15 +82,14 @@ public class PersonController {
     }
 
     @DeleteMapping("/friends/delete")
-    private void deleteFriend(@RequestBody Long friendId) {
+    public void deleteFriend(@RequestBody Long friendId) {
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         friendsService.removeFriendById(personId, friendId);
     }
 
     @PostMapping("/friends/add")
-    private void addFriend(@RequestBody Long friendId) {
+    public void addFriend(@RequestBody Long friendId) {
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         friendsService.addFriend(personId, friendId);
     }
 }
-

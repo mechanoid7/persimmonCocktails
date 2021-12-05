@@ -6,7 +6,6 @@ import com.example.persimmoncocktails.services.CocktailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -88,7 +87,7 @@ public class CocktailController {
             @RequestParam(value = "show-inactive", required = false) Boolean showInactive,
             @RequestParam("page") Long pageNumber) {
         return cocktailService.searchFilterSort(new RequestCocktailSelectDto(searchRequest, sortBy, dishType,
-                dishCategoryId, sortDirection, ingredients, showActive==null ? true : showActive,
+                dishCategoryId, sortDirection, ingredients, showActive == null ? true : showActive,
                 showInactive == null ? true : showInactive), pageNumber);
     }
 
@@ -129,27 +128,27 @@ public class CocktailController {
     }
 
     @GetMapping("/categories")
-    public List<CocktailCategory> getCocktailCategories(){
+    public List<CocktailCategory> getCocktailCategories() {
         return cocktailService.getCocktailCategories();
     }
 
     @PatchMapping("/ingredient/add")
-    public void addIngredientToCocktail(@RequestBody RequestIngredientCocktailDto request){
+    public void addIngredientToCocktail(@RequestBody RequestIngredientCocktailDto request) {
         cocktailService.addIngredient(request);
     }
 
     @PatchMapping("/ingredient/remove")
-    public void removeIngredientFromCocktail(@RequestBody RequestIngredientCocktailDto request){
+    public void removeIngredientFromCocktail(@RequestBody RequestIngredientCocktailDto request) {
         cocktailService.removeIngredient(request);
     }
 
     @PatchMapping("/kitchenware/add")
-    public void addKitchenwareToCocktail(@RequestBody RequestKitchenwareCocktailDto request){
+    public void addKitchenwareToCocktail(@RequestBody RequestKitchenwareCocktailDto request) {
         cocktailService.addKitchenware(request);
     }
 
     @PatchMapping("/kitchenware/remove")
-    public void removeKitchenwareFromCocktail(@RequestBody RequestKitchenwareCocktailDto request){
+    public void removeKitchenwareFromCocktail(@RequestBody RequestKitchenwareCocktailDto request) {
         cocktailService.removeKitchenware(request);
     }
 }
