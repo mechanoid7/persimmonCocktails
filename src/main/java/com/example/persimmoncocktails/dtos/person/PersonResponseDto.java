@@ -18,6 +18,7 @@ public class PersonResponseDto {
     private Long photoId;
     private Long blogId;
     private Integer roleId;
+    private Boolean isActive;
 
     public static PersonResponseDto toDto(Person person){
         return PersonResponseDto.builder()
@@ -27,6 +28,7 @@ public class PersonResponseDto {
                 .name(person.getName())
                 .photoId(person.getPhotoId())
                 .roleId(person.getRoleId())
+                .isActive(person.getIsActive())
                 .build();
     }
 }

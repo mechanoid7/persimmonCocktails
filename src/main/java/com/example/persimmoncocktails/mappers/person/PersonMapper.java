@@ -1,4 +1,4 @@
-package com.example.persimmoncocktails.mapper;
+package com.example.persimmoncocktails.mappers.person;
 
 import com.example.persimmoncocktails.models.Person;
 import org.springframework.jdbc.core.RowMapper;
@@ -15,6 +15,8 @@ public class PersonMapper implements RowMapper<Person> {
         if(rs.wasNull()) blogId = null;
         Integer roleId = rs.getInt("role_id");
         if(rs.wasNull()) roleId = null;
+        Boolean isActive = rs.getBoolean("is_active");
+        if(rs.wasNull()) isActive = Boolean.TRUE;
         return new Person(
                 rs.getLong("person_id"),
                 rs.getString("name"),
@@ -22,7 +24,8 @@ public class PersonMapper implements RowMapper<Person> {
                 rs.getString("password"),
                 photoId,
                 blogId,
-                roleId
+                roleId,
+                isActive
         );
     }
 }
