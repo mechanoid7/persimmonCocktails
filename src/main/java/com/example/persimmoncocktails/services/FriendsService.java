@@ -57,7 +57,7 @@ public class FriendsService {
     public void addFriend(Long personIdReceiver, Long personIdInitiator) {
         if (personIdInitiator.equals(personIdReceiver))
             throw new WrongCredentialsException("The user cannot have friendship with himself.");
-        if (!friendshipInvitationDao.friendshipInvitationPairExists(personIdReceiver, personIdInitiator))
+        if (!friendshipInvitationDao.friendshipInvitationPairExists(personIdInitiator, personIdReceiver))
             throw new NotFoundException("friendship invitation");
         friendsDao.addFriend(personIdInitiator, personIdReceiver);
         friendshipInvitationDao.deleteFriendshipInvitation(personIdReceiver, personIdInitiator);
