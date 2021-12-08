@@ -1,9 +1,11 @@
 package com.example.persimmoncocktails.dao.impl;
 
 import com.example.persimmoncocktails.dao.IngredientDao;
+import com.example.persimmoncocktails.dtos.ingredient.IngredientNameDto;
 import com.example.persimmoncocktails.exceptions.DuplicateException;
 import com.example.persimmoncocktails.exceptions.UnknownException;
 import com.example.persimmoncocktails.mappers.ingredient.IngredientCategoryMapper;
+import com.example.persimmoncocktails.mappers.ingredient.IngredientNameMapper;
 import com.example.persimmoncocktails.mappers.ingredient.IngredientWithCategoryMapper;
 import com.example.persimmoncocktails.models.ingredient.Ingredient;
 import com.example.persimmoncocktails.models.ingredient.IngredientCategory;
@@ -27,6 +29,7 @@ public class IngredientDaoImpl implements IngredientDao {
     private final JdbcTemplate jdbcTemplate;
     private final IngredientWithCategoryMapper ingredientWithCategoryMapper = new IngredientWithCategoryMapper();
     private final IngredientCategoryMapper ingredientCategoryMapper = new IngredientCategoryMapper();
+    private final IngredientNameMapper ingredientNameMapper = new IngredientNameMapper();
 
     @Value("${sql_ingredient_create}")
     private String sqlInsertNewIngredient;
@@ -48,6 +51,8 @@ public class IngredientDaoImpl implements IngredientDao {
     private String sqlReadIngredientWithCategoryByName;
     @Value("${sql_ingredients_with_category_used_in_dish_by_id}")
     private String getSqlReadAllIngredientsUsedByCocktail;
+    @Value("${sql_find_active_ingredients_by_prefix_limited_amount}")
+    private String sqlFindActiveIngredientsByPrefixLimitedAmount;
 
     @Override
     public void create(Ingredient ingredient) {
@@ -136,5 +141,10 @@ public class IngredientDaoImpl implements IngredientDao {
     @Override
     public List<IngredientCategory> readAllIngredientCategories() {
         return jdbcTemplate.query(sqlReadAllIngredientCategories, ingredientCategoryMapper);
+    }
+
+    @Override
+    public List<IngredientNameDto> findActiveIngredientsByPrefixLimitedAmount(String prefix, int limit) {
+        return jdbcTemplate.query(sqlFindActiveIngredientsByPrefixLimitedAmount, ingredientNameMapper, prefix+"%", limit);
     }
 }

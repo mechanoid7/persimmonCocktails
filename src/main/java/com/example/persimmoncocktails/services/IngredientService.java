@@ -1,6 +1,7 @@
 package com.example.persimmoncocktails.services;
 
 import com.example.persimmoncocktails.dao.IngredientDao;
+import com.example.persimmoncocktails.dtos.ingredient.IngredientNameDto;
 import com.example.persimmoncocktails.dtos.ingredient.RequestIngredientDto;
 import com.example.persimmoncocktails.dtos.ingredient.ResponseIngredientDto;
 import com.example.persimmoncocktails.exceptions.IncorrectNameFormat;
@@ -103,5 +104,9 @@ public class IngredientService {
         IngredientWithCategory ingredient = readIngredientId(ingredientId);
         if (!ingredient.isActive()) throw new NotFoundException("Ingredient");
         return ResponseIngredientDto.toDto(ingredient);
+    }
+
+    public List<IngredientNameDto> findActiveIngredientsByPrefix(String prefix) {
+        return ingredientDao.findActiveIngredientsByPrefixLimitedAmount(prefix, 10);
     }
 }
