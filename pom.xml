@@ -113,6 +113,16 @@
             <version>0.11.2</version>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.13</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.9</version>
+        </dependency>
 
     </dependencies>
 
@@ -161,48 +171,4 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
-
-<!--    <profiles>-->
-<!--        <profile>-->
-<!--            <id>native</id>-->
-<!--            <properties>-->
-<!--                <repackage.classifier>exec</repackage.classifier>-->
-<!--                <native-buildtools.version>0.9.4</native-buildtools.version>-->
-<!--            </properties>-->
-<!--            <dependencies>-->
-<!--                <dependency>-->
-<!--                    <groupId>org.graalvm.buildtools</groupId>-->
-<!--                    <artifactId>junit-platform-native</artifactId>-->
-<!--                    <version>${native-buildtools.version}</version>-->
-<!--                    <scope>test</scope>-->
-<!--                </dependency>-->
-<!--            </dependencies>-->
-<!--            <build>-->
-<!--                <plugins>-->
-<!--                    <plugin>-->
-<!--                        <groupId>org.graalvm.buildtools</groupId>-->
-<!--                        <artifactId>native-maven-plugin</artifactId>-->
-<!--                        <version>${native-buildtools.version}</version>-->
-<!--                        <executions>-->
-<!--                            <execution>-->
-<!--                                <id>test-native</id>-->
-<!--                                <phase>test</phase>-->
-<!--                                <goals>-->
-<!--                                    <goal>test</goal>-->
-<!--                                </goals>-->
-<!--                            </execution>-->
-<!--                            <execution>-->
-<!--                                <id>build-native</id>-->
-<!--                                <phase>package</phase>-->
-<!--                                <goals>-->
-<!--                                    <goal>build</goal>-->
-<!--                                </goals>-->
-<!--                            </execution>-->
-<!--                        </executions>-->
-<!--                    </plugin>-->
-<!--                </plugins>-->
-<!--            </build>-->
-<!--        </profile>-->
-<!--    </profiles>-->
-
 </project>
