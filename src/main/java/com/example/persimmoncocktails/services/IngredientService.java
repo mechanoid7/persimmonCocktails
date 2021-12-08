@@ -10,17 +10,26 @@ import com.example.persimmoncocktails.exceptions.StateException;
 import com.example.persimmoncocktails.models.ingredient.Ingredient;
 import com.example.persimmoncocktails.models.ingredient.IngredientCategory;
 import com.example.persimmoncocktails.models.ingredient.IngredientWithCategory;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@PropertySource("classpath:var/general.properties")
 public class IngredientService {
 
-    IngredientDao ingredientDao;
+    private final IngredientDao ingredientDao;
+    @Value("${amount_of_ingredients}")
+    public Integer amountOfIngredientsToReturnWhileSearchingByPrefix;
+
+    @Autowired
+    public IngredientService(IngredientDao ingredientDao) {
+        this.ingredientDao = ingredientDao;
+    }
 
 
     public IngredientWithCategory readIngredientId(Long ingredientId) {
@@ -107,6 +116,6 @@ public class IngredientService {
     }
 
     public List<IngredientNameDto> findActiveIngredientsByPrefix(String prefix) {
-        return ingredientDao.findActiveIngredientsByPrefixLimitedAmount(prefix, 10);
+        return ingredientDao.findActiveIngredientsByPrefixLimitedAmount(prefix, amountOfIngredientsToReturnWhileSearchingByPrefix);
     }
 }
