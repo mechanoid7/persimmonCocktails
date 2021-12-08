@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import static com.example.persimmoncocktails.services.AuthorizationService.passwordIsValid;
 
 @Service
-@AllArgsConstructor
 public class PersonService {
     PersonDao personDao;
     BCryptPasswordEncoder bCryptPasswordEncoder;
