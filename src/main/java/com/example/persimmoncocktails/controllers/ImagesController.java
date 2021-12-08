@@ -45,5 +45,4 @@ public class ImagesController {
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         return imageService.saveImage(personId, multipartFile);
     }
-
 }

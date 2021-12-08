@@ -101,18 +101,18 @@ public class CocktailDaoImpl implements CocktailDao {
     @Override
     public BasicCocktailDto create(RequestCreateCocktail cocktail) {
         //TODO: optimize check queries
-        if(cocktail.getKitchenwareIds() != null) {
-            for (Long kitchenwareId : cocktail.getUniqueKitchenwareIds()){
+        if (cocktail.getKitchenwareIds() != null) {
+            for (Long kitchenwareId : cocktail.getUniqueKitchenwareIds()) {
                 boolean exists = kitchenwareDao.existsById(kitchenwareId);
-                if(!exists) {
+                if (!exists) {
                     throw new NotFoundException("Kitchenware");
                 }
             }
         }
-        if(cocktail.getIngredientIds() != null) {
-            for (Long ingredientId : cocktail.getUniqueIngredientIds()){
+        if (cocktail.getIngredientIds() != null) {
+            for (Long ingredientId : cocktail.getUniqueIngredientIds()) {
                 boolean exists = ingredientDao.existsById(ingredientId);
-                if(!exists) {
+                if (!exists) {
                     throw new NotFoundException("Ingredient");
                 }
             }
@@ -137,8 +137,7 @@ public class CocktailDaoImpl implements CocktailDao {
                 addIngredient(savedCocktail.getDishId(), ingredientId);
             }
             return savedCocktail;
-        }
-        catch (DataAccessException rootException) {
+        } catch (DataAccessException rootException) {
             rootException.printStackTrace();
             throw new UnknownException();
         }
@@ -190,7 +189,7 @@ public class CocktailDaoImpl implements CocktailDao {
             throw new DuplicateException("Cocktail", "name");
         } catch (EmptyResultDataAccessException emptyE) {
             throw new NotFoundException("Cocktail");
-        } catch (DataIntegrityViolationException dataIntegrityViolationException){
+        } catch (DataIntegrityViolationException dataIntegrityViolationException) {
             throw new NotFoundException("Cocktail category");
         } catch (DataAccessException rootException) {
             rootException.printStackTrace();
@@ -333,14 +332,14 @@ public class CocktailDaoImpl implements CocktailDao {
     }
 
     @Override
-    public List<CocktailCategory> getCocktailCategories(){
+    public List<CocktailCategory> getCocktailCategories() {
         return jdbcTemplate.query(sqlGetCocktailCategories, cocktailCategoryMapper);
     }
 
     @Override
-    public FullCocktailDto getFullCocktailInfo(Long cocktailId){
+    public FullCocktailDto getFullCocktailInfo(Long cocktailId) {
         BasicCocktailDto cocktail = readById(cocktailId);
-        if(cocktail == null) return null;
+        if (cocktail == null) return null;
         List<KitchenwareWithCategory> kitchenwareList = kitchenwareDao.readAllKitchenwaresUsedByCocktail(cocktailId);
         List<IngredientWithCategory> ingredientList = ingredientDao.readAllIngredientsUsedByCocktail(cocktailId);
         return new FullCocktailDto(
@@ -357,9 +356,9 @@ public class CocktailDaoImpl implements CocktailDao {
 
     @Override
     public void addKitchenware(Long cocktailId, Long kitchenwareId) {
-        try{
+        try {
             jdbcTemplate.update(sqlAddKitchenware, cocktailId, kitchenwareId);
-        } catch (DataIntegrityViolationException dataIntegrityViolationException){
+        } catch (DataIntegrityViolationException dataIntegrityViolationException) {
             throw new NotFoundException("Cocktail or Kitchenware");
         } catch (DataAccessException rootException) {
             rootException.printStackTrace();
@@ -386,9 +385,9 @@ public class CocktailDaoImpl implements CocktailDao {
 
     @Override
     public void addIngredient(Long cocktailId, Long ingredientId) {
-        try{
+        try {
             jdbcTemplate.update(sqlAddIngredient, cocktailId, ingredientId);
-        } catch (DataIntegrityViolationException dataIntegrityViolationException){
+        } catch (DataIntegrityViolationException dataIntegrityViolationException) {
             throw new NotFoundException("Cocktail or Ingredient");
         } catch (DataAccessException rootException) {
             rootException.printStackTrace();

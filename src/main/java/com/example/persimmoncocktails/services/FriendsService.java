@@ -10,15 +10,22 @@ import com.example.persimmoncocktails.exceptions.IncorrectRangeNumberFormat;
 import com.example.persimmoncocktails.exceptions.NotFoundException;
 import com.example.persimmoncocktails.exceptions.WrongCredentialsException;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class FriendsService {
-    FriendsDao friendsDao;
-    PersonDao personDao;
-    FriendshipInvitationDao friendshipInvitationDao;
+    private final FriendsDao friendsDao;
+    private final PersonDao personDao;
+    private final FriendshipInvitationDao friendshipInvitationDao;
+
+    public FriendsService(FriendsDao friendsDao, PersonDao personDao, FriendshipInvitationDao friendshipInvitationDao) {
+        this.friendsDao = friendsDao;
+        this.personDao = personDao;
+        this.friendshipInvitationDao = friendshipInvitationDao;
+    }
 
     public List<FriendResponseDto> searchPersonsByNameSubstring(String substring, Long pageNumber) { // return list of persons by page, who is not an administrator and moderator
         if (!AuthorizationService.nameIsValid(substring)) throw new IncorrectNameFormat();
