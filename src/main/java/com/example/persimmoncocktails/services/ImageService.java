@@ -6,6 +6,7 @@ import com.example.persimmoncocktails.dtos.image.ImageResponseDto;
 import com.example.persimmoncocktails.exceptions.*;
 import com.example.persimmoncocktails.models.image.ImageResponse;
 import com.google.gson.Gson;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -32,8 +33,14 @@ public class ImageService {
     @Value("${image_api_key}")
     private String IMAGE_API_KEY;
 
-    ImageDao imageDao;
-    PersonDao personDao;
+    private final ImageDao imageDao;
+    private final PersonDao personDao;
+
+    public ImageService(ImageDao imageDao, PersonDao personDao) {
+        this.imageDao = imageDao;
+        this.personDao = personDao;
+    }
+
 
     public ImageResponse upload(MultipartFile multipartFile) throws IOException {
         HttpPost post = new HttpPost("https://api.imgbb.com/1/upload?key=" + this.IMAGE_API_KEY); // add key to env vars "c550bd80c3d3e55f04287c11b3ea401a"
@@ -50,20 +57,18 @@ public class ImageService {
             System.out.println(responseString);
         }
 
-        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        System.out.println("NAME:" + fileName);
-
         ImageResponse imageResponse = gson.fromJson(responseString, ImageResponse.class);
-        System.out.println(">>Uploaded file:" + imageResponse.toString());
+        System.out.println(">>Uploaded file: " + imageResponse.toString());
 
         return imageResponse;
     }
 
-    public void saveImage(Long personId, MultipartFile multipartFile) throws IOException {
+    public ImageResponseDto saveImage(Long personId, MultipartFile multipartFile) throws IOException {
         if(!personDao.existsById(personId)) throw new NotFoundException("Person");
         if (multipartFile == null) throw new NullException("File not received");
         ImageResponse response = upload(multipartFile);
-        imageDao.save(personId, response);
+        Long imageId =  imageDao.save(personId, response);
+        return getImageById(imageId);
     }
 
     public ImageResponseDto getImageById(Long imageId) {

@@ -5,6 +5,7 @@ import com.example.persimmoncocktails.dtos.image.ImageResponseDto;
 import com.example.persimmoncocktails.mappers.image.ImageMapper;
 import com.example.persimmoncocktails.models.image.ImageResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
@@ -21,8 +22,7 @@ import org.springframework.stereotype.Repository;
 public class ImageDaoImpl implements ImageDao {
 
     private final JdbcTemplate jdbcTemplate;
-    private final ImageMapper imageMapper;
-//    private final CocktailMapper cocktailMapper = new CocktailMapper();
+    private final ImageMapper imageMapper = new ImageMapper();
 
     @Value("${sql_image_add}")
     private String sqlAddImage;
@@ -40,8 +40,8 @@ public class ImageDaoImpl implements ImageDao {
     private String sqlIsPersonHasImage;
 
     @Override
-    public void save(Long personId, ImageResponse imageResponse) {
-        jdbcTemplate.update(sqlAddImage, personId, imageResponse.getUrlFull(), imageResponse.getUrlMiddle(),
+    public Long save(Long personId, ImageResponse imageResponse) {
+        return jdbcTemplate.queryForObject(sqlAddImage, Long.class, personId, imageResponse.getUrlFull(), imageResponse.getUrlMiddle(),
                 imageResponse.getUrlThumb(), imageResponse.getUrlDelete());
     }
 

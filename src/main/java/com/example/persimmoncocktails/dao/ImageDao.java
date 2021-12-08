@@ -4,7 +4,7 @@ import com.example.persimmoncocktails.dtos.image.ImageResponseDto;
 import com.example.persimmoncocktails.models.image.ImageResponse;
 
 public interface ImageDao {
-    void save(Long personId, ImageResponse imageResponse);
+    Long save(Long personId, ImageResponse imageResponse);
 
     ImageResponseDto getById(Long imageId);
 

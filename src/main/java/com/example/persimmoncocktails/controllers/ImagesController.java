@@ -39,10 +39,11 @@ public class ImagesController {
         imageService.deleteImageById(imageId);
     }
 
+    @PreAuthorize("isAuthenticated")
     @PostMapping(value = "/upload")
-    public void upload(@RequestParam("image") MultipartFile multipartFile) throws IOException {
+    public ImageResponseDto upload(@RequestParam("image") MultipartFile multipartFile) throws IOException {
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
-        imageService.saveImage(personId, multipartFile);
+        return imageService.saveImage(personId, multipartFile);
     }
 
 }
