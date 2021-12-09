@@ -138,7 +138,7 @@ public class AuthorizationService implements UserDetailsService{
     }
 
     private String generatePasswordRecoveryLink(String id, Long personId){
-        return siteUrl+"/recover-password?id="+id+"&nn="+personId;
+        return siteUrl+"/recover-password/"+id+"/"+personId;
     }
 
     public static String generateRandomString(){
