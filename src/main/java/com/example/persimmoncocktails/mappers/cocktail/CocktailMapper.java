@@ -27,6 +27,7 @@ public class CocktailMapper implements RowMapper<BasicCocktailDto> {
         if (rs.wasNull()) likes = 0L;
         return new BasicCocktailDto(
                 rs.getLong("dish_id"),
+                rs.getLong("image_id"),
                 rs.getString("name"),
                 description,
                 dishType,

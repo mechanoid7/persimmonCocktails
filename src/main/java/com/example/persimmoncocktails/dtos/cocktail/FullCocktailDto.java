@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data
-//@NoArgsConstructor
 public class FullCocktailDto {
     private Long dishId;
+    private Long photoId;
     private String name;
     private String description;
     private String dishType;
@@ -27,6 +27,7 @@ public class FullCocktailDto {
                            List<KitchenwareWithCategory> kitchenwareList,
                            List<IngredientWithCategory> ingredientList) {
         dishId = cocktail.getDishId();
+        photoId = cocktail.getPhotoId();
         name = cocktail.getName();
         description = cocktail.getDescription();
         dishType = cocktail.getDishType();

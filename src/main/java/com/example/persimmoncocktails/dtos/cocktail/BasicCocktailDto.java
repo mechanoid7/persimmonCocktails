@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 public class BasicCocktailDto {
     private Long dishId;
+    private Long photoId;
     private String name;
     private String description;
     private String dishType;
