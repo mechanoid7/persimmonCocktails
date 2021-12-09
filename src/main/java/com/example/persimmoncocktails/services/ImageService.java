@@ -26,7 +26,7 @@ import java.util.List;
 
 @Service
 public class ImageService {
-    @Value("${IMAGE_API_KEY}") // set this env var -> IMAGE_API_KEY=c550bd80c3d3e55f04287c11b3ea401a
+    @Value("${IMAGE_API_KEY}")
     private String IMAGE_API_KEY;
 
     private final ImageDao imageDao;
