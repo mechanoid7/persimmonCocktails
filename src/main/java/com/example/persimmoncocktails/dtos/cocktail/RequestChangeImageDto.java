@@ -4,11 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 @Data
 @AllArgsConstructor
-public class RequestCocktailLabelDto {
+public class RequestChangeImageDto {
     @NotNull
-    Long dishId;
-    String label;
+    Long cocktailId;
+    @NotNull
+    Long imageId;
 }

@@ -94,6 +94,8 @@ public class CocktailDaoImpl implements CocktailDao {
     private String sqlAddIngredient;
     @Value("${sql_cocktail_ingredient_remove}")
     private String sqlRemoveIngredient;
+    @Value("${sql_cocktail_update_image_id}")
+    private String sqlUpdatePhoto;
     @Value("${number_of_cocktails_per_page}")
     private Long cocktailsPerPage;
 
@@ -360,6 +362,18 @@ public class CocktailDaoImpl implements CocktailDao {
             jdbcTemplate.update(sqlAddKitchenware, cocktailId, kitchenwareId);
         } catch (DataIntegrityViolationException dataIntegrityViolationException) {
             throw new NotFoundException("Cocktail or Kitchenware");
+        } catch (DataAccessException rootException) {
+            rootException.printStackTrace();
+            throw new UnknownException();
+        }
+    }
+
+    @Override
+    public void updateImage(Long cocktailId, Long imageId) {
+        try {
+            jdbcTemplate.update(sqlUpdatePhoto, imageId, cocktailId);
+        } catch (DataIntegrityViolationException dataIntegrityViolationException) {
+            throw new NotFoundException("Cocktail");
         } catch (DataAccessException rootException) {
             rootException.printStackTrace();
             throw new UnknownException();

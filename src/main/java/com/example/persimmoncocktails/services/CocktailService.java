@@ -221,4 +221,9 @@ public class CocktailService {
             throw new NotFoundException("Kitchenware in Cocktail");
         cocktailDao.removeKitchenware(request.getCocktailId(), request.getKitchenwareId());
     }
+
+    public void updateImage(RequestChangeImageDto requestChangeImage) {
+        if (!cocktailDao.existsById(requestChangeImage.getCocktailId())) throw new NotFoundException("Cocktail");
+        cocktailDao.updateImage(requestChangeImage.getCocktailId(), requestChangeImage.getImageId());
+    }
 }

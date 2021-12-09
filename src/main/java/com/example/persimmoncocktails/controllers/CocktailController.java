@@ -45,6 +45,12 @@ public class CocktailController {
     }
 
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PostMapping("/update-image")
+    public void updateImage(@RequestBody RequestChangeImageDto requestChangeImage) {
+        cocktailService.updateImage(requestChangeImage);
+    }
+
+    @PreAuthorize("hasRole('ROLE_MODERATOR')")
     @PostMapping("/delete")
     public void deleteCocktailById(@RequestBody Long dishId) {
         cocktailService.deleteById(dishId);
