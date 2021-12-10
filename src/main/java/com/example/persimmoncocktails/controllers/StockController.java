@@ -1,14 +1,7 @@
 package com.example.persimmoncocktails.controllers;
 
-import com.example.persimmoncocktails.dtos.cocktail.BasicCocktailDto;
-import com.example.persimmoncocktails.dtos.cocktail.RequestCocktailSelectDto;
-import com.example.persimmoncocktails.dtos.friend.FriendResponseDto;
-import com.example.persimmoncocktails.dtos.stock.RequestStockIngredientSelectDto;
-import com.example.persimmoncocktails.dtos.stock.StockIngredientsDto;
-import com.example.persimmoncocktails.models.Stock.StockIngredient;
-import com.example.persimmoncocktails.models.ingredient.IngredientWithCategory;
+import com.example.persimmoncocktails.dtos.stock.*;
 import com.example.persimmoncocktails.services.StockService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,34 +20,37 @@ public class StockController {
         this.stockService = stockService;
     }
 
-    @GetMapping("/{stockId}")
-    public List<StockIngredientsDto> readStockById(@PathVariable Long stockId) {
-        return stockService.getStockIngredients(stockId);
+    @GetMapping("/getPersonalStock")
+    public List<StockInfoDto> readStockById() {
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        return stockService.getStockIngredients(personId);
     }
 
     @DeleteMapping("/{ingredientId}")
     public void deleteIngredientById(@PathVariable Long ingredientId) {
-        stockService.delete(ingredientId);
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        stockService.delete(ingredientId, personId);
     }
 
     @PatchMapping("/update-stock")
-    public void updateStock(@RequestParam int amount, @RequestParam Long ingredientId, @RequestParam Long photoId) {
-        stockService.update(amount, ingredientId, photoId);
+    public void updateStock(@RequestBody RequestStockUpdateDto requestStockUpdateDto) {
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        stockService.update(personId, requestStockUpdateDto);
     }
 
     @PostMapping("/add-ingredient")
-    public void addIngredient(@RequestBody Long id, @RequestBody String name, @RequestBody String measureType, @RequestBody int amount) {
-        stockService.add(id, name, measureType, amount);
+    public void addIngredient(@RequestBody RequestAddStockIngredientDto stockIngredients) {
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        stockService.addIngredient(stockIngredients, personId);
     }
 
     @GetMapping("/search/{substring}")
-    public List<StockIngredientsDto> getPersonsBySubstring(@PathVariable String substring, @RequestParam("page") Long pageNumber) {
+    public List<RequestAddStockIngredientDto> getIngredientBySubstring(@PathVariable String substring, @RequestParam("page") Long pageNumber) {
         return stockService.searchIngredientByNameSubstring(substring, pageNumber);
     }
 
-    @PreAuthorize("isAuthenticated")
     @GetMapping("/search")
-    public List<StockIngredientsDto> searchFilterSortStock(
+    public List<RequestAddStockIngredientDto> searchFilterSortStock(
             @RequestParam(value = "search", required = false) String searchRequest,
             @RequestParam(value = "sort-by", required = false) String sortBy,
             @RequestParam(value = "amount", required = false) int amount,

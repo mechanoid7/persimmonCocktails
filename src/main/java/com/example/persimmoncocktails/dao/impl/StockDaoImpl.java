@@ -1,10 +1,17 @@
 package com.example.persimmoncocktails.dao.impl;
 
 import com.example.persimmoncocktails.dao.StockDao;
-import com.example.persimmoncocktails.dtos.stock.StockIngredientsDto;
+import com.example.persimmoncocktails.dtos.cocktail.BasicCocktailDto;
+import com.example.persimmoncocktails.dtos.cocktail.FullCocktailDto;
+import com.example.persimmoncocktails.dtos.stock.StockInfoDto;
+import com.example.persimmoncocktails.dtos.stock.RequestAddStockIngredientDto;
+import com.example.persimmoncocktails.dtos.stock.RequestStockUpdateDto;
 import com.example.persimmoncocktails.exceptions.UnknownException;
 
-import com.example.persimmoncocktails.mappers.StockMapper;
+import com.example.persimmoncocktails.mappers.stock.StockIngredientsMapper;
+import com.example.persimmoncocktails.mappers.stock.StockMapper;
+import com.example.persimmoncocktails.models.ingredient.IngredientWithCategory;
+import com.example.persimmoncocktails.models.kitchenware.KitchenwareWithCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -26,32 +33,33 @@ public class StockDaoImpl implements StockDao {
 
     private final JdbcTemplate jdbcTemplate;
     private StockMapper stockMapper;
+    private StockIngredientsMapper stockIngredientsMapper;
 
     @Value("INSERT INTO stock (person_id, ingredient_id, amount, measure_type) VALUES (?, ?, ?, ?)")
     private String sqlInsertNewIngredient;
 
-//    @Value("SELECT person_id, ingredient_id, amount, measure_type FROM stock WHERE stock_id = ?")
-//    private String sqlReadStockById;
-
-    @Value("SELECT person_id, ingredient_id, amount, measure_type FROM stock WHERE person_id = ?")
+    @Value("${sqlReadStockByPersonId}")
     private String sqlReadStockByPersonId;
 
     @Value("UPDATE stock SET amount=? WHERE person_id = ? AND ingredient_id = ?;")
-    private String sqlUpdateIngredientInStock;
+    private String sqlUpdateAmountOfIngredient;
 
-    @Value("DELETE FROM stock WHERE person_id = ? and ingredient_id = ?")
-    private String sqlDeleteIngredientFromStock;
+    @Value("UPDATE stock SET amount=?, measure_type=? WHERE person_id = ? AND ingredient_id = ?;")
+    private String sqlUpdateStock;
 
-    @Value("Select ingredient_id, name where lower(name) like ? order by ingredient_id offset ? rows fetch next ? rows only;")
+    @Value("${sqlIngredientDelete}")
+    private String sqlIngredientDelete;
+
+    @Value("Select entity_id, name where lower(name) like ? order by entity_id offset ? rows fetch next ? rows only;")
     private String sqlGetListOfIngredientsBySubstring;
 
     @Value("15")
-    private  Long ingredientsPerPage;
+    private Long ingredientsPerPage;
 
     @Override
-    public void add(StockIngredientsDto stockIngredientsDto) {
+    public void addIngredient(RequestAddStockIngredientDto requestAddStockIngredientDto, Long personId) {
         try {
-            jdbcTemplate.update(sqlInsertNewIngredient, stockIngredientsDto.getName(), stockIngredientsDto.getMeasureType(), stockIngredientsDto.getAmount(), stockIngredientsDto.getPhotoId());
+            jdbcTemplate.update(sqlInsertNewIngredient, personId, requestAddStockIngredientDto.getIngredientId(), requestAddStockIngredientDto.getAmount(), requestAddStockIngredientDto.getMeasureType());
         } catch (DataAccessException rootException) {
             rootException.printStackTrace();
             throw new UnknownException();
@@ -59,28 +67,39 @@ public class StockDaoImpl implements StockDao {
     }
 
     @Override
-    public void delete(Long ingredientId) {
-        jdbcTemplate.update(sqlDeleteIngredientFromStock, stockMapper, ingredientId);
+    public void delete(Long ingredientId, Long personId) {
+        jdbcTemplate.update(sqlIngredientDelete, ingredientId, personId);
     }
 
     @Override
-    public void update(int amount, Long ingredientId, Long photoId) {
-        jdbcTemplate.update(sqlUpdateIngredientInStock, stockMapper, amount, ingredientId, photoId);
+    public void update(Long personId, RequestStockUpdateDto requestStockUpdateDto) {
+        jdbcTemplate.update(sqlUpdateStock, requestStockUpdateDto.getAmount(),
+                requestStockUpdateDto.getMeasureType(), personId, requestStockUpdateDto.getIngredientId());
     }
 
     @Override
-    public List<StockIngredientsDto> getStockIngredients(Long personId) {
-        return jdbcTemplate.query(sqlReadStockByPersonId, stockMapper, personId);
-
+    public void updateAmount(int amount, Long ingredientId) {
+        jdbcTemplate.update(sqlUpdateAmountOfIngredient, amount, ingredientId);
     }
 
     @Override
-    public List<StockIngredientsDto> searchIngredientByNameSubstring(String substring, Long pageNumber) {
+    public List<StockInfoDto> getStockIngredients(Long personId) {
+        return jdbcTemplate.query(sqlReadStockByPersonId, new StockIngredientsMapper(), personId);
+    }
+
+    @Override
+    public List<RequestAddStockIngredientDto> searchIngredientByNameSubstring(String substring, Long pageNumber) {
         return jdbcTemplate.query(sqlGetListOfIngredientsBySubstring, stockMapper, substring.toLowerCase(), pageNumber * ingredientsPerPage, ingredientsPerPage);
     }
 
     @Override
-    public List<StockIngredientsDto> searchFilterSort(String sqlRequest, Long pageNumber) {
+    public List<RequestAddStockIngredientDto> searchFilterSort(String sqlRequest, Long pageNumber) {
         return jdbcTemplate.query(sqlRequest, stockMapper, pageNumber * ingredientsPerPage, ingredientsPerPage);
     }
+
+    @Override
+    public StockInfoDto getStockInfoDto(Long personId) {
+        return new StockInfoDto();
+    }
+
 }

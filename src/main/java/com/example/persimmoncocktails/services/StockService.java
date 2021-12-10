@@ -1,12 +1,9 @@
 package com.example.persimmoncocktails.services;
 
 import com.example.persimmoncocktails.dao.StockDao;
-import com.example.persimmoncocktails.dtos.cocktail.RequestCocktailSelectDto;
-import com.example.persimmoncocktails.dtos.stock.RequestStockIngredientSelectDto;
-import com.example.persimmoncocktails.dtos.stock.StockIngredientsDto;
+import com.example.persimmoncocktails.dtos.stock.*;
 import com.example.persimmoncocktails.exceptions.IncorrectNameFormat;
 import com.example.persimmoncocktails.exceptions.IncorrectRangeNumberFormat;
-import com.example.persimmoncocktails.exceptions.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,28 +14,23 @@ import java.util.List;
 public class StockService {
     StockDao stockDao;
 
-    public void delete(Long ingredientId) {
-        stockDao.delete(ingredientId);
+    public void delete(Long ingredientId, Long personId) {
+        stockDao.delete(ingredientId, personId);
     }
 
-    public void add(Long id, String name, String measureType, int amount) {
-        StockIngredientsDto stockIngredientsDto = new StockIngredientsDto();
-        stockIngredientsDto.setId(id);
-        stockIngredientsDto.setName(name);
-        stockIngredientsDto.setMeasureType(measureType);
-        stockIngredientsDto.setAmount(amount);
-        stockDao.add(stockIngredientsDto);
+    public void addIngredient(RequestAddStockIngredientDto stockIngredients, Long personId) {
+        stockDao.addIngredient(stockIngredients, personId);
     }
 
-    public void update(int amount, Long ingredientId, Long photoId) {
-        stockDao.update(amount, ingredientId, photoId);
+    public void update(Long personId, RequestStockUpdateDto requestStockUpdateDto) {
+        stockDao.update(personId, requestStockUpdateDto);
     }
 
-    public List<StockIngredientsDto> getStockIngredients(Long stockId) {
-        return stockDao.getStockIngredients(stockId);
+    public List<StockInfoDto> getStockIngredients(Long personId) {
+        return stockDao.getStockIngredients(personId);
     }
 
-    public List<StockIngredientsDto> searchIngredientByNameSubstring(String substring, Long pageNumber) {
+    public List<RequestAddStockIngredientDto> searchIngredientByNameSubstring(String substring, Long pageNumber) {
         if (pageNumber<0) throw new IncorrectRangeNumberFormat("of page");
         return stockDao.searchIngredientByNameSubstring("%"+substring+"%", pageNumber);
     }
@@ -71,11 +63,11 @@ public class StockService {
         return sqlSelect;
     }
 
-    public List<StockIngredientsDto> searchFilterSort(RequestStockIngredientSelectDto ingredientSelect, Long pageNumber) {
+    public List<RequestAddStockIngredientDto> searchFilterSort(RequestStockIngredientSelectDto ingredientSelect, Long pageNumber) {
 
         if (ingredientSelect.getName() != null) {
             if (ingredientSelect.getName().length() < 2) throw new IncorrectNameFormat("Search request too short");
-            throw new IncorrectNameFormat();
+            //throw new IncorrectNameFormat();
         }
 //        if (ingredientSelect.getSortBy() != null && !nameIsValid(ingredientSelect.getSortBy()))
 //            throw new IncorrectNameFormat("Provided column name has incorrect format");

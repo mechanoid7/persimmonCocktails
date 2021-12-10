@@ -9,10 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class StockIngredientsDto {
-    private Long id;
-    private String name;
+public class RequestAddStockIngredientDto {
+    private Long ingredientId;
     private String measureType;
     private int amount;
-    private Long photoId;
 }

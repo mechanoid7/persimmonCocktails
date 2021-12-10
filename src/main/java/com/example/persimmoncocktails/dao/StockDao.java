@@ -1,23 +1,27 @@
 package com.example.persimmoncocktails.dao;
 
 
-import com.example.persimmoncocktails.dtos.cocktail.BasicCocktailDto;
-import com.example.persimmoncocktails.dtos.stock.StockIngredientsDto;
+import com.example.persimmoncocktails.dtos.stock.StockInfoDto;
+import com.example.persimmoncocktails.dtos.stock.RequestAddStockIngredientDto;
+import com.example.persimmoncocktails.dtos.stock.RequestStockUpdateDto;
 
 import java.util.List;
 
 public interface StockDao {
 
-    void add(StockIngredientsDto stockIngredientsDto);
+    void addIngredient(RequestAddStockIngredientDto requestAddStockIngredientDto, Long personId);
 
-    void delete(Long ingredientId);
+    void delete(Long ingredientId, Long personId);
 
-    void update(int amount, Long IngredientId, Long photoId);
+    void update(Long personId, RequestStockUpdateDto requestStockUpdateDto);
 
-    List<StockIngredientsDto> getStockIngredients(Long stockId);
+    public void updateAmount(int amount, Long ingredientId);
 
-    List<StockIngredientsDto> searchIngredientByNameSubstring(String name, Long pageNumber);
+    List<StockInfoDto> getStockIngredients(Long personId);
 
-    List<StockIngredientsDto> searchFilterSort(String sqlRequest, Long pageNumber);
+    List<RequestAddStockIngredientDto> searchIngredientByNameSubstring(String name, Long pageNumber);
 
+    List<RequestAddStockIngredientDto> searchFilterSort(String sqlRequest, Long pageNumber);
+
+    StockInfoDto getStockInfoDto(Long personId);
 }
