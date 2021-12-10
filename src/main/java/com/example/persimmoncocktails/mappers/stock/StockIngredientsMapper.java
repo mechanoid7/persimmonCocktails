@@ -20,7 +20,7 @@ public class StockIngredientsMapper implements RowMapper<StockInfoDto> {
         return new StockInfoDto(
                 rs.getLong("person_id"),
                 rs.getLong("ingredient_id"),
-                rs.getString("ingredient_name"),
+                rs.getString("name"),
                 photoId,
                 rs.getLong("ingredient_category_id"),
                 rs.getString("category_name"),

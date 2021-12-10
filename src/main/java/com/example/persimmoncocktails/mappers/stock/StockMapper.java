@@ -1,18 +1,20 @@
 package com.example.persimmoncocktails.mappers.stock;
 
 import com.example.persimmoncocktails.dtos.stock.RequestAddStockIngredientDto;
+import com.example.persimmoncocktails.dtos.stock.RequestStockSearchIngredientDto;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class StockMapper implements RowMapper<RequestAddStockIngredientDto> {
+public class StockMapper implements RowMapper<RequestStockSearchIngredientDto> {
     @Override
-    public RequestAddStockIngredientDto mapRow(ResultSet rs, int rowNum) throws SQLException {
-        int amount = rs.getInt("amount");
-        if(rs.wasNull()) amount = 0;
-        String measureType = rs.getString("measure_type");
-        if(rs.wasNull()) measureType = "";
-        return new RequestAddStockIngredientDto(rs.getLong("ingredient_id"),  measureType, amount);
+    public RequestStockSearchIngredientDto mapRow(ResultSet rs, int rowNum) throws SQLException {
+        String name = rs.getString("name");
+        if(rs.wasNull()) name = "";
+        return new RequestStockSearchIngredientDto(
+                rs.getLong("ingredient_id"),
+                rs.getString("name")
+        );
     }
 }

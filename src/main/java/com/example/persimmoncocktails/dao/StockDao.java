@@ -1,6 +1,7 @@
 package com.example.persimmoncocktails.dao;
 
 
+import com.example.persimmoncocktails.dtos.stock.RequestStockSearchIngredientDto;
 import com.example.persimmoncocktails.dtos.stock.StockInfoDto;
 import com.example.persimmoncocktails.dtos.stock.RequestAddStockIngredientDto;
 import com.example.persimmoncocktails.dtos.stock.RequestStockUpdateDto;
@@ -19,7 +20,7 @@ public interface StockDao {
 
     List<StockInfoDto> getStockIngredients(Long personId);
 
-    List<RequestAddStockIngredientDto> searchIngredientByNameSubstring(String name, Long pageNumber);
+    List<RequestStockSearchIngredientDto> searchIngredientByNameSubstring(Long personId, String name, Long pageNumber);
 
     List<RequestAddStockIngredientDto> searchFilterSort(String sqlRequest, Long pageNumber);
 

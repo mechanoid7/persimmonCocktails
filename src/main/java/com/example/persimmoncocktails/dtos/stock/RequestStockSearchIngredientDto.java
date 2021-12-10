@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RequestAddStockKitchenwareDto {
-    private Long kitchenwareId;
-    private int amount;
+public class RequestStockSearchIngredientDto {
+    private Long ingredientId;
+    private String name;
 }

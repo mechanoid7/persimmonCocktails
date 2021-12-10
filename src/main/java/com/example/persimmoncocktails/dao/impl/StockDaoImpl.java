@@ -3,11 +3,13 @@ package com.example.persimmoncocktails.dao.impl;
 import com.example.persimmoncocktails.dao.StockDao;
 import com.example.persimmoncocktails.dtos.cocktail.BasicCocktailDto;
 import com.example.persimmoncocktails.dtos.cocktail.FullCocktailDto;
+import com.example.persimmoncocktails.dtos.stock.RequestStockSearchIngredientDto;
 import com.example.persimmoncocktails.dtos.stock.StockInfoDto;
 import com.example.persimmoncocktails.dtos.stock.RequestAddStockIngredientDto;
 import com.example.persimmoncocktails.dtos.stock.RequestStockUpdateDto;
 import com.example.persimmoncocktails.exceptions.UnknownException;
 
+import com.example.persimmoncocktails.mappers.stock.StockFilterMapper;
 import com.example.persimmoncocktails.mappers.stock.StockIngredientsMapper;
 import com.example.persimmoncocktails.mappers.stock.StockMapper;
 import com.example.persimmoncocktails.models.ingredient.IngredientWithCategory;
@@ -32,8 +34,9 @@ import java.util.List;
 public class StockDaoImpl implements StockDao {
 
     private final JdbcTemplate jdbcTemplate;
-    private StockMapper stockMapper;
-    private StockIngredientsMapper stockIngredientsMapper;
+    private final StockMapper stockMapper = new StockMapper();
+    private final StockIngredientsMapper stockIngredientsMapper = new StockIngredientsMapper();
+    private final StockFilterMapper stockFilterMapper = new StockFilterMapper();
 
     @Value("INSERT INTO stock (person_id, ingredient_id, amount, measure_type) VALUES (?, ?, ?, ?)")
     private String sqlInsertNewIngredient;
@@ -50,7 +53,7 @@ public class StockDaoImpl implements StockDao {
     @Value("${sqlIngredientDelete}")
     private String sqlIngredientDelete;
 
-    @Value("Select entity_id, name where lower(name) like ? order by entity_id offset ? rows fetch next ? rows only;")
+    @Value("Select s.ingredient_id, i.name from stock s Inner Join ingredient i on s.ingredient_id = i.ingredient_id where s.person_id = ? and lower(name) like ? order by ingredient_id offset ? rows fetch next ? rows only;")
     private String sqlGetListOfIngredientsBySubstring;
 
     @Value("15")
@@ -84,17 +87,18 @@ public class StockDaoImpl implements StockDao {
 
     @Override
     public List<StockInfoDto> getStockIngredients(Long personId) {
-        return jdbcTemplate.query(sqlReadStockByPersonId, new StockIngredientsMapper(), personId);
+        return jdbcTemplate.query(sqlReadStockByPersonId, stockIngredientsMapper, personId);
     }
 
     @Override
-    public List<RequestAddStockIngredientDto> searchIngredientByNameSubstring(String substring, Long pageNumber) {
-        return jdbcTemplate.query(sqlGetListOfIngredientsBySubstring, stockMapper, substring.toLowerCase(), pageNumber * ingredientsPerPage, ingredientsPerPage);
+    public List<RequestStockSearchIngredientDto> searchIngredientByNameSubstring(Long personId, String substring, Long pageNumber) {
+        return jdbcTemplate.query(sqlGetListOfIngredientsBySubstring, stockMapper, personId,substring.toLowerCase(), pageNumber * ingredientsPerPage, ingredientsPerPage);
     }
 
     @Override
     public List<RequestAddStockIngredientDto> searchFilterSort(String sqlRequest, Long pageNumber) {
-        return jdbcTemplate.query(sqlRequest, stockMapper, pageNumber * ingredientsPerPage, ingredientsPerPage);
+        return null;
+        //return jdbcTemplate.query(sqlRequest, stockFilterMapper, pageNumber * ingredientsPerPage, ingredientsPerPage);
     }
 
     @Override

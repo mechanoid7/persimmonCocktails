@@ -45,8 +45,9 @@ public class StockController {
     }
 
     @GetMapping("/search/{substring}")
-    public List<RequestAddStockIngredientDto> getIngredientBySubstring(@PathVariable String substring, @RequestParam("page") Long pageNumber) {
-        return stockService.searchIngredientByNameSubstring(substring, pageNumber);
+    public List<RequestStockSearchIngredientDto> getIngredientBySubstring(@PathVariable String substring, @RequestParam("page") Long pageNumber) {
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        return stockService.searchIngredientByNameSubstring(personId, substring, pageNumber);
     }
 
     @GetMapping("/search")

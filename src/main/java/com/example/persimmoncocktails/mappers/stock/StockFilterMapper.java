@@ -1,4 +1,4 @@
 package com.example.persimmoncocktails.mappers.stock;
 
-public class StockUpdatePhotoMapper {
+public class StockFilterMapper {
 }

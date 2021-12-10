@@ -30,9 +30,9 @@ public class StockService {
         return stockDao.getStockIngredients(personId);
     }
 
-    public List<RequestAddStockIngredientDto> searchIngredientByNameSubstring(String substring, Long pageNumber) {
+    public List<RequestStockSearchIngredientDto> searchIngredientByNameSubstring(Long personId, String substring, Long pageNumber) {
         if (pageNumber<0) throw new IncorrectRangeNumberFormat("of page");
-        return stockDao.searchIngredientByNameSubstring("%"+substring+"%", pageNumber);
+        return stockDao.searchIngredientByNameSubstring(personId,"%"+substring+"%", pageNumber);
     }
 
     public String buildSqlRequest(RequestStockIngredientSelectDto ingredientSelect) {
