@@ -57,6 +57,8 @@ public interface CocktailDao {
 
     void addKitchenware(Long cocktailId, Long kitchenwareId);
 
+    void updateImage(Long cocktailId, Long imageId);
+
     void removeKitchenware(Long cocktailId, Long kitchenwareId);
 
     Boolean hasIngredient(Long cocktailId, Long ingredientId);
