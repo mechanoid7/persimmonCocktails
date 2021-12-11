@@ -21,9 +21,9 @@ public class StockController {
     }
 
     @GetMapping("/getPersonalStock")
-    public List<StockInfoDto> readStockById() {
+    public List<StockInfoDto> readStockById(@RequestParam("page") Long PageNumber) {
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
-        return stockService.getStockIngredients(personId);
+        return stockService.getStockIngredients(personId, PageNumber);
     }
 
     @DeleteMapping("/{ingredientId}")
@@ -50,16 +50,15 @@ public class StockController {
         return stockService.searchIngredientByNameSubstring(personId, substring, pageNumber);
     }
 
-    @GetMapping("/search")
-    public List<RequestAddStockIngredientDto> searchFilterSortStock(
+    @GetMapping("/search/filter")
+    public List<StockInfoDto> searchFilterSortStock(
             @RequestParam(value = "search", required = false) String searchRequest,
             @RequestParam(value = "sort-by", required = false) String sortBy,
-            @RequestParam(value = "amount", required = false) int amount,
-            @RequestParam(value = "measure-type", required = false) String measureType,
             @RequestParam(value = "ingredient-category-id", required = false) Long ingredientCategoryId,
+            @RequestParam(value = "ingredient-category-name", required = false) String ingredientCategoryName,
             @RequestParam(value = "sort-direction", required = false) Boolean sortDirection,
             @RequestParam("page") Long pageNumber) {
-        return stockService.searchFilterSort(new RequestStockIngredientSelectDto(searchRequest, sortBy, amount, measureType, ingredientCategoryId, sortDirection), pageNumber);
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        return stockService.searchFilterSort(new RequestStockIngredientSelectDto(personId, searchRequest, sortBy, ingredientCategoryId, ingredientCategoryName, sortDirection), pageNumber);
     }
-
 }

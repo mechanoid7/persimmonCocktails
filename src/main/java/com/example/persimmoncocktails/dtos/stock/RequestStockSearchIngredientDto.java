@@ -10,6 +10,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RequestStockSearchIngredientDto {
+    private Long personId;
     private Long ingredientId;
     private String name;
+    private Long photoId;
+    private Long ingredientCategoryId;
+    private String categoryName;
+    private int amount;
+    private String measureType;
 }

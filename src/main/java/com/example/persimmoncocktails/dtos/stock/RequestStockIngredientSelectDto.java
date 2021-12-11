@@ -8,10 +8,10 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class RequestStockIngredientSelectDto {
+    private Long personId;
     String name; // search
     String sortBy; // sort
-    int amount;
-    String measureType;
-    Long ingredientCategoryId; // filter
+    Long ingredientCategoryId;
+    private String categoryName;// filter
     Boolean sortDirection; // asc/desc
 }

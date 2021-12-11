@@ -38,22 +38,19 @@ public class StockDaoImpl implements StockDao {
     private final StockIngredientsMapper stockIngredientsMapper = new StockIngredientsMapper();
     private final StockFilterMapper stockFilterMapper = new StockFilterMapper();
 
-    @Value("INSERT INTO stock (person_id, ingredient_id, amount, measure_type) VALUES (?, ?, ?, ?)")
+    @Value("${sql_add_ingredient}")
     private String sqlInsertNewIngredient;
 
     @Value("${sqlReadStockByPersonId}")
     private String sqlReadStockByPersonId;
 
-    @Value("UPDATE stock SET amount=? WHERE person_id = ? AND ingredient_id = ?;")
-    private String sqlUpdateAmountOfIngredient;
-
-    @Value("UPDATE stock SET amount=?, measure_type=? WHERE person_id = ? AND ingredient_id = ?;")
+    @Value("${sql_stock_update}")
     private String sqlUpdateStock;
 
     @Value("${sqlIngredientDelete}")
     private String sqlIngredientDelete;
 
-    @Value("Select s.ingredient_id, i.name from stock s Inner Join ingredient i on s.ingredient_id = i.ingredient_id where s.person_id = ? and lower(name) like ? order by ingredient_id offset ? rows fetch next ? rows only;")
+    @Value("${sql_get_stock_ingredients_by_substring}")
     private String sqlGetListOfIngredientsBySubstring;
 
     @Value("15")
@@ -81,13 +78,8 @@ public class StockDaoImpl implements StockDao {
     }
 
     @Override
-    public void updateAmount(int amount, Long ingredientId) {
-        jdbcTemplate.update(sqlUpdateAmountOfIngredient, amount, ingredientId);
-    }
-
-    @Override
-    public List<StockInfoDto> getStockIngredients(Long personId) {
-        return jdbcTemplate.query(sqlReadStockByPersonId, stockIngredientsMapper, personId);
+    public List<StockInfoDto> getStockIngredients(Long personId, Long pageNumber) {
+        return jdbcTemplate.query(sqlReadStockByPersonId, stockIngredientsMapper, personId, pageNumber * ingredientsPerPage, ingredientsPerPage);
     }
 
     @Override
@@ -96,9 +88,8 @@ public class StockDaoImpl implements StockDao {
     }
 
     @Override
-    public List<RequestAddStockIngredientDto> searchFilterSort(String sqlRequest, Long pageNumber) {
-        return null;
-        //return jdbcTemplate.query(sqlRequest, stockFilterMapper, pageNumber * ingredientsPerPage, ingredientsPerPage);
+    public List<StockInfoDto> searchFilterSort(String sqlRequest, Long pageNumber) {
+        return jdbcTemplate.query(sqlRequest, stockFilterMapper, pageNumber * ingredientsPerPage, ingredientsPerPage);
     }
 
     @Override

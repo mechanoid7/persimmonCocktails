@@ -16,7 +16,7 @@ public class StockIngredientsMapper implements RowMapper<StockInfoDto> {
         String measureType = rs.getString("measure_type");
         if(rs.wasNull()) measureType = "";
         Long photoId = rs.getLong("photo_id");
-        if(rs.wasNull()) photoId = null;
+        if(rs.wasNull()) photoId = 1l;
         return new StockInfoDto(
                 rs.getLong("person_id"),
                 rs.getLong("ingredient_id"),

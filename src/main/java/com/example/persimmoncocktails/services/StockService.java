@@ -26,8 +26,8 @@ public class StockService {
         stockDao.update(personId, requestStockUpdateDto);
     }
 
-    public List<StockInfoDto> getStockIngredients(Long personId) {
-        return stockDao.getStockIngredients(personId);
+    public List<StockInfoDto> getStockIngredients(Long personId, Long PageNumber) {
+        return stockDao.getStockIngredients(personId, PageNumber);
     }
 
     public List<RequestStockSearchIngredientDto> searchIngredientByNameSubstring(Long personId, String substring, Long pageNumber) {
@@ -36,7 +36,7 @@ public class StockService {
     }
 
     public String buildSqlRequest(RequestStockIngredientSelectDto ingredientSelect) {
-        String sqlSelect = "select i.ingredient_id, i.name, i.photo_id, i.ingredient_category_id, ic.name as category_name, s.amount, s.measure_type " +
+        String sqlSelect = "select s.person_id, i.ingredient_id, i.name, i.photo_id, i.ingredient_category_id, ic.name as category_name, s.amount, s.measure_type " +
                 "from stock s " +
                 "inner join ingredient i on i.ingredient_id = s.ingredient_id " +
                 "inner join ingredient_category ic on i.ingredient_category_id = ic.ingredient_category_id where ";
@@ -45,12 +45,12 @@ public class StockService {
             sqlSelect += "i.ingredient_category_id="+ingredientSelect.getIngredientCategoryId()+"' and ";
         }
         if (ingredientSelect.getName() != null) { // search by name
-            sqlSelect += "LOWER(d.name) LIKE '%" + ingredientSelect.getName().toLowerCase() + "%' AND ";
+            sqlSelect += "LOWER(i.name) LIKE '%" + ingredientSelect.getName().toLowerCase() + "%' AND ";
         }
         sqlSelect += "1=1 ORDER BY ";
 
         if (ingredientSelect.getSortBy() != null){ //sort
-            sqlSelect += "i." + ingredientSelect.getSortBy().toLowerCase() + " ";
+            sqlSelect += "i.name " + ingredientSelect.getSortBy().toLowerCase() + " ";
         } else {
             sqlSelect += "i.ingredient_id ";
         }
@@ -58,12 +58,12 @@ public class StockService {
                 Boolean.FALSE.equals(ingredientSelect.getSortDirection())) { // if sort direction = false
             sqlSelect += "desc ";
         }
-        sqlSelect += "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        sqlSelect += "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
         System.out.println("SQL: "+sqlSelect);
         return sqlSelect;
     }
 
-    public List<RequestAddStockIngredientDto> searchFilterSort(RequestStockIngredientSelectDto ingredientSelect, Long pageNumber) {
+    public List<StockInfoDto> searchFilterSort(RequestStockIngredientSelectDto ingredientSelect, Long pageNumber) {
 
         if (ingredientSelect.getName() != null) {
             if (ingredientSelect.getName().length() < 2) throw new IncorrectNameFormat("Search request too short");
