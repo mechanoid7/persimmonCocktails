@@ -154,7 +154,7 @@ CREATE TABLE DISH_CATEGORY (
 
 CREATE TABLE IMAGE (
 	photo_id BIGSERIAL NOT NULL PRIMARY KEY,
-	uploader_person_id BIGINT NOT NULL,
+	uploader_person_id BIGINT,
 	url_full VARCHAR(256) NOT NULL,
 	url_middle VARCHAR(256) NOT NULL,
 	url_thumb VARCHAR(256) NOT NULL,
