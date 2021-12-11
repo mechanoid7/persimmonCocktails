@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface ModeratorDao {
     List<Person> getAllModerators();
+
+    boolean existsById(Long personId);
 }
