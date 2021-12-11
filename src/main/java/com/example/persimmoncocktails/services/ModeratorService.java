@@ -46,7 +46,7 @@ public class ModeratorService {
     }
 
     public void updateName(Long personId, String name) {
-        if(!personDao.existsById(personId)) throw new NotFoundException("Moderator");
+        if(!moderatorDao.existsById(personId)) throw new NotFoundException("Moderator");
         if(!AuthorizationService.nameIsValid(name)) throw new IncorrectNameFormat();
         Person person = personDao.read(personId);
         person.setName(name);
@@ -54,7 +54,7 @@ public class ModeratorService {
     }
 
     public void updatePhotoId(Long personId, Long photoId) {
-        if(!personDao.existsById(personId)) throw new NotFoundException("Moderator");
+        if(!moderatorDao.existsById(personId)) throw new NotFoundException("Moderator");
         Person person = personDao.read(personId);
         person.setPhotoId(photoId);
         try {
