@@ -1,5 +1,6 @@
 package com.example.persimmoncocktails.dtos.cocktail;
 
+import com.example.persimmoncocktails.dtos.image.ImageResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 public class BasicCocktailDto {
     private Long dishId;
-    private Long photoId;
+    private ImageResponseDto image;
     private String name;
     private String description;
     private String dishType;
