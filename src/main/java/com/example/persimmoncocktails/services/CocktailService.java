@@ -111,8 +111,11 @@ public class CocktailService {
     }
 
     public String buildSqlRequest(RequestCocktailSelectDto cocktailSelect) {
-        String sqlSelect = "SELECT d.dish_id, d.name, d.description, d.dish_type, dc.name dish_category_name, d.dish_category_id category_id, d.label, d.receipt, d.likes, d.is_active " +
-                "FROM dish d LEFT JOIN dish_category dc ON d.dish_category_id = dc.dish_category_id " +
+        String sqlSelect = "SELECT d.dish_id, im.photo_id, im.url_full, im.url_middle, im.url_thumb, im.url_delete," +
+                "d.name, d.description, d.dish_type, dc.name dish_category_name, d.dish_category_id category_id, " +
+                "d.label, d.receipt, d.likes, d.is_active FROM dish d " +
+                "LEFT JOIN dish_category dc ON d.dish_category_id = dc.dish_category_id " +
+                "LEFT JOIN image im ON d.image_id = im.photo_id " +
                 "WHERE ";
         if(!cocktailSelect.getShowActive()) sqlSelect += "d.is_active <> true AND ";
         if(!cocktailSelect.getShowInactive()) sqlSelect += "d.is_active <> false AND ";

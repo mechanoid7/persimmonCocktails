@@ -154,11 +154,11 @@ CREATE TABLE DISH_CATEGORY (
 
 CREATE TABLE IMAGE (
 	photo_id BIGSERIAL NOT NULL PRIMARY KEY,
-	uploader_person_id BIGINT,
-	url_full VARCHAR(256),
-	url_middle VARCHAR(256),
-	url_thumb VARCHAR(256),
-	url_delete VARCHAR(256)
+	uploader_person_id BIGINT NOT NULL,
+	url_full VARCHAR(256) NOT NULL,
+	url_middle VARCHAR(256) NOT NULL,
+	url_thumb VARCHAR(256) NOT NULL,
+	url_delete VARCHAR(256) NOT NULL
 );
 
 CREATE TABLE NOTIFICATION (

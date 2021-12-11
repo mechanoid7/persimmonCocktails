@@ -1,6 +1,7 @@
 package com.example.persimmoncocktails.mappers.cocktail;
 
 import com.example.persimmoncocktails.dtos.cocktail.BasicCocktailDto;
+import com.example.persimmoncocktails.dtos.image.ImageResponseDto;
 import com.example.persimmoncocktails.services.CocktailService;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -25,9 +26,20 @@ public class CocktailMapper implements RowMapper<BasicCocktailDto> {
         List<String> labels = CocktailService.labelsFromString(label);
         Long likes = rs.getLong("likes");
         if (rs.wasNull()) likes = 0L;
+        ImageResponseDto image = null;
+        String url_full = rs.getString("url_full");
+        String url_middle = rs.getString("url_middle");
+        String url_thumb = rs.getString("url_thumb");
+        Long photo_id = rs.getLong("photo_id");
+        if(!rs.wasNull()) image = new ImageResponseDto(
+                photo_id,
+                url_full,
+                url_middle,
+                url_thumb
+        );
         return new BasicCocktailDto(
                 rs.getLong("dish_id"),
-                rs.getLong("image_id"),
+                image,
                 rs.getString("name"),
                 description,
                 dishType,
