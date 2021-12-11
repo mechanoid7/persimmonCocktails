@@ -1,6 +1,7 @@
 package com.example.persimmoncocktails.services;
 
 import com.example.persimmoncocktails.dao.IngredientDao;
+import com.example.persimmoncocktails.dtos.ingredient.IngredientNameDto;
 import com.example.persimmoncocktails.dtos.ingredient.RequestIngredientDto;
 import com.example.persimmoncocktails.dtos.ingredient.ResponseIngredientDto;
 import com.example.persimmoncocktails.exceptions.IncorrectNameFormat;
@@ -9,17 +10,26 @@ import com.example.persimmoncocktails.exceptions.StateException;
 import com.example.persimmoncocktails.models.ingredient.Ingredient;
 import com.example.persimmoncocktails.models.ingredient.IngredientCategory;
 import com.example.persimmoncocktails.models.ingredient.IngredientWithCategory;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@PropertySource("classpath:var/general.properties")
 public class IngredientService {
 
-    IngredientDao ingredientDao;
+    private final IngredientDao ingredientDao;
+    @Value("${amount_of_ingredients}")
+    public Integer amountOfIngredientsToReturnWhileSearchingByPrefix;
+
+    @Autowired
+    public IngredientService(IngredientDao ingredientDao) {
+        this.ingredientDao = ingredientDao;
+    }
 
 
     public IngredientWithCategory readIngredientId(Long ingredientId) {
@@ -103,5 +113,9 @@ public class IngredientService {
         IngredientWithCategory ingredient = readIngredientId(ingredientId);
         if (!ingredient.isActive()) throw new NotFoundException("Ingredient");
         return ResponseIngredientDto.toDto(ingredient);
+    }
+
+    public List<IngredientNameDto> findActiveIngredientsByPrefix(String prefix) {
+        return ingredientDao.findActiveIngredientsByPrefixLimitedAmount(prefix, amountOfIngredientsToReturnWhileSearchingByPrefix);
     }
 }

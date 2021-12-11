@@ -1,6 +1,7 @@
 package com.example.persimmoncocktails.dao;
 
 
+import com.example.persimmoncocktails.dtos.ingredient.IngredientNameDto;
 import com.example.persimmoncocktails.models.ingredient.Ingredient;
 import com.example.persimmoncocktails.models.ingredient.IngredientCategory;
 import com.example.persimmoncocktails.models.ingredient.IngredientWithCategory;
@@ -27,4 +28,6 @@ public interface IngredientDao {
     List<IngredientWithCategory> readAllIngredientsUsedByCocktail(Long cocktailId);
 
     List<IngredientCategory> readAllIngredientCategories();
+
+    List<IngredientNameDto> findActiveIngredientsByPrefixLimitedAmount(String prefix, int limit);
 }
