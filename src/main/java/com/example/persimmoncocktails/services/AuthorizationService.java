@@ -127,7 +127,7 @@ public class AuthorizationService implements UserDetailsService{
     }
 
     public static boolean nameIsValid(String name){
-        String regex = "^[a-zA-Z0-9 ]{3,255}$";
+        String regex = "^.{3,100}$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(name);
         return matcher.find();
