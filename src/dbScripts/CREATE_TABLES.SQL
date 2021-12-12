@@ -10,10 +10,11 @@ CREATE TABLE KITCHENWARE (
 CREATE TABLE EVENT (
 	event_id BIGSERIAL NOT NULL PRIMARY KEY,
 	name VARCHAR(256) NOT NULL,
+	image_id BIGINT,
 	description VARCHAR(2000),
-	date DATE,
+	datetime TIMESTAMP,
 	place VARCHAR(256),
-	creator_id BIGINT
+	creator_id BIGINT NOT NULL
 );
 
 
