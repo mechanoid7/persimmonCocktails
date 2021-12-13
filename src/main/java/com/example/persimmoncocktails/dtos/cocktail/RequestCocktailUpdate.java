@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 @Builder
@@ -23,5 +24,7 @@ public class RequestCocktailUpdate {
     private String receipt;
     @NotNull
     private Boolean isActive;
+    private List<String> labels;
+    private List<Long> ingredientList;
 }
 
