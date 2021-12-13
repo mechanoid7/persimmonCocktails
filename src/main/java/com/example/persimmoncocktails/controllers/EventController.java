@@ -1,5 +1,6 @@
 package com.example.persimmoncocktails.controllers;
 
+import com.example.persimmoncocktails.dtos.event.PersonInEventResponseDto;
 import com.example.persimmoncocktails.dtos.event.RequestCreateEventDto;
 import com.example.persimmoncocktails.dtos.event.ResponseEventDto;
 import com.example.persimmoncocktails.dtos.image.ImageResponseDto;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/event")
+@PreAuthorize("isAuthenticated")
 public class EventController {
 
     private final EventService eventService;
@@ -22,84 +24,72 @@ public class EventController {
         this.eventService = eventService;
     }
 
-    @GetMapping(value = "/get/{eventId}")
-    public ImageResponseDto get(@PathVariable Long eventId) {
-        return eventService.getImageById(eventId);
-    }
 
-
-
-    @PreAuthorize("isAuthenticated")
     @PostMapping(value = "/create")
     public void upload(@RequestBody RequestCreateEventDto requestCreateEvent){
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         eventService.createEvent(requestCreateEvent, personId);
     }
 
-    @PreAuthorize("isAuthenticated")
-    @GetMapping(value = "/events-member")
+    @GetMapping(value = "/member-events")
     public List<ResponseEventDto> getEventsByPageIfMember(@RequestParam("page") Long pageNumber){
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         return eventService.getMemberEvents(personId, pageNumber);
     }
 
-    @PreAuthorize("isAuthenticated")
-    @GetMapping(value = "/events-owner")
+    @GetMapping(value = "/owner-events")
     public List<ResponseEventDto> getEventsByPageIfOwner(@RequestParam("page") Long pageNumber){
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         return eventService.getOwnerEvents(personId, pageNumber);
     }
 
-    @PreAuthorize("isAuthenticated")
+    @GetMapping(value = "/event-members")
+    public List<PersonInEventResponseDto> getEventMembersByEventId(@RequestParam("page") Long pageNumber, @RequestBody Long eventId){
+        return eventService.getEventMembersByEventId(eventId, pageNumber);
+    }
+
     @PostMapping(value = "/disable")
     public void disableEvent(@RequestBody Long eventId){ // decline event
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         eventService.disableEvent(eventId, personId);
     }
 
-    @PreAuthorize("isAuthenticated")
     @PostMapping(value = "/accept")
     public void acceptEvent(@RequestBody Long eventId){
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         eventService.acceptEvent(eventId, personId);
     }
 
-    @PreAuthorize("isAuthenticated")
     @PostMapping(value = "/decline")
     public void declineEvent(@RequestBody Long eventId){
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         eventService.declineEvent(eventId, personId);
     }
 
-    @PreAuthorize("isAuthenticated")
     @PostMapping(value = "/add-cocktail-to-event")
     public void addCocktailToEvent(@RequestBody Long eventId, @RequestBody Long cocktailId){
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         eventService.addCocktailToEvent(eventId, personId, cocktailId);
     }
 
-    @PreAuthorize("isAuthenticated")
     @DeleteMapping(value = "/remove-cocktail-from-event")
     public void removeCocktailFromEvent(@RequestBody Long eventId, @RequestBody Long cocktailId){
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         eventService.removeCocktailFromEvent(eventId, personId, cocktailId);
     }
 
-    @PreAuthorize("isAuthenticated")
     @PostMapping(value = "/invite-to-event")
     public void inviteToEvent(@RequestBody Long eventId, @RequestBody Long cocktailId){
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         eventService.inviteToEvent(eventId, personId, cocktailId);
     }
 
-    @PreAuthorize("isAuthenticated")
     @PostMapping(value = "/leave")
-    public void leaveFromEvent(@RequestBody Long eventId, @RequestBody Long cocktailId){
+    public void leaveFromEvent(@RequestBody Long eventId){
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
-        eventService.leaveFromEvent(eventId, personId, cocktailId);
+        eventService.leaveFromEvent(eventId, personId);
     }
 
-    @PreAuthorize("isAuthenticated")
     @PostMapping(value = "/update-image")
     public void updateImageEvent(@RequestBody Long eventId, @RequestBody Long imageId){
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
