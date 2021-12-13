@@ -3,6 +3,7 @@ package com.example.persimmoncocktails.controllers;
 import com.example.persimmoncocktails.dtos.auth.RequestChangePasswordDataDto;
 import com.example.persimmoncocktails.dtos.friend.FoundPersonsResponseDto;
 import com.example.persimmoncocktails.dtos.friend.FriendResponseDto;
+import com.example.persimmoncocktails.dtos.friend.RequestDeleteFriendDto;
 import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
 import com.example.persimmoncocktails.services.FriendsService;
 import com.example.persimmoncocktails.services.PersonService;
@@ -113,9 +114,9 @@ public class PersonController {
     }
 
     @DeleteMapping("/friends/delete")
-    public void deleteFriend(@RequestBody Long friendId) {
+    public void deleteFriend(@RequestBody RequestDeleteFriendDto deleteFriend) {
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
-        friendsService.removeFriendById(personId, friendId);
+        friendsService.removeFriendById(personId, deleteFriend.getPersonId());
     }
 
     @PostMapping("/friends/add")
