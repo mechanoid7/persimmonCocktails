@@ -91,10 +91,11 @@ public class CocktailController {
             @RequestParam(value = "ingredients", required = false) List<Long> ingredients,
             @RequestParam(value = "show-active", required = false) Boolean showActive,
             @RequestParam(value = "show-inactive", required = false) Boolean showInactive,
+            @RequestParam(value = "show-match-stock", required = false) Boolean showMatchStock,
             @RequestParam("page") Long pageNumber) {
         return cocktailService.searchFilterSort(new RequestCocktailSelectDto(searchRequest, sortBy, dishType,
                 dishCategoryId, sortDirection, ingredients, showActive == null ? true : showActive,
-                showInactive == null ? true : showInactive), pageNumber);
+                showInactive == null ? true : showInactive, showMatchStock), pageNumber);
     }
 
     @GetMapping("/active/search")
@@ -105,9 +106,10 @@ public class CocktailController {
             @RequestParam(value = "dish-category-id", required = false) Long dishCategoryId,
             @RequestParam(value = "sort-direction", required = false) Boolean sortDirection,
             @RequestParam(value = "ingredients", required = false) List<Long> ingredients,
+            @RequestParam(value = "show-match-stock", required = false) Boolean showMatchStock,
             @RequestParam("page") Long pageNumber) {
         return cocktailService.searchFilterSort(new RequestCocktailSelectDto(searchRequest, sortBy, dishType, dishCategoryId,
-                sortDirection, ingredients, true, false), pageNumber);
+                sortDirection, ingredients, true, false, showMatchStock), pageNumber);
     }
 
     @GetMapping("/labels")

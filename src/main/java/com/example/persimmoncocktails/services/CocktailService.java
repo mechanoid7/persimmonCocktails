@@ -52,13 +52,18 @@ public class CocktailService {
 
     public FullCocktailDto readById(Long dishId, boolean isAuthorizedToSeeNotActive) {
         FullCocktailDto cocktail = cocktailDao.getFullCocktailInfo(dishId);
-        if (cocktail == null || (!cocktail.getIsActive() && !isAuthorizedToSeeNotActive)) throw new NotFoundException("Cocktail");
+        if (cocktail == null || (!cocktail.getIsActive() && !isAuthorizedToSeeNotActive))
+            throw new NotFoundException("Cocktail");
         if (!isAuthorizedToSeeNotActive) cocktail = hideNotActive(cocktail);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication.getAuthorities().stream().noneMatch(a -> a.equals(new SimpleGrantedAuthority("ROLE_ANONYMOUS")))){
+        if (isAuthenticated(authentication)) {
             cocktail.setHasLike(cocktailDao.likeExists((Long) authentication.getDetails(), dishId));
         }
         return cocktail;
+    }
+
+    private boolean isAuthenticated(Authentication authentication) {
+        return authentication.getAuthorities().stream().noneMatch(a -> a.equals(new SimpleGrantedAuthority("ROLE_ANONYMOUS")));
     }
 
     private FullCocktailDto hideNotActive(FullCocktailDto cocktail) {
@@ -99,13 +104,13 @@ public class CocktailService {
 
     @Transactional
     void updateIngredients(FullCocktailDto updated, List<Long> ingredientList) {
-        for(IngredientWithCategory ingredient : updated.getIngredientList()){
-            if(!ingredientList.contains(ingredient.getIngredientId())){
+        for (IngredientWithCategory ingredient : updated.getIngredientList()) {
+            if (!ingredientList.contains(ingredient.getIngredientId())) {
                 removeIngredient(new RequestIngredientCocktailDto(ingredient.getIngredientId(), updated.getDishId()));
             }
         }
-        for(Long ingredientId : ingredientList){
-            if(updated.getIngredientList().stream().noneMatch(i -> i.getIngredientId().equals(ingredientId))){
+        for (Long ingredientId : ingredientList) {
+            if (updated.getIngredientList().stream().noneMatch(i -> i.getIngredientId().equals(ingredientId))) {
                 addIngredient(new RequestIngredientCocktailDto(ingredientId, updated.getDishId()));
             }
         }
@@ -167,6 +172,14 @@ public class CocktailService {
             sqlSelect += "(SELECT 0 = (SELECT COUNT(*) FROM (" + unionOfValues(cocktailSelect.getIngredients()) + "\n" +
                     "EXCEPT\n" +
                     "SELECT ingridient_id FROM ingridient_dish WHERE dish_id = d.dish_id) AS a)) AND ";
+        }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (cocktailSelect.getShowMatchStock() != null && cocktailSelect.getShowMatchStock() && isAuthenticated(authentication)) {
+            Long personId = (Long) authentication.getDetails();
+            sqlSelect += "d.dish_id IN (SELECT ingd.dish_id FROM stock s\n" +
+                    " INNER JOIN ingridient_dish ingd ON s.ingridient_id = ingd.ingridient_id\n" +
+                    " WHERE s.person_id =" + personId + " ) AND ";
+
         }
         sqlSelect += "1=1 ORDER BY ";
         if (cocktailSelect.getSortBy() != null) { //sort

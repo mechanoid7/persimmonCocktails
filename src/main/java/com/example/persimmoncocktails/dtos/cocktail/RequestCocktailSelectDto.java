@@ -20,9 +20,10 @@ public class RequestCocktailSelectDto {
     List<Long> ingredients;
     Boolean showActive;
     Boolean showInactive;
+    Boolean showMatchStock; // search cocktail in stock
 
     public Boolean isClear() {
         if(ingredients != null && !ingredients.isEmpty()) return false;
-        return Stream.of(name, sortBy, dishType, dishCategoryId).allMatch(Objects::isNull); // all fields are null?
+        return Stream.of(name, sortBy, dishType, dishCategoryId, showActive, showInactive, showMatchStock).allMatch(Objects::isNull); // all fields are null?
     }
 }
