@@ -30,6 +30,10 @@ public class StockService {
         return stockDao.getStockIngredients(personId, PageNumber);
     }
 
+    public StockInfoDto getStockIngredient(Long personId, Long ingredientId) {
+        return stockDao.getStockIngredient(personId, ingredientId);
+    }
+
     public List<RequestStockSearchIngredientDto> searchIngredientByNameSubstring(Long personId, String substring, Long pageNumber) {
         if (pageNumber<0) throw new IncorrectRangeNumberFormat("of page");
         return stockDao.searchIngredientByNameSubstring(personId,"%"+substring+"%", pageNumber);
@@ -64,13 +68,6 @@ public class StockService {
     }
 
     public List<StockInfoDto> searchFilterSort(RequestStockIngredientSelectDto ingredientSelect, Long pageNumber) {
-
-        if (ingredientSelect.getName() != null) {
-            if (ingredientSelect.getName().length() < 2) throw new IncorrectNameFormat("Search request too short");
-            //throw new IncorrectNameFormat();
-        }
-//        if (ingredientSelect.getSortBy() != null && !nameIsValid(ingredientSelect.getSortBy()))
-//            throw new IncorrectNameFormat("Provided column name has incorrect format");
         if (pageNumber < 0) throw new IncorrectRangeNumberFormat("of page");
         return stockDao.searchFilterSort(buildSqlRequest(ingredientSelect), pageNumber);
     }

@@ -14,8 +14,6 @@ import javax.validation.constraints.NotNull;
 public class RequestStockUpdateDto {
     @NotNull
     private Long ingredientId;
-    @NotNull
-    private Long personId;
     private int amount;
     private String measureType;
 }

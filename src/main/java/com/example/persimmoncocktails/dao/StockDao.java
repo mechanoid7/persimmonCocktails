@@ -13,6 +13,8 @@ public interface StockDao {
 
     void update(Long personId, RequestStockUpdateDto requestStockUpdateDto);
 
+    StockInfoDto getStockIngredient(Long personId, Long ingredientId);
+
     List<StockInfoDto> getStockIngredients(Long personId, Long ingredientsPerPage);
 
     List<RequestStockSearchIngredientDto> searchIngredientByNameSubstring(Long personId, String name, Long pageNumber);

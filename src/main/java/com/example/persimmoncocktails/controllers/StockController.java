@@ -21,9 +21,15 @@ public class StockController {
     }
 
     @GetMapping("/getPersonalStock")
-    public List<StockInfoDto> readStockById(@RequestParam("page") Long PageNumber) {
+    public List<StockInfoDto> readStockByPersonId(@RequestParam("page") Long PageNumber) {
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         return stockService.getStockIngredients(personId, PageNumber);
+    }
+
+    @GetMapping("/getPersonalStockIngredient/{ingredientId}")
+    public StockInfoDto readStockIngredientById(@PathVariable ("ingredientId") Long ingredientId) {
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        return stockService.getStockIngredient(personId, ingredientId);
     }
 
     @DeleteMapping("/{ingredientId}")
@@ -59,6 +65,8 @@ public class StockController {
             @RequestParam(value = "sort-direction", required = false) Boolean sortDirection,
             @RequestParam("page") Long pageNumber) {
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
-        return stockService.searchFilterSort(new RequestStockIngredientSelectDto(personId, searchRequest, sortBy, ingredientCategoryId, ingredientCategoryName, sortDirection), pageNumber);
+        return stockService.searchFilterSort(
+                new RequestStockIngredientSelectDto(
+                        personId, searchRequest, sortBy, ingredientCategoryId, ingredientCategoryName, sortDirection), pageNumber);
     }
 }
