@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -64,7 +65,16 @@ public class StockDaoImpl implements StockDao {
 
     @Override
     public StockInfoDto getStockIngredient(Long personId, Long ingredientId) {
-        return jdbcTemplate.queryForObject(sqlGetStockIngredient, stockIngredientMapper, personId, ingredientId);
+        try {
+            return jdbcTemplate.queryForObject(sqlGetStockIngredient, stockIngredientMapper, personId, ingredientId);
+        } catch (EmptyResultDataAccessException emptyE) {
+            return null;
+        } catch (DataAccessException rootException) {
+            // we should log it
+            rootException.printStackTrace();
+            throw new UnknownException();
+        }
+
     }
 
     @Override
