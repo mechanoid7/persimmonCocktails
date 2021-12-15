@@ -4,6 +4,7 @@ import com.example.persimmoncocktails.dtos.auth.RequestChangePasswordDataDto;
 import com.example.persimmoncocktails.dtos.friend.FriendResponseDto;
 import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
 import com.example.persimmoncocktails.services.FriendsService;
+import com.example.persimmoncocktails.services.FriendshipInvitationService;
 import com.example.persimmoncocktails.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

@@ -5,7 +5,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 public class IncorrectPasswordFormat extends ResponseStatusException {
 
-    static final String PASSWORD_REQUIREMENTS = "Password should be at least 6 characters long and must not contain special characters";
+    static final String PASSWORD_REQUIREMENTS = "Password should contain at least 8 characters, one capital letter, one number, and no special characters.";
 
     public IncorrectPasswordFormat() {
         super(HttpStatus.BAD_REQUEST, PASSWORD_REQUIREMENTS);
