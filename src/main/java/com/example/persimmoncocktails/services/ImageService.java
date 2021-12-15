@@ -6,6 +6,7 @@ import com.example.persimmoncocktails.dtos.image.ImageResponseDto;
 import com.example.persimmoncocktails.exceptions.*;
 import com.example.persimmoncocktails.models.image.ImageResponse;
 import com.google.gson.Gson;
+import org.apache.http.HttpEntity;
 import org.springframework.beans.factory.annotation.Value;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -53,8 +54,12 @@ public class ImageService {
         String responseString = "";
 
         try (CloseableHttpClient httpClient = HttpClients.createDefault(); CloseableHttpResponse response = httpClient.execute(post)) {
-            responseString = EntityUtils.toString(response.getEntity());
-            System.out.println(responseString);
+            HttpEntity res = response.getEntity();
+            if(response.getStatusLine().getStatusCode() == 200) {
+                responseString = EntityUtils.toString(res);
+                System.out.println(responseString);
+            }
+            else throw new IncorrectImage();
         }
 
         ImageResponse imageResponse = gson.fromJson(responseString, ImageResponse.class);
