@@ -1,10 +1,11 @@
 package com.example.persimmoncocktails.controllers;
 
 import com.example.persimmoncocktails.dtos.auth.RequestChangePasswordDataDto;
+import com.example.persimmoncocktails.dtos.friend.FoundPersonsResponseDto;
 import com.example.persimmoncocktails.dtos.friend.FriendResponseDto;
+import com.example.persimmoncocktails.dtos.friend.RequestDeleteFriendDto;
 import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
 import com.example.persimmoncocktails.services.FriendsService;
-import com.example.persimmoncocktails.services.FriendshipInvitationService;
 import com.example.persimmoncocktails.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,7 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @RestController
 @PreAuthorize("isAuthenticated")
 @RequestMapping("/person")
@@ -66,33 +66,62 @@ public class PersonController {
                 requestChangePasswordData.getNewPassword());
     }
 
-    @GetMapping("/search/{substring}")
+    @GetMapping("/search-all/{substring}")
     public List<FriendResponseDto> getPersonsBySubstring(@PathVariable String substring, @RequestParam("page") Long pageNumber) {
         return friendsService.searchPersonsByNameSubstring(substring, pageNumber);
     }
 
-    @GetMapping("/friends")
-    private List<FriendResponseDto> getPersonFriendsById(@RequestParam("page") Long pageNumber) {
+    @GetMapping("/search/{substring}")
+    public List<FoundPersonsResponseDto> getPersonsBySubstringWithoutFriends(@PathVariable String substring, @RequestParam("page") Long pageNumber) {
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        return friendsService.searchPersonsByNameSubstringWithoutFriends(personId, substring, pageNumber);
+    }
+
+    @GetMapping("/search-exists/{substring}")
+    public Boolean isPersonsBySubstringWithoutFriendsExists(@PathVariable String substring, @RequestParam("page") Long pageNumber) {
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        return friendsService.isPersonsBySubstringWithoutFriendsExists(personId, substring, pageNumber);
+    }
+
+    @GetMapping("/search-pages-number/{substring}")
+    public Long numberOfPagesPersonsBySubstringWithoutFriends(@PathVariable String substring) {
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        return friendsService.numberOfPagesPersonsBySubstringWithoutFriends(personId, substring);
+    }
+
+    @GetMapping("/friends") // deprecated
+    public List<FriendResponseDto> getSelfFriends(@RequestParam("page") Long pageNumber) {
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         return friendsService.getPersonFriends(personId, pageNumber);
     }
 
-    @GetMapping("/friends/{substring}")
+    @GetMapping("/friends/{substring}") // use empty substring for get list of friends without search
     public List<FriendResponseDto> getPersonFriendsByIdAndSubstring(@PathVariable String substring, @RequestParam("page") Long pageNumber) {
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         return friendsService.getListFriendsBySubstring(personId, substring, pageNumber);
     }
 
-    @DeleteMapping("/friends/delete")
-    private void deleteFriend(@RequestBody Long friendId) {
+    @GetMapping("/friends-pages-number")
+    public Long numberOfPagesFriends() {
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
-        friendsService.removeFriendById(personId, friendId);
+        return friendsService.numberOfPagesFriendsBySubstring(personId, "");
+    }
+
+    @GetMapping("/friends-pages-number/{substring}")
+    public Long numberOfPagesFriendsBySubstring(@PathVariable String substring) {
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        return friendsService.numberOfPagesFriendsBySubstring(personId, substring);
+    }
+
+    @DeleteMapping("/friends/delete")
+    public void deleteFriend(@RequestBody RequestDeleteFriendDto deleteFriend) {
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        friendsService.removeFriendById(personId, deleteFriend.getPersonId());
     }
 
     @PostMapping("/friends/add")
-    private void addFriend(@RequestBody Long friendId) {
+    public void addFriend(@RequestBody Long friendId) {
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         friendsService.addFriend(personId, friendId);
     }
 }
-

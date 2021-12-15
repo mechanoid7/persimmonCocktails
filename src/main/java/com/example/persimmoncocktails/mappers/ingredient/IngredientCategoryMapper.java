@@ -1,4 +1,4 @@
-package com.example.persimmoncocktails.mappers;
+package com.example.persimmoncocktails.mappers.ingredient;
 
 import com.example.persimmoncocktails.models.ingredient.IngredientCategory;
 import org.springframework.jdbc.core.RowMapper;

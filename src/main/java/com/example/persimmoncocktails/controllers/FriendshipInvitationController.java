@@ -1,9 +1,10 @@
 package com.example.persimmoncocktails.controllers;
 
-import com.example.persimmoncocktails.dtos.friend.FriendResponseDto;
 import com.example.persimmoncocktails.dtos.friendshipInvitation.FriendshipInvitationResponseDto;
-import com.example.persimmoncocktails.dtos.friendshipInvitation.RequestFriendshipInvitationDto;
+import com.example.persimmoncocktails.dtos.friendshipInvitation.RequestAddFriendshipInvitationDto;
+import com.example.persimmoncocktails.dtos.friendshipInvitation.RequestDeclineFriendshipInvitationDto;
 import com.example.persimmoncocktails.services.FriendshipInvitationService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,18 +19,28 @@ public class FriendshipInvitationController {
         this.friendshipInvitationService = friendshipInvitationService;
     }
 
-    @PostMapping("/{personId}/friend-invitation/add")
-    private void addFriendshipInvitation(@PathVariable Long personId, @RequestBody RequestFriendshipInvitationDto requestFriendshipInvitationDto){
-        friendshipInvitationService.addFriendshipInvitation(personId, requestFriendshipInvitationDto.getPersonReceiverId(), requestFriendshipInvitationDto.getMassage());
+    @PostMapping("/friend-invitation/add")
+    public void addFriendshipInvitation(@RequestBody RequestAddFriendshipInvitationDto requestAddFriendshipInvitationDto){
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        friendshipInvitationService.addFriendshipInvitation(personId, requestAddFriendshipInvitationDto.getPersonReceiverId(), requestAddFriendshipInvitationDto.getMessage());
     }
 
-    @DeleteMapping("/{personId}/friendship-invitation/delete")
-    private void deleteFriendshipInvitation(@PathVariable Long personId, @RequestBody RequestFriendshipInvitationDto  requestFriendshipInvitationDto){
-        friendshipInvitationService.deleteFriendshipInvitationById(personId, requestFriendshipInvitationDto.getPersonReceiverId());
+    @DeleteMapping("/friendship-invitation/delete")
+    public void deleteFriendshipInvitation(@RequestBody RequestDeclineFriendshipInvitationDto requestDeclineFriendshipInvitation){
+        System.out.println("FRIEND ID:"+requestDeclineFriendshipInvitation.getPersonId());
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        friendshipInvitationService.deleteFriendshipInvitationById(personId, requestDeclineFriendshipInvitation.getPersonId());
     }
 
-    @GetMapping("/{personId}/friendship-invitations")
-    private List<FriendshipInvitationResponseDto>  getPersonFriendshipInvitationsById(@PathVariable Long personId, @RequestParam("page") Long pageNumber){ /// @RequestBody Long pageNumber
+    @GetMapping("/friendship-invitations")
+    public List<FriendshipInvitationResponseDto>  getPersonFriendshipInvitations(@RequestParam("page") Long pageNumber){ /// @RequestBody Long pageNumber
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         return friendshipInvitationService.getPersonFriendshipInvitations(personId, pageNumber);
+    }
+
+    @GetMapping("/friendship-invitations-amount-pages")
+    public Long numberOfPagesFriends() {
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        return friendshipInvitationService.getPagesAmountFriendshipInvitations(personId);
     }
 }

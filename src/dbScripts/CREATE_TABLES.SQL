@@ -29,6 +29,7 @@ CREATE TABLE INGRIDIENT (
 CREATE TABLE DISH (
 	dish_id BIGSERIAL NOT NULL PRIMARY KEY,
 	name VARCHAR(256) UNIQUE NOT NULL,
+	image_id BIGINT,
 	description VARCHAR(2000),
 	dish_type VARCHAR(256),
 	dish_category_id BIGINT,
@@ -91,8 +92,7 @@ CREATE TABLE ROLE (
 CREATE TABLE FRIENDSHIP (
 	friendship_id BIGSERIAL NOT NULL PRIMARY KEY,
 	person_id_reciever BIGINT,
-	person_id_initiator BIGINT,
-	status VARCHAR(256)
+	person_id_initiator BIGINT
 );
 
 
@@ -152,9 +152,13 @@ CREATE TABLE DISH_CATEGORY (
 	name VARCHAR(256)
 );
 
-CREATE TABLE PHOTO (
+CREATE TABLE IMAGE (
 	photo_id BIGSERIAL NOT NULL PRIMARY KEY,
-	url VARCHAR(256)
+	uploader_person_id BIGINT,
+	url_full VARCHAR(256) NOT NULL,
+	url_middle VARCHAR(256) NOT NULL,
+	url_thumb VARCHAR(256) NOT NULL,
+	url_delete VARCHAR(256) NOT NULL
 );
 
 CREATE TABLE NOTIFICATION (
@@ -175,4 +179,12 @@ CREATE TABLE LIKES (
          pair_id BIGSERIAL NOT NULL PRIMARY KEY,
          person_id BIGINT NOT NULL,
          dish_id BIGINT NOT NULL
+);
+
+CREATE TABLE FRIENDSHIP_INVITATION (
+    friendship_id BIGSERIAL NOT NULL PRIMARY KEY,
+    person_id_initiator BIGINT NOT NULL,
+    person_id_receiver BIGINT NOT NULL,
+    datetime TIMESTAMP,
+    message VARCHAR(100)
 );

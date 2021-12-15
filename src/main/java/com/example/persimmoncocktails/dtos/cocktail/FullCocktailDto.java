@@ -1,5 +1,6 @@
 package com.example.persimmoncocktails.dtos.cocktail;
 
+import com.example.persimmoncocktails.dtos.image.ImageResponseDto;
 import com.example.persimmoncocktails.models.ingredient.IngredientWithCategory;
 import com.example.persimmoncocktails.models.kitchenware.KitchenwareWithCategory;
 import lombok.Data;
@@ -8,9 +9,9 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data
-//@NoArgsConstructor
 public class FullCocktailDto {
     private Long dishId;
+    private ImageResponseDto image;
     private String name;
     private String description;
     private String dishType;
@@ -22,11 +23,13 @@ public class FullCocktailDto {
     private Boolean isActive;
     private List<KitchenwareWithCategory> kitchenwareList;
     private List<IngredientWithCategory> ingredientList;
+    private Boolean hasLike;
 
     public FullCocktailDto(BasicCocktailDto cocktail,
                            List<KitchenwareWithCategory> kitchenwareList,
                            List<IngredientWithCategory> ingredientList) {
         dishId = cocktail.getDishId();
+        image = cocktail.getImage();
         name = cocktail.getName();
         description = cocktail.getDescription();
         dishType = cocktail.getDishType();
