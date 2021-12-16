@@ -1,9 +1,11 @@
 package com.example.persimmoncocktails.dao.impl;
 
 import com.example.persimmoncocktails.dao.KitchenwareDao;
+import com.example.persimmoncocktails.dtos.kitchenware.KitchenwareNameDto;
 import com.example.persimmoncocktails.exceptions.DuplicateException;
 import com.example.persimmoncocktails.exceptions.UnknownException;
 import com.example.persimmoncocktails.mappers.kitchenware.KitchenwareCategoryMapper;
+import com.example.persimmoncocktails.mappers.kitchenware.KitchenwareNameMapper;
 import com.example.persimmoncocktails.mappers.kitchenware.KitchenwareWithCategoryMapper;
 import com.example.persimmoncocktails.models.kitchenware.Kitchenware;
 import com.example.persimmoncocktails.models.kitchenware.KitchenwareCategory;
@@ -26,6 +28,7 @@ public class KitchenwareDaoImpl implements KitchenwareDao {
 
     private final KitchenwareWithCategoryMapper kitchenwareWithCategoryMapper = new KitchenwareWithCategoryMapper();
     private final KitchenwareCategoryMapper kitchenwareCategoryMapper = new KitchenwareCategoryMapper();
+    private final KitchenwareNameMapper kitchenwareNameMapper = new KitchenwareNameMapper();
     private final JdbcTemplate jdbcTemplate;
 
     @Value("${sql_kitchenware_with_category_read_by_id}")
@@ -48,6 +51,8 @@ public class KitchenwareDaoImpl implements KitchenwareDao {
     private String sqlReadAllKitchenwareCategories;
     @Value("${sql_kitchenwares_with_category_used_in_cocktail_by_id}")
     private String sqlReadAllKitchenwaresUsedByCocktail;
+    @Value("${sql_find_active_kitchenware_by_prefix_limited_amount}")
+    private String sqlFindActiveKitchenwareByPrefixLimitedAmount;
 
     @Override
     public boolean existsById(Long kitchenwareId) {
@@ -138,5 +143,11 @@ public class KitchenwareDaoImpl implements KitchenwareDao {
     @Override
     public List<KitchenwareCategory> readAllKitchenwareCategories() {
         return jdbcTemplate.query(sqlReadAllKitchenwareCategories, kitchenwareCategoryMapper);
+    }
+
+    @Override
+    public List<KitchenwareNameDto> findActiveKitchenwareByPrefixLimitedAmount(String prefix, Integer amountOfKitchenwareToReturnWhileSearchingByPrefix) {
+        return jdbcTemplate.query(sqlFindActiveKitchenwareByPrefixLimitedAmount, kitchenwareNameMapper,
+                prefix+"%", amountOfKitchenwareToReturnWhileSearchingByPrefix);
     }
 }

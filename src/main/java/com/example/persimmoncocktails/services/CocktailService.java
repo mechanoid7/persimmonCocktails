@@ -74,9 +74,11 @@ public class CocktailService {
         return cocktail;
     }
 
-    public BasicCocktailDto create(RequestCreateCocktail cocktail) {
+    public FullCocktailDto create(RequestCreateCocktail cocktail) {
         if (!nameIsValid(cocktail.getName())) throw new IncorrectNameFormat();
-        return cocktailDao.create(cocktail);
+        BasicCocktailDto res = cocktailDao.create(cocktail);
+        updateLabels(res.getDishId(), cocktail.getLabels());
+        return readById(res.getDishId(), true);
     }
 
     public void addLike(Long dishId, Long personId) {
@@ -94,7 +96,21 @@ public class CocktailService {
         cocktailDao.update(cocktail);
         FullCocktailDto updated = readById(cocktail.getDishId(), true);
         updateIngredients(updated, cocktail.getIngredientList());
+        updateKitchenwares(updated, cocktail.getKitchenwareIds());
         updateLabels(cocktail.getDishId(), cocktail.getLabels());
+    }
+
+    private void updateKitchenwares(FullCocktailDto updated, List<Long> kitchenwareList) {
+        for(KitchenwareWithCategory kitchenware : updated.getKitchenwareList()){
+            if(!kitchenwareList.contains(kitchenware.getKitchenwareId())){
+                removeKitchenware(new RequestKitchenwareCocktailDto(kitchenware.getKitchenwareId(), updated.getDishId()));
+            }
+        }
+        for(Long kitchenwareId : kitchenwareList){
+            if(updated.getKitchenwareList().stream().noneMatch(i -> i.getKitchenwareId().equals(kitchenwareId))){
+                addKitchenware(new RequestKitchenwareCocktailDto(kitchenwareId, updated.getDishId()));
+            }
+        }
     }
 
     @Transactional
