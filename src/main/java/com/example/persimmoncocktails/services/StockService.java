@@ -44,9 +44,8 @@ public class StockService {
                 "from stock s " +
                 "inner join ingredient i on i.ingredient_id = s.ingredient_id " +
                 "inner join ingredient_category ic on i.ingredient_category_id = ic.ingredient_category_id where ";
-        if(ingredientSelect.getIngredientCategoryId() != null) {
-            //if exists
-            sqlSelect += "i.ingredient_category_id="+ingredientSelect.getIngredientCategoryId()+"' and ";
+        if(ingredientSelect.getCategoryName() != null) {
+            sqlSelect += "ic.name= '"+ingredientSelect.getCategoryName()+"' and ";
         }
         if (ingredientSelect.getName() != null) { // search by name
             sqlSelect += "LOWER(i.name) LIKE '%" + ingredientSelect.getName().toLowerCase() + "%' AND ";
@@ -54,7 +53,7 @@ public class StockService {
         sqlSelect += "1=1 ORDER BY ";
 
         if (ingredientSelect.getSortBy() != null){ //sort
-            sqlSelect += "i.name " + ingredientSelect.getSortBy().toLowerCase() + " ";
+            sqlSelect += ingredientSelect.getSortBy().toLowerCase() + " ";
         } else {
             sqlSelect += "i.ingredient_id ";
         }
