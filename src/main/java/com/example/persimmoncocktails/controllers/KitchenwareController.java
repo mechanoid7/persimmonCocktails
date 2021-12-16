@@ -1,10 +1,13 @@
 package com.example.persimmoncocktails.controllers;
 
+import com.example.persimmoncocktails.dtos.ingredient.IngredientNameDto;
 import com.example.persimmoncocktails.dtos.kitchenware.*;
+import com.example.persimmoncocktails.exceptions.TooShortParameterException;
 import com.example.persimmoncocktails.models.kitchenware.KitchenwareCategory;
 import com.example.persimmoncocktails.models.kitchenware.KitchenwareWithCategory;
 import com.example.persimmoncocktails.services.KitchenwareService;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -81,5 +84,13 @@ public class KitchenwareController {
     @PatchMapping("/activate/{kitchenwareId}")
     public void activateKitchenware(@PathVariable Long kitchenwareId) {
         kitchenwareService.activate(kitchenwareId);
+    }
+
+    @GetMapping("/active/search-by-prefix")
+    public List<KitchenwareNameDto> getKitchenwareByPrefixOfName(@RequestParam String prefix) {
+        int minLengthLimit = 2;
+        if (Strings.isEmpty(prefix) || prefix.length() < minLengthLimit)
+            throw new TooShortParameterException("prefix", minLengthLimit);
+        return kitchenwareService.findActiveKitchenwareByPrefix(prefix);
     }
 }

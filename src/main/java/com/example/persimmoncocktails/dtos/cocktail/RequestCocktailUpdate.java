@@ -26,5 +26,6 @@ public class RequestCocktailUpdate {
     private Boolean isActive;
     private List<String> labels;
     private List<Long> ingredientList;
+    private List<Long> kitchenwareIds;
 }
 
