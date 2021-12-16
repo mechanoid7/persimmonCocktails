@@ -6,6 +6,7 @@ import com.example.persimmoncocktails.dtos.image.ImageResponseDto;
 import com.example.persimmoncocktails.exceptions.*;
 import com.example.persimmoncocktails.models.image.ImageResponse;
 import com.google.gson.Gson;
+import org.apache.http.HttpEntity;
 import org.springframework.beans.factory.annotation.Value;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -17,11 +18,13 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Objects;
 
 
 @Service
@@ -38,8 +41,11 @@ public class ImageService {
     }
 
     public ImageResponse upload(MultipartFile multipartFile) throws IOException {
+        if (multipartFile.getSize()>31457280) throw new FileTooLargeException("30mb");
+        List<String> accessExtension = new ArrayList<>(List.of("jpg", "png", "bmp", "gif", "tif", "webp", "heic"));
+        if (!accessExtension.contains(Objects.requireNonNull(FilenameUtils.getExtension(multipartFile.getOriginalFilename())).toLowerCase())) throw new InvalidImageExtensionException();
+        
         HttpPost post = new HttpPost("https://api.imgbb.com/1/upload?key=" + this.IMAGE_API_KEY);
-
         List<NameValuePair> urlParameters = new ArrayList<>();
         urlParameters.add(new BasicNameValuePair("image", Base64.getEncoder().encodeToString(multipartFile.getBytes())));
         post.setEntity(new UrlEncodedFormEntity(urlParameters));
@@ -48,8 +54,12 @@ public class ImageService {
         String responseString = "";
 
         try (CloseableHttpClient httpClient = HttpClients.createDefault(); CloseableHttpResponse response = httpClient.execute(post)) {
-            responseString = EntityUtils.toString(response.getEntity());
-            System.out.println(responseString);
+            HttpEntity res = response.getEntity();
+            if(response.getStatusLine().getStatusCode() == 200) {
+                responseString = EntityUtils.toString(res);
+                System.out.println(responseString);
+            }
+            else throw new IncorrectImage();
         }
 
         ImageResponse imageResponse = gson.fromJson(responseString, ImageResponse.class);

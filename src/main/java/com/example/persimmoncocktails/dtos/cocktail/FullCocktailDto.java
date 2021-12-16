@@ -23,6 +23,7 @@ public class FullCocktailDto {
     private Boolean isActive;
     private List<KitchenwareWithCategory> kitchenwareList;
     private List<IngredientWithCategory> ingredientList;
+    private Boolean hasLike;
 
     public FullCocktailDto(BasicCocktailDto cocktail,
                            List<KitchenwareWithCategory> kitchenwareList,

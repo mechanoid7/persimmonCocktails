@@ -40,7 +40,7 @@ public class CocktailController {
 
     @PreAuthorize("hasRole('ROLE_MODERATOR')")
     @PostMapping("/create")
-    public BasicCocktailDto createCocktail(@Valid @RequestBody RequestCreateCocktail cocktail) {
+    public FullCocktailDto createCocktail(@Valid @RequestBody RequestCreateCocktail cocktail) {
         return cocktailService.create(cocktail);
     }
 
