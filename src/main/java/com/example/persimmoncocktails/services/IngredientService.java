@@ -1,5 +1,6 @@
 package com.example.persimmoncocktails.services;
 
+import com.example.persimmoncocktails.dao.ImageDao;
 import com.example.persimmoncocktails.dao.IngredientDao;
 import com.example.persimmoncocktails.dtos.ingredient.IngredientNameDto;
 import com.example.persimmoncocktails.dtos.ingredient.RequestIngredientDto;
@@ -23,12 +24,14 @@ import java.util.stream.Collectors;
 public class IngredientService {
 
     private final IngredientDao ingredientDao;
+    private final ImageDao imageDao;
     @Value("${amount_of_ingredients}")
     public Integer amountOfIngredientsToReturnWhileSearchingByPrefix;
 
     @Autowired
-    public IngredientService(IngredientDao ingredientDao) {
+    public IngredientService(IngredientDao ingredientDao, ImageDao imageDao) {
         this.ingredientDao = ingredientDao;
+        this.imageDao = imageDao;
     }
 
 
@@ -56,7 +59,7 @@ public class IngredientService {
 
     public void updatePhoto(Long ingredientId, Long photoId) {
         if (!ingredientDao.existsById(ingredientId)) throw new NotFoundException("Ingredient");
-        // check photoId
+        if(!imageDao.isExistsById(photoId)) throw new NotFoundException("Photo");
         Ingredient ingredient = ingredientDao.read(ingredientId).toIngredient();
         ingredient.setPhotoId(photoId);
         ingredientDao.update(ingredient);
