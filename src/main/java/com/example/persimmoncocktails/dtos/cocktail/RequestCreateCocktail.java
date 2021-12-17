@@ -26,6 +26,7 @@ public class RequestCreateCocktail {
     @NotNull
     private List<Long> ingredientIds;
     private List<String> labels;
+    private Long photoId;
 
 
     public List<Long> getUniqueKitchenwareIds(){
