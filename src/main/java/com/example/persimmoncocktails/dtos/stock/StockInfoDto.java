@@ -1,5 +1,6 @@
 package com.example.persimmoncocktails.dtos.stock;
 
+import com.example.persimmoncocktails.dtos.image.ImageResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,4 +19,5 @@ public class StockInfoDto {
     private String categoryName;
     private int amount;
     private String measureType;
+    private ImageResponseDto image;
 }

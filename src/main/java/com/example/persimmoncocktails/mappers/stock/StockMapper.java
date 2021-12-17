@@ -20,10 +20,10 @@ public class StockMapper implements RowMapper<RequestStockSearchIngredientDto> {
         if(rs.wasNull()) photoId = 1l;
         return new RequestStockSearchIngredientDto(
                 rs.getLong("person_id"),
-                rs.getLong("ingredient_id"),
+                rs.getLong("ingridient_id"),
                 name,
                 photoId,
-                rs.getLong("ingredient_category_id"),
+                rs.getLong("ingridient_category_id"),
                 rs.getString("category_name"),
                 amount,
                 measureType
