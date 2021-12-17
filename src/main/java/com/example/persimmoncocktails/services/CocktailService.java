@@ -1,12 +1,8 @@
 package com.example.persimmoncocktails.services;
 
-import com.example.persimmoncocktails.dao.CocktailDao;
-import com.example.persimmoncocktails.dao.PersonDao;
+import com.example.persimmoncocktails.dao.*;
 import com.example.persimmoncocktails.dtos.cocktail.*;
-import com.example.persimmoncocktails.exceptions.DuplicateException;
-import com.example.persimmoncocktails.exceptions.IncorrectNameFormat;
-import com.example.persimmoncocktails.exceptions.IncorrectRangeNumberFormat;
-import com.example.persimmoncocktails.exceptions.NotFoundException;
+import com.example.persimmoncocktails.exceptions.*;
 import com.example.persimmoncocktails.models.cocktail.Cocktail;
 import com.example.persimmoncocktails.models.cocktail.CocktailCategory;
 import com.example.persimmoncocktails.models.ingredient.IngredientWithCategory;
@@ -30,6 +26,9 @@ import java.util.stream.Collectors;
 public class CocktailService {
     CocktailDao cocktailDao;
     PersonDao personDao;
+    private ImageDao imageDao;
+    private final KitchenwareDao kitchenwareDao;
+    private final IngredientDao ingredientDao;
 
     public static boolean nameIsValid(String name) {
         String regex = "^[a-zA-Z0-9 -]{2,255}$";
@@ -74,9 +73,33 @@ public class CocktailService {
         return cocktail;
     }
 
-    public BasicCocktailDto create(RequestCreateCocktail cocktail) {
+    public FullCocktailDto create(RequestCreateCocktail cocktail) {
         if (!nameIsValid(cocktail.getName())) throw new IncorrectNameFormat();
-        return cocktailDao.create(cocktail);
+        if(cocktail.getPhotoId() != null && !imageDao.isExistsById(cocktail.getPhotoId())) throw new NotFoundException("photoId");
+        ingredientsAndKitchenwareAreValid(cocktail.getUniqueIngredientIds(), cocktail.getUniqueKitchenwareIds());
+        BasicCocktailDto res = cocktailDao.create(cocktail);
+        updateLabels(res.getDishId(), cocktail.getLabels());
+        return readById(res.getDishId(), true);
+    }
+
+    private void ingredientsAndKitchenwareAreValid(List<Long> uniqueIngredientIds, List<Long> uniqueKitchenwareIds) {
+        //TODO: optimize check queries
+        if (uniqueKitchenwareIds != null) {
+            for (Long kitchenwareId : uniqueKitchenwareIds) {
+                boolean exists = kitchenwareDao.existsById(kitchenwareId);
+                if (!exists) {
+                    throw new NotFoundException("Kitchenware");
+                }
+            }
+        }
+        if (uniqueIngredientIds != null) {
+            for (Long ingredientId : uniqueIngredientIds) {
+                boolean exists = ingredientDao.existsById(ingredientId);
+                if (!exists) {
+                    throw new NotFoundException("Ingredient");
+                }
+            }
+        }
     }
 
     public void addLike(Long dishId, Long personId) {
@@ -91,10 +114,26 @@ public class CocktailService {
     }
 
     public void update(RequestCocktailUpdate cocktail) {
+        if(cocktail.getPhotoId() != null && !imageDao.isExistsById(cocktail.getPhotoId())) throw new NotFoundException("photoId");
+        ingredientsAndKitchenwareAreValid(cocktail.getUniqueIngredientIds(), cocktail.getUniqueKitchenwareIds());
         cocktailDao.update(cocktail);
         FullCocktailDto updated = readById(cocktail.getDishId(), true);
         updateIngredients(updated, cocktail.getIngredientList());
+        updateKitchenwares(updated, cocktail.getKitchenwareIds());
         updateLabels(cocktail.getDishId(), cocktail.getLabels());
+    }
+
+    private void updateKitchenwares(FullCocktailDto updated, List<Long> kitchenwareList) {
+        for(KitchenwareWithCategory kitchenware : updated.getKitchenwareList()){
+            if(!kitchenwareList.contains(kitchenware.getKitchenwareId())){
+                removeKitchenware(new RequestKitchenwareCocktailDto(kitchenware.getKitchenwareId(), updated.getDishId()));
+            }
+        }
+        for(Long kitchenwareId : kitchenwareList){
+            if(updated.getKitchenwareList().stream().noneMatch(i -> i.getKitchenwareId().equals(kitchenwareId))){
+                addKitchenware(new RequestKitchenwareCocktailDto(kitchenwareId, updated.getDishId()));
+            }
+        }
     }
 
     @Transactional

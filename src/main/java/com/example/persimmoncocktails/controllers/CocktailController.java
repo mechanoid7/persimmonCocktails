@@ -38,31 +38,31 @@ public class CocktailController {
         return cocktailService.getLikes(dishId);
     }
 
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasAuthority('content:update')")
     @PostMapping("/create")
-    public BasicCocktailDto createCocktail(@Valid @RequestBody RequestCreateCocktail cocktail) {
+    public FullCocktailDto createCocktail(@Valid @RequestBody RequestCreateCocktail cocktail) {
         return cocktailService.create(cocktail);
     }
 
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasAuthority('content:update')")
     @PostMapping("/update-image")
     public void updateImage(@RequestBody RequestChangeImageDto requestChangeImage) {
         cocktailService.updateImage(requestChangeImage);
     }
 
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasAuthority('content:update')")
     @PostMapping("/delete")
     public void deleteCocktailById(@RequestBody Long dishId) {
         cocktailService.deleteById(dishId);
     }
 
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasAuthority('content:update')")
     @PatchMapping("/update")
     public void updateCocktail(@Valid @RequestBody RequestCocktailUpdate cocktail) {
         cocktailService.update(cocktail);
     }
 
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasAuthority('content:update')")
     @PatchMapping("/change-status")
     public void changeStatus(@RequestBody Long dishId) { // activate/deactivate
         cocktailService.changeStatus(dishId);
@@ -115,19 +115,19 @@ public class CocktailController {
         return cocktailService.getLabels(dishId);
     }
 
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasAuthority('content:update')")
     @PostMapping("/labels/add")
     public void addLabelById(@RequestBody RequestCocktailLabelDto requestCocktailLabelDto) {
         cocktailService.addLabel(requestCocktailLabelDto.getDishId(), requestCocktailLabelDto.getLabel());
     }
 
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasAuthority('content:update')")
     @DeleteMapping("/labels/delete")
     public void deleteLabelById(@RequestBody RequestCocktailLabelDto requestCocktailLabelDto) {
         cocktailService.deleteLabel(requestCocktailLabelDto.getDishId(), requestCocktailLabelDto.getLabel());
     }
 
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasAuthority('content:update')")
     @DeleteMapping("/labels/clear")
     public void clearLabelsById(@RequestBody Long dishId) {
         cocktailService.clearLabelsLabels(dishId);
@@ -138,21 +138,25 @@ public class CocktailController {
         return cocktailService.getCocktailCategories();
     }
 
+    @PreAuthorize("hasAuthority('content:update')")
     @PatchMapping("/ingredient/add")
     public void addIngredientToCocktail(@RequestBody RequestIngredientCocktailDto request) {
         cocktailService.addIngredient(request);
     }
 
+    @PreAuthorize("hasAuthority('content:update')")
     @PatchMapping("/ingredient/remove")
     public void removeIngredientFromCocktail(@RequestBody RequestIngredientCocktailDto request) {
         cocktailService.removeIngredient(request);
     }
 
+    @PreAuthorize("hasAuthority('content:update')")
     @PatchMapping("/kitchenware/add")
     public void addKitchenwareToCocktail(@RequestBody RequestKitchenwareCocktailDto request) {
         cocktailService.addKitchenware(request);
     }
 
+    @PreAuthorize("hasAuthority('content:update')")
     @PatchMapping("/kitchenware/remove")
     public void removeKitchenwareFromCocktail(@RequestBody RequestKitchenwareCocktailDto request) {
         cocktailService.removeKitchenware(request);

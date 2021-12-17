@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -26,5 +27,23 @@ public class RequestCocktailUpdate {
     private Boolean isActive;
     private List<String> labels;
     private List<Long> ingredientList;
+    private List<Long> kitchenwareIds;
+    private Long photoId;
+
+    public List<Long> getUniqueIngredientIds() {
+        if(ingredientList == null) return null;
+        return ingredientList
+                .stream()
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    public List<Long> getUniqueKitchenwareIds() {
+        if(kitchenwareIds == null) return null;
+        return kitchenwareIds
+                .stream()
+                .distinct()
+                .collect(Collectors.toList());
+    }
 }
 

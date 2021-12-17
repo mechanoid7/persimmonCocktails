@@ -78,7 +78,7 @@ public class IngredientDaoImpl implements IngredientDao {
                     ingredient.getIngredientCategoryId(),
                     ingredient.getPhotoId(),
                     ingredient.isActive(),
-                    ingredient.getIngredientCategoryId());
+                    ingredient.getIngredientId());
         } catch (DataAccessException rootException) {
             // we should log it
             rootException.printStackTrace();
