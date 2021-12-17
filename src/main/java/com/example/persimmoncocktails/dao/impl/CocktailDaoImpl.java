@@ -102,27 +102,11 @@ public class CocktailDaoImpl implements CocktailDao {
 
     @Override
     public BasicCocktailDto create(RequestCreateCocktail cocktail) {
-        //TODO: optimize check queries
-        if (cocktail.getKitchenwareIds() != null) {
-            for (Long kitchenwareId : cocktail.getUniqueKitchenwareIds()) {
-                boolean exists = kitchenwareDao.existsById(kitchenwareId);
-                if (!exists) {
-                    throw new NotFoundException("Kitchenware");
-                }
-            }
-        }
-        if (cocktail.getIngredientIds() != null) {
-            for (Long ingredientId : cocktail.getUniqueIngredientIds()) {
-                boolean exists = ingredientDao.existsById(ingredientId);
-                if (!exists) {
-                    throw new NotFoundException("Ingredient");
-                }
-            }
-        }
         try {
             try {
-                jdbcTemplate.update(sqlCocktailAdd, cocktail.getName(), cocktail.getDescription(), cocktail.getDishType(),
-                        cocktail.getDishCategoryId(), "", cocktail.getReceipt(), 0, true);
+                jdbcTemplate.update(sqlCocktailAdd, cocktail.getName(), cocktail.getDescription(),
+                        cocktail.getDishType(), cocktail.getDishCategoryId(), "", cocktail.getReceipt(),
+                        0, true, cocktail.getPhotoId());
             } catch (DuplicateKeyException e) {
                 throw new DuplicateException("Cocktail", "name");
             } catch (DataIntegrityViolationException dataIntegrityViolationException) {
@@ -186,7 +170,8 @@ public class CocktailDaoImpl implements CocktailDao {
         try {
             jdbcTemplate.update(sqlUpdateCocktail, cocktail.getName(), cocktail.getDescription(), cocktail.getDishType(),
                     cocktail.getDishCategoryId(), cocktail.getReceipt(),
-                    cocktail.getIsActive(), cocktail.getDishId());
+                    cocktail.getIsActive(), cocktail.getPhotoId(),
+                    cocktail.getDishId());
         } catch (DuplicateKeyException duplicateKeyException) {
             throw new DuplicateException("Cocktail", "name");
         } catch (EmptyResultDataAccessException emptyE) {

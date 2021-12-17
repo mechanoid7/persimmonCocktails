@@ -1,5 +1,6 @@
 package com.example.persimmoncocktails.models.ingredient;
 
+import com.example.persimmoncocktails.dtos.image.ImageResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,8 @@ import lombok.NoArgsConstructor;
 public class IngredientWithCategory {
     private Long ingredientId;
     private String name;
-    private Long photoId;
+    private ImageResponseDto image;
+    private Long photoId; // for backward compatibility
     private IngredientCategory category;
     private boolean isActive;
 
@@ -21,7 +23,7 @@ public class IngredientWithCategory {
                 ingredientId,
                 name,
                 category == null ? null : category.getIngredientCategoryId(),
-                photoId,
+                image == null ? null : image.getImageId(),
                 isActive
         );
     }
