@@ -50,6 +50,12 @@ public class StockController {
         stockService.addIngredient(stockIngredients, personId);
     }
 
+    @PostMapping("/add-ingredientId")
+    public void addIngredientId(@RequestBody RequestStockIngredientIdDto stockIngredient) {
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        stockService.addIngredientId(stockIngredient, personId);
+    }
+
     @GetMapping("/search/{substring}")
     public List<RequestStockSearchIngredientDto> getIngredientBySubstring(@PathVariable String substring, @RequestParam("page") Long pageNumber) {
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
