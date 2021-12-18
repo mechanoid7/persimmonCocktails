@@ -64,10 +64,11 @@ public class CocktailService {
 
     public FullCocktailDto readById(Long dishId, boolean isAuthorizedToSeeNotActive) {
         FullCocktailDto cocktail = cocktailDao.getFullCocktailInfo(dishId);
-        if (cocktail == null || (!cocktail.getIsActive() && !isAuthorizedToSeeNotActive)) throw new NotFoundException("Cocktail");
+        if (cocktail == null || (!cocktail.getIsActive() && !isAuthorizedToSeeNotActive))
+            throw new NotFoundException("Cocktail");
         if (!isAuthorizedToSeeNotActive) cocktail = hideNotActive(cocktail);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication.getAuthorities().stream().noneMatch(a -> a.equals(new SimpleGrantedAuthority("ROLE_ANONYMOUS")))){
+        if (isAuthenticated(authentication)) {
             cocktail.setHasLike(cocktailDao.likeExists((Long) authentication.getDetails(), dishId));
         }
         return cocktail;
@@ -88,7 +89,8 @@ public class CocktailService {
 
     public FullCocktailDto create(RequestCreateCocktail cocktail) {
         if (!nameIsValid(cocktail.getName())) throw new IncorrectNameFormat();
-        if(cocktail.getPhotoId() != null && !imageDao.isExistsById(cocktail.getPhotoId())) throw new NotFoundException("photoId");
+        if (cocktail.getPhotoId() != null && !imageDao.isExistsById(cocktail.getPhotoId()))
+            throw new NotFoundException("photoId");
         ingredientsAndKitchenwareAreValid(cocktail.getUniqueIngredientIds(), cocktail.getUniqueKitchenwareIds());
         BasicCocktailDto res = cocktailDao.create(cocktail);
         updateLabels(res.getDishId(), cocktail.getLabels());
@@ -127,7 +129,8 @@ public class CocktailService {
     }
 
     public void update(RequestCocktailUpdate cocktail) {
-        if(cocktail.getPhotoId() != null && !imageDao.isExistsById(cocktail.getPhotoId())) throw new NotFoundException("photoId");
+        if (cocktail.getPhotoId() != null && !imageDao.isExistsById(cocktail.getPhotoId()))
+            throw new NotFoundException("photoId");
         ingredientsAndKitchenwareAreValid(cocktail.getUniqueIngredientIds(), cocktail.getUniqueKitchenwareIds());
         cocktailDao.update(cocktail);
         FullCocktailDto updated = readById(cocktail.getDishId(), true);
@@ -137,13 +140,13 @@ public class CocktailService {
     }
 
     private void updateKitchenwares(FullCocktailDto updated, List<Long> kitchenwareList) {
-        for(KitchenwareWithCategory kitchenware : updated.getKitchenwareList()){
-            if(!kitchenwareList.contains(kitchenware.getKitchenwareId())){
+        for (KitchenwareWithCategory kitchenware : updated.getKitchenwareList()) {
+            if (!kitchenwareList.contains(kitchenware.getKitchenwareId())) {
                 removeKitchenware(new RequestKitchenwareCocktailDto(kitchenware.getKitchenwareId(), updated.getDishId()));
             }
         }
-        for(Long kitchenwareId : kitchenwareList){
-            if(updated.getKitchenwareList().stream().noneMatch(i -> i.getKitchenwareId().equals(kitchenwareId))){
+        for (Long kitchenwareId : kitchenwareList) {
+            if (updated.getKitchenwareList().stream().noneMatch(i -> i.getKitchenwareId().equals(kitchenwareId))) {
                 addKitchenware(new RequestKitchenwareCocktailDto(kitchenwareId, updated.getDishId()));
             }
         }
@@ -151,13 +154,13 @@ public class CocktailService {
 
     @Transactional
     void updateIngredients(FullCocktailDto updated, List<Long> ingredientList) {
-        for(IngredientWithCategory ingredient : updated.getIngredientList()){
-            if(!ingredientList.contains(ingredient.getIngredientId())){
+        for (IngredientWithCategory ingredient : updated.getIngredientList()) {
+            if (!ingredientList.contains(ingredient.getIngredientId())) {
                 removeIngredient(new RequestIngredientCocktailDto(ingredient.getIngredientId(), updated.getDishId()));
             }
         }
-        for(Long ingredientId : ingredientList){
-            if(updated.getIngredientList().stream().noneMatch(i -> i.getIngredientId().equals(ingredientId))){
+        for (Long ingredientId : ingredientList) {
+            if (updated.getIngredientList().stream().noneMatch(i -> i.getIngredientId().equals(ingredientId))) {
                 addIngredient(new RequestIngredientCocktailDto(ingredientId, updated.getDishId()));
             }
         }
@@ -177,12 +180,12 @@ public class CocktailService {
         return cocktailDao.searchFilterSort(buildSqlRequest(cocktailSelect, pageNumber));
     }
 
-    public Integer amountOfResultPages(RequestCocktailSelectDto cocktailSelect){
+    public Integer amountOfResultPages(RequestCocktailSelectDto cocktailSelect) {
         Integer resultsAmount;
-        if(cocktailSelect.isClear()) {
+        if (cocktailSelect.isClear()) {
             resultsAmount = cocktailDao.amountOfCocktails(cocktailSelect.getShowActive(), cocktailSelect.getShowInactive());
-            return (int)Math.ceil(
-                    (double)resultsAmount /
+            return (int) Math.ceil(
+                    (double) resultsAmount /
                             cocktailsPerPage);
         }
         List<Object> values = new ArrayList<>();
@@ -190,7 +193,7 @@ public class CocktailService {
         wholeRequest.append(constructFilterQueryPart(cocktailSelect, values));
         wholeRequest.append(" 1=1");
         resultsAmount = cocktailDao.amountOfResults(new SqlSearchRequest(wholeRequest.toString(), values));
-        return (int)Math.ceil((double)resultsAmount / cocktailsPerPage);
+        return (int) Math.ceil((double) resultsAmount / cocktailsPerPage);
     }
 
     private List<BasicCocktailDto> getRawListOfCocktails(Long pageNumber, Boolean showActive, Boolean showInactive) {
@@ -219,11 +222,19 @@ public class CocktailService {
         if (cocktailSelect.getSortBy() != null) { //sort
             if (!cocktailDao.columnExists(cocktailSelect.getSortBy().toLowerCase()))
                 throw new NotFoundException("sort column");     // check column exists
-            switch (cocktailSelect.getSortBy().toLowerCase()){
-                case "name": sqlSelect.append("d.name "); break;
-                case "receipt": sqlSelect.append("d.receipt "); break;
-                case "likes": sqlSelect.append("d.likes "); break;
-                case "description": sqlSelect.append("d.description "); break;
+            switch (cocktailSelect.getSortBy().toLowerCase()) {
+                case "name":
+                    sqlSelect.append("d.name ");
+                    break;
+                case "receipt":
+                    sqlSelect.append("d.receipt ");
+                    break;
+                case "likes":
+                    sqlSelect.append("d.likes ");
+                    break;
+                case "description":
+                    sqlSelect.append("d.description ");
+                    break;
             }
 //            values.add(cocktailSelect.getSortBy().toLowerCase());
         } else {
@@ -234,7 +245,7 @@ public class CocktailService {
             sqlSelect.append("desc ");
         }
         sqlSelect.append("OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
-        values.add(pageNumber*cocktailsPerPage);
+        values.add(pageNumber * cocktailsPerPage);
         values.add(cocktailsPerPage);
 //        System.out.println("SQL: " + sqlSelect);
         return new SqlSearchRequest(sqlSelect.toString(), values);
@@ -249,7 +260,7 @@ public class CocktailService {
             sqlSelect.append("d.dish_category_id= ? AND ");
         }
         if (cocktailSelect.getName() != null) { // search by name
-            values.add("%"+cocktailSelect.getName().toLowerCase()+"%");
+            values.add("%" + cocktailSelect.getName().toLowerCase() + "%");
             sqlSelect.append("LOWER(d.name) LIKE ? AND ");
         }
         if (cocktailSelect.getIngredients() != null && !cocktailSelect.getIngredients().isEmpty()) { // filter by ingredients
@@ -257,7 +268,19 @@ public class CocktailService {
                     .append(unionOfValues(cocktailSelect.getIngredients(), values))
                     .append("\nEXCEPT\nSELECT ingridient_id FROM ingridient_dish WHERE dish_id = d.dish_id) AS a)) AND ");
         }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (cocktailSelect.getShowMatchStock() != null && cocktailSelect.getShowMatchStock() && isAuthenticated(authentication)) {
+            Long personId = (Long) authentication.getDetails();
+            values.add(personId);
+            sqlSelect.append("d.dish_id IN (SELECT ingd.dish_id FROM stock s\n")
+                    .append(" INNER JOIN ingridient_dish ingd ON s.ingridient_id = ingd.ingridient_id\n")
+                    .append(" WHERE s.person_id = ? ) AND ");
+        }
         return sqlSelect.toString();
+    }
+
+    private boolean isAuthenticated(Authentication authentication) {
+        return authentication.getAuthorities().stream().noneMatch(a -> a.equals(new SimpleGrantedAuthority("ROLE_ANONYMOUS")));
     }
 
     private String unionOfValues(List<Long> ingredients, List<Object> values) {
