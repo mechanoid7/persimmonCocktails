@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/ingredient")
+@PreAuthorize("isAuthenticated")
 @RequiredArgsConstructor
 public class IngredientController {
     private final IngredientService ingredientService;
@@ -34,7 +36,7 @@ public class IngredientController {
         return ingredientService.readActiveIngredientId(ingredientId);
     }
 
-    @PreAuthorize("hasAuthority('content:update')")
+
     @GetMapping
     public List<IngredientWithCategory> getAllIngredients() {
         return ingredientService.readAllIngredients();
