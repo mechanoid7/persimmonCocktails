@@ -59,7 +59,7 @@ public class StockDaoImpl implements StockDao {
     @Value("${sqlReadStockIngredient}")
     private String sqlGetStockIngredient;
 
-    @Value("15")
+    @Value("${ingredients_per_page}")
     private Long ingredientsPerPage;
 
 

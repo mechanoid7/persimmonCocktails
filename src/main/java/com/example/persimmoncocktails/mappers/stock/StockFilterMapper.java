@@ -12,7 +12,7 @@ public class StockFilterMapper implements RowMapper<StockInfoDto> {
     @Override
     public StockInfoDto mapRow(ResultSet rs, int rowNum) throws SQLException {
         String name = rs.getString("name");
-        if(rs.wasNull()) name = "";
+        if(rs.wasNull()) name = null;
         int amount = rs.getInt("amount");
         if(rs.wasNull()) amount = 1;
         String measureType = rs.getString("measure_type");
