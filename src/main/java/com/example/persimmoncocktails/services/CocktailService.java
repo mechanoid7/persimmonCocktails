@@ -8,6 +8,10 @@ import com.example.persimmoncocktails.models.cocktail.CocktailCategory;
 import com.example.persimmoncocktails.models.ingredient.IngredientWithCategory;
 import com.example.persimmoncocktails.models.kitchenware.KitchenwareWithCategory;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,13 +26,22 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
+@PropertySources({
+        @PropertySource("classpath:sql/cocktail_queries.properties"),
+        @PropertySource("classpath:var/general.properties")
+})
 public class CocktailService {
-    CocktailDao cocktailDao;
-    PersonDao personDao;
-    private ImageDao imageDao;
+    private final CocktailDao cocktailDao;
+    private final PersonDao personDao;
+    private final ImageDao imageDao;
     private final KitchenwareDao kitchenwareDao;
     private final IngredientDao ingredientDao;
+
+    @Value("${number_of_cocktails_per_page}")
+    Integer cocktailsPerPage;
+    @Value("${sql_search_cocktails_base_query}")
+    String searchCocktailsBaseSqlQuery;
 
     public static boolean nameIsValid(String name) {
         String regex = "^[a-zA-Z0-9 -]{2,255}$";
@@ -161,7 +174,23 @@ public class CocktailService {
         if (cocktailSelect.getSortBy() != null && !nameIsValid(cocktailSelect.getSortBy()))
             throw new IncorrectNameFormat("Provided column name has incorrect format");
         if (pageNumber < 0) throw new IncorrectRangeNumberFormat("of page");
-        return cocktailDao.searchFilterSort(buildSqlRequest(cocktailSelect), pageNumber);
+        return cocktailDao.searchFilterSort(buildSqlRequest(cocktailSelect, pageNumber));
+    }
+
+    public Integer amountOfResultPages(RequestCocktailSelectDto cocktailSelect){
+        Integer resultsAmount;
+        if(cocktailSelect.isClear()) {
+            resultsAmount = cocktailDao.amountOfCocktails(cocktailSelect.getShowActive(), cocktailSelect.getShowInactive());
+            return (int)Math.ceil(
+                    (double)resultsAmount /
+                            cocktailsPerPage);
+        }
+        List<Object> values = new ArrayList<>();
+        StringBuilder wholeRequest = new StringBuilder("SELECT COUNT(*) FROM dish d WHERE ");
+        wholeRequest.append(constructFilterQueryPart(cocktailSelect, values));
+        wholeRequest.append(" 1=1");
+        resultsAmount = cocktailDao.amountOfResults(new SqlSearchRequest(wholeRequest.toString(), values));
+        return (int)Math.ceil((double)resultsAmount / cocktailsPerPage);
     }
 
     private List<BasicCocktailDto> getRawListOfCocktails(Long pageNumber, Boolean showActive, Boolean showInactive) {
@@ -182,54 +211,62 @@ public class CocktailService {
         return cocktailDao.cocktailIsActive(dishId);
     }
 
-    public String buildSqlRequest(RequestCocktailSelectDto cocktailSelect) {
-        String sqlSelect = "SELECT d.dish_id, im.photo_id, im.url_full, im.url_middle, im.url_thumb, im.url_delete," +
-                "d.name, d.description, d.dish_type, dc.name dish_category_name, d.dish_category_id category_id, " +
-                "d.label, d.receipt, d.likes, d.is_active FROM dish d " +
-                "LEFT JOIN dish_category dc ON d.dish_category_id = dc.dish_category_id " +
-                "LEFT JOIN image im ON d.image_id = im.photo_id " +
-                "WHERE ";
-        if (!cocktailSelect.getShowActive()) sqlSelect += "d.is_active <> true AND ";
-        if (!cocktailSelect.getShowInactive()) sqlSelect += "d.is_active <> false AND ";
-        if (cocktailSelect.getDishType() != null && // filter
-                nameIsValid(cocktailSelect.getDishType())) {
-            if (!cocktailDao.dishTypeExists(cocktailSelect.getDishType())) throw new NotFoundException("dish type");
-            sqlSelect += "d.dish_type='" + cocktailSelect.getDishType().toLowerCase() + "' AND ";
-        }
-        if (cocktailSelect.getDishCategoryId() != null) { // filter
-            sqlSelect += "d.dish_category_id=" + cocktailSelect.getDishCategoryId() + " AND ";
-        }
-        if (cocktailSelect.getName() != null) { // search by name
-            sqlSelect += "LOWER(d.name) LIKE '%" + cocktailSelect.getName().toLowerCase() + "%' AND ";
-        }
-        if (cocktailSelect.getIngredients() != null && !cocktailSelect.getIngredients().isEmpty()) { // filter by ingredients
-            sqlSelect += "(SELECT 0 = (SELECT COUNT(*) FROM (" + unionOfValues(cocktailSelect.getIngredients()) + "\n" +
-                    "EXCEPT\n" +
-                    "SELECT ingridient_id FROM ingridient_dish WHERE dish_id = d.dish_id) AS a)) AND ";
-        }
-        sqlSelect += "1=1 ORDER BY ";
+    public SqlSearchRequest buildSqlRequest(RequestCocktailSelectDto cocktailSelect, Long pageNumber) {
+        List<Object> values = new ArrayList<>();
+        StringBuilder sqlSelect = new StringBuilder(searchCocktailsBaseSqlQuery);
+        sqlSelect.append(constructFilterQueryPart(cocktailSelect, values));
+        sqlSelect.append("1=1 ORDER BY ");
         if (cocktailSelect.getSortBy() != null) { //sort
             if (!cocktailDao.columnExists(cocktailSelect.getSortBy().toLowerCase()))
                 throw new NotFoundException("sort column");     // check column exists
-            sqlSelect += "d." + cocktailSelect.getSortBy().toLowerCase() + " ";
+            switch (cocktailSelect.getSortBy().toLowerCase()){
+                case "name": sqlSelect.append("d.name "); break;
+                case "receipt": sqlSelect.append("d.receipt "); break;
+                case "likes": sqlSelect.append("d.likes "); break;
+                case "description": sqlSelect.append("d.description "); break;
+            }
+//            values.add(cocktailSelect.getSortBy().toLowerCase());
         } else {
-            sqlSelect += "d.dish_id ";
+            sqlSelect.append("d.dish_id ");
         }
         if (cocktailSelect.getSortDirection() != null && // sort direction
                 Boolean.FALSE.equals(cocktailSelect.getSortDirection())) { // if sort direction = false
-            sqlSelect += "desc ";
+            sqlSelect.append("desc ");
         }
-        sqlSelect += "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
-        System.out.println("SQL: " + sqlSelect);
-        return sqlSelect;
+        sqlSelect.append("OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
+        values.add(pageNumber*cocktailsPerPage);
+        values.add(cocktailsPerPage);
+//        System.out.println("SQL: " + sqlSelect);
+        return new SqlSearchRequest(sqlSelect.toString(), values);
     }
 
-    private String unionOfValues(List<Long> ingredients) {
+    private String constructFilterQueryPart(RequestCocktailSelectDto cocktailSelect, List<Object> values) {
+        StringBuilder sqlSelect = new StringBuilder();
+        if (!cocktailSelect.getShowActive()) sqlSelect.append("d.is_active <> true AND ");
+        if (!cocktailSelect.getShowInactive()) sqlSelect.append("d.is_active <> false AND ");
+        if (cocktailSelect.getDishCategoryId() != null) { // filter
+            values.add(cocktailSelect.getDishCategoryId());
+            sqlSelect.append("d.dish_category_id= ? AND ");
+        }
+        if (cocktailSelect.getName() != null) { // search by name
+            values.add("%"+cocktailSelect.getName().toLowerCase()+"%");
+            sqlSelect.append("LOWER(d.name) LIKE ? AND ");
+        }
+        if (cocktailSelect.getIngredients() != null && !cocktailSelect.getIngredients().isEmpty()) { // filter by ingredients
+            sqlSelect.append("(SELECT 0 = (SELECT COUNT(*) FROM (")
+                    .append(unionOfValues(cocktailSelect.getIngredients(), values))
+                    .append("\nEXCEPT\nSELECT ingridient_id FROM ingridient_dish WHERE dish_id = d.dish_id) AS a)) AND ");
+        }
+        return sqlSelect.toString();
+    }
+
+    private String unionOfValues(List<Long> ingredients, List<Object> values) {
         StringBuilder sb = new StringBuilder("(");
         Iterator<Long> iterator = ingredients.listIterator();
         while (iterator.hasNext()) {
             long ingredientId = iterator.next();
-            sb.append("VALUES(").append(ingredientId).append(")");
+            sb.append("VALUES(?)");
+            values.add(ingredientId);
             if (iterator.hasNext()) sb.append(" UNION ");
         }
         sb.append(")");
