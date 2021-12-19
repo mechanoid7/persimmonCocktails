@@ -91,13 +91,15 @@ public class CocktailController {
             @RequestParam(value = "ingredients", required = false) List<Long> ingredients,
             @RequestParam(value = "show-active", required = false) Boolean showActive,
             @RequestParam(value = "show-inactive", required = false) Boolean showInactive,
+            @RequestParam(value = "show-match-stock", required = false) Boolean showMatchStock,
             @RequestParam(value = "calculate-pages-amount", required = true) Boolean calculatePagesAmount,
             @RequestParam("page") Long pageNumber) {
         RequestCocktailSelectDto searchRequestObject =
                 new RequestCocktailSelectDto(searchRequest, sortBy, dishType,
                         dishCategoryId, sortDirection, ingredients,
                         showActive == null ? true : showActive,
-                        showInactive == null ? true : showInactive);
+                        showInactive == null ? true : showInactive,
+                        showMatchStock);
         CocktailsSearchResultDto result = new CocktailsSearchResultDto(
                 cocktailService.searchFilterSort(searchRequestObject, pageNumber),
                 null
@@ -115,10 +117,12 @@ public class CocktailController {
             @RequestParam(value = "sort-direction", required = false) Boolean sortDirection,
             @RequestParam(value = "ingredients", required = false) List<Long> ingredients,
             @RequestParam(value = "calculate-pages-amount", required = true) Boolean calculatePagesAmount,
+            @RequestParam(value = "show-match-stock", required = false) Boolean showMatchStock,
             @RequestParam("page") Long pageNumber) {
         RequestCocktailSelectDto searchRequestObject =
                 new RequestCocktailSelectDto(searchRequest, sortBy, dishType, dishCategoryId,
-                sortDirection, ingredients, true, false);
+                sortDirection, ingredients, true, false,
+                        showMatchStock);
         CocktailsSearchResultDto result = new CocktailsSearchResultDto(
                 cocktailService.searchFilterSort(searchRequestObject, pageNumber),
                 null
