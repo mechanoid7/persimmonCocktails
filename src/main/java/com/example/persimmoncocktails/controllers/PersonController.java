@@ -59,7 +59,6 @@ public class PersonController {
     }
 
     @PatchMapping("/change-password")
-    @PreAuthorize("hasRole('ROLE_CLIENT')")
     public void changePasswordPerson(@RequestBody RequestChangePasswordDataDto requestChangePasswordData) {
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         personService.changePassword(personId,
