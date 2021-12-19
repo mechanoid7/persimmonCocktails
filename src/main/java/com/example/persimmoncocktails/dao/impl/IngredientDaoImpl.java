@@ -1,11 +1,9 @@
 package com.example.persimmoncocktails.dao.impl;
 
 import com.example.persimmoncocktails.dao.IngredientDao;
-import com.example.persimmoncocktails.dtos.ingredient.IngredientNameDto;
 import com.example.persimmoncocktails.exceptions.DuplicateException;
 import com.example.persimmoncocktails.exceptions.UnknownException;
 import com.example.persimmoncocktails.mappers.ingredient.IngredientCategoryMapper;
-import com.example.persimmoncocktails.mappers.ingredient.IngredientNameMapper;
 import com.example.persimmoncocktails.mappers.ingredient.IngredientWithCategoryMapper;
 import com.example.persimmoncocktails.models.ingredient.Ingredient;
 import com.example.persimmoncocktails.models.ingredient.IngredientCategory;
@@ -29,7 +27,6 @@ public class IngredientDaoImpl implements IngredientDao {
     private final JdbcTemplate jdbcTemplate;
     private final IngredientWithCategoryMapper ingredientWithCategoryMapper = new IngredientWithCategoryMapper();
     private final IngredientCategoryMapper ingredientCategoryMapper = new IngredientCategoryMapper();
-    private final IngredientNameMapper ingredientNameMapper = new IngredientNameMapper();
 
     @Value("${sql_ingredient_create}")
     private String sqlInsertNewIngredient;
@@ -140,7 +137,7 @@ public class IngredientDaoImpl implements IngredientDao {
     }
 
     @Override
-    public List<IngredientNameDto> findActiveIngredientsByPrefixLimitedAmount(String prefix, int limit) {
-        return jdbcTemplate.query(sqlFindActiveIngredientsByPrefixLimitedAmount, ingredientNameMapper, prefix + "%", limit);
+    public List<IngredientWithCategory> findActiveIngredientsByPrefixLimitedAmount(String prefix, int limit) {
+        return jdbcTemplate.query(sqlFindActiveIngredientsByPrefixLimitedAmount, ingredientWithCategoryMapper, prefix + "%", limit);
     }
 }
