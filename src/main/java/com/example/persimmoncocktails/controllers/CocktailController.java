@@ -38,31 +38,31 @@ public class CocktailController {
         return cocktailService.getLikes(dishId);
     }
 
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasAuthority('content:update')")
     @PostMapping("/create")
     public FullCocktailDto createCocktail(@Valid @RequestBody RequestCreateCocktail cocktail) {
         return cocktailService.create(cocktail);
     }
 
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasAuthority('content:update')")
     @PostMapping("/update-image")
     public void updateImage(@RequestBody RequestChangeImageDto requestChangeImage) {
         cocktailService.updateImage(requestChangeImage);
     }
 
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasAuthority('content:update')")
     @PostMapping("/delete")
     public void deleteCocktailById(@RequestBody Long dishId) {
         cocktailService.deleteById(dishId);
     }
 
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasAuthority('content:update')")
     @PatchMapping("/update")
     public void updateCocktail(@Valid @RequestBody RequestCocktailUpdate cocktail) {
         cocktailService.update(cocktail);
     }
 
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasAuthority('content:update')")
     @PatchMapping("/change-status")
     public void changeStatus(@RequestBody Long dishId) { // activate/deactivate
         cocktailService.changeStatus(dishId);
@@ -82,7 +82,7 @@ public class CocktailController {
 
     @PreAuthorize("hasAuthority('inactive:read')")
     @GetMapping("/search")
-    public List<BasicCocktailDto> searchFilterSortCocktails(
+    public CocktailsSearchResultDto searchFilterSortCocktails(
             @RequestParam(value = "search", required = false) String searchRequest,
             @RequestParam(value = "sort-by", required = false) String sortBy,
             @RequestParam(value = "dish-type", required = false) String dishType,
@@ -91,23 +91,44 @@ public class CocktailController {
             @RequestParam(value = "ingredients", required = false) List<Long> ingredients,
             @RequestParam(value = "show-active", required = false) Boolean showActive,
             @RequestParam(value = "show-inactive", required = false) Boolean showInactive,
+            @RequestParam(value = "show-match-stock", required = false) Boolean showMatchStock,
+            @RequestParam(value = "calculate-pages-amount", required = true) Boolean calculatePagesAmount,
             @RequestParam("page") Long pageNumber) {
-        return cocktailService.searchFilterSort(new RequestCocktailSelectDto(searchRequest, sortBy, dishType,
-                dishCategoryId, sortDirection, ingredients, showActive == null ? true : showActive,
-                showInactive == null ? true : showInactive), pageNumber);
+        RequestCocktailSelectDto searchRequestObject =
+                new RequestCocktailSelectDto(searchRequest, sortBy, dishType,
+                        dishCategoryId, sortDirection, ingredients,
+                        showActive == null ? true : showActive,
+                        showInactive == null ? true : showInactive,
+                        showMatchStock);
+        CocktailsSearchResultDto result = new CocktailsSearchResultDto(
+                cocktailService.searchFilterSort(searchRequestObject, pageNumber),
+                null
+        );
+        if(calculatePagesAmount) result.setAmountOfPages(cocktailService.amountOfResultPages(searchRequestObject));
+        return result;
     }
 
     @GetMapping("/active/search")
-    public List<BasicCocktailDto> restrictedSearchFilterSort(
+    public CocktailsSearchResultDto restrictedSearchFilterSort(
             @RequestParam(value = "search", required = false) String searchRequest,
             @RequestParam(value = "sort-by", required = false) String sortBy,
             @RequestParam(value = "dish-type", required = false) String dishType,
             @RequestParam(value = "dish-category-id", required = false) Long dishCategoryId,
             @RequestParam(value = "sort-direction", required = false) Boolean sortDirection,
             @RequestParam(value = "ingredients", required = false) List<Long> ingredients,
+            @RequestParam(value = "calculate-pages-amount", required = true) Boolean calculatePagesAmount,
+            @RequestParam(value = "show-match-stock", required = false) Boolean showMatchStock,
             @RequestParam("page") Long pageNumber) {
-        return cocktailService.searchFilterSort(new RequestCocktailSelectDto(searchRequest, sortBy, dishType, dishCategoryId,
-                sortDirection, ingredients, true, false), pageNumber);
+        RequestCocktailSelectDto searchRequestObject =
+                new RequestCocktailSelectDto(searchRequest, sortBy, dishType, dishCategoryId,
+                sortDirection, ingredients, true, false,
+                        showMatchStock);
+        CocktailsSearchResultDto result = new CocktailsSearchResultDto(
+                cocktailService.searchFilterSort(searchRequestObject, pageNumber),
+                null
+        );
+        if(calculatePagesAmount) result.setAmountOfPages(cocktailService.amountOfResultPages(searchRequestObject));
+        return result;
     }
 
     @GetMapping("/labels")
@@ -115,19 +136,19 @@ public class CocktailController {
         return cocktailService.getLabels(dishId);
     }
 
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasAuthority('content:update')")
     @PostMapping("/labels/add")
     public void addLabelById(@RequestBody RequestCocktailLabelDto requestCocktailLabelDto) {
         cocktailService.addLabel(requestCocktailLabelDto.getDishId(), requestCocktailLabelDto.getLabel());
     }
 
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasAuthority('content:update')")
     @DeleteMapping("/labels/delete")
     public void deleteLabelById(@RequestBody RequestCocktailLabelDto requestCocktailLabelDto) {
         cocktailService.deleteLabel(requestCocktailLabelDto.getDishId(), requestCocktailLabelDto.getLabel());
     }
 
-    @PreAuthorize("hasRole('ROLE_MODERATOR')")
+    @PreAuthorize("hasAuthority('content:update')")
     @DeleteMapping("/labels/clear")
     public void clearLabelsById(@RequestBody Long dishId) {
         cocktailService.clearLabelsLabels(dishId);
@@ -138,21 +159,25 @@ public class CocktailController {
         return cocktailService.getCocktailCategories();
     }
 
+    @PreAuthorize("hasAuthority('content:update')")
     @PatchMapping("/ingredient/add")
     public void addIngredientToCocktail(@RequestBody RequestIngredientCocktailDto request) {
         cocktailService.addIngredient(request);
     }
 
+    @PreAuthorize("hasAuthority('content:update')")
     @PatchMapping("/ingredient/remove")
     public void removeIngredientFromCocktail(@RequestBody RequestIngredientCocktailDto request) {
         cocktailService.removeIngredient(request);
     }
 
+    @PreAuthorize("hasAuthority('content:update')")
     @PatchMapping("/kitchenware/add")
     public void addKitchenwareToCocktail(@RequestBody RequestKitchenwareCocktailDto request) {
         cocktailService.addKitchenware(request);
     }
 
+    @PreAuthorize("hasAuthority('content:update')")
     @PatchMapping("/kitchenware/remove")
     public void removeKitchenwareFromCocktail(@RequestBody RequestKitchenwareCocktailDto request) {
         cocktailService.removeKitchenware(request);

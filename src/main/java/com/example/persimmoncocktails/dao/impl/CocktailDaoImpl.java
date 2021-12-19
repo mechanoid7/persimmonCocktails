@@ -3,10 +3,7 @@ package com.example.persimmoncocktails.dao.impl;
 import com.example.persimmoncocktails.dao.CocktailDao;
 import com.example.persimmoncocktails.dao.IngredientDao;
 import com.example.persimmoncocktails.dao.KitchenwareDao;
-import com.example.persimmoncocktails.dtos.cocktail.BasicCocktailDto;
-import com.example.persimmoncocktails.dtos.cocktail.FullCocktailDto;
-import com.example.persimmoncocktails.dtos.cocktail.RequestCocktailUpdate;
-import com.example.persimmoncocktails.dtos.cocktail.RequestCreateCocktail;
+import com.example.persimmoncocktails.dtos.cocktail.*;
 import com.example.persimmoncocktails.exceptions.DuplicateException;
 import com.example.persimmoncocktails.exceptions.NotFoundException;
 import com.example.persimmoncocktails.exceptions.UnknownException;
@@ -96,33 +93,19 @@ public class CocktailDaoImpl implements CocktailDao {
     private String sqlRemoveIngredient;
     @Value("${sql_cocktail_update_image_id}")
     private String sqlUpdatePhoto;
+    @Value("${sql_amount_of_cocktails}")
+    private String sqlAmountOfCocktails;
     @Value("${number_of_cocktails_per_page}")
     private Long cocktailsPerPage;
 
 
     @Override
     public BasicCocktailDto create(RequestCreateCocktail cocktail) {
-        //TODO: optimize check queries
-        if (cocktail.getKitchenwareIds() != null) {
-            for (Long kitchenwareId : cocktail.getUniqueKitchenwareIds()) {
-                boolean exists = kitchenwareDao.existsById(kitchenwareId);
-                if (!exists) {
-                    throw new NotFoundException("Kitchenware");
-                }
-            }
-        }
-        if (cocktail.getIngredientIds() != null) {
-            for (Long ingredientId : cocktail.getUniqueIngredientIds()) {
-                boolean exists = ingredientDao.existsById(ingredientId);
-                if (!exists) {
-                    throw new NotFoundException("Ingredient");
-                }
-            }
-        }
         try {
             try {
-                jdbcTemplate.update(sqlCocktailAdd, cocktail.getName(), cocktail.getDescription(), cocktail.getDishType(),
-                        cocktail.getDishCategoryId(), "", cocktail.getReceipt(), 0, true);
+                jdbcTemplate.update(sqlCocktailAdd, cocktail.getName(), cocktail.getDescription(),
+                        cocktail.getDishType(), cocktail.getDishCategoryId(), "", cocktail.getReceipt(),
+                        0, true, cocktail.getPhotoId());
             } catch (DuplicateKeyException e) {
                 throw new DuplicateException("Cocktail", "name");
             } catch (DataIntegrityViolationException dataIntegrityViolationException) {
@@ -186,7 +169,8 @@ public class CocktailDaoImpl implements CocktailDao {
         try {
             jdbcTemplate.update(sqlUpdateCocktail, cocktail.getName(), cocktail.getDescription(), cocktail.getDishType(),
                     cocktail.getDishCategoryId(), cocktail.getReceipt(),
-                    cocktail.getIsActive(), cocktail.getDishId());
+                    cocktail.getIsActive(), cocktail.getPhotoId(),
+                    cocktail.getDishId());
         } catch (DuplicateKeyException duplicateKeyException) {
             throw new DuplicateException("Cocktail", "name");
         } catch (EmptyResultDataAccessException emptyE) {
@@ -248,8 +232,21 @@ public class CocktailDaoImpl implements CocktailDao {
     }
 
     @Override
-    public List<BasicCocktailDto> searchFilterSort(String sqlRequest, Long pageNumber) {
-        return jdbcTemplate.query(sqlRequest, cocktailMapper, pageNumber * cocktailsPerPage, cocktailsPerPage);
+    public List<BasicCocktailDto> searchFilterSort(SqlSearchRequest searchRequest) {
+        return jdbcTemplate.query(searchRequest.getRequest(), cocktailMapper, searchRequest.getValues().toArray());
+
+//        return jdbcTemplate.query(sqlRequest, cocktailMapper, pageNumber * cocktailsPerPage, cocktailsPerPage);
+    }
+
+    @Override
+    public Integer amountOfResults(SqlSearchRequest searchRequest) {
+        try {
+            return jdbcTemplate.queryForObject(searchRequest.getRequest(), Integer.class, searchRequest.getValues().toArray());
+        } catch (DataAccessException rootException) {
+            // we should log it
+            rootException.printStackTrace();
+            throw new UnknownException();
+        }
     }
 
     @Override
@@ -416,6 +413,18 @@ public class CocktailDaoImpl implements CocktailDao {
         } catch (EmptyResultDataAccessException emptyE) {
             throw new NotFoundException("Cocktail-Ingredient");
         } catch (DataAccessException rootException) {
+            rootException.printStackTrace();
+            throw new UnknownException();
+        }
+    }
+
+    @Override
+    public Integer amountOfCocktails(boolean showActive, boolean showInactive){
+        try{
+            return jdbcTemplate.queryForObject(sqlAmountOfCocktails, Integer.class, showActive ? true : null, showInactive ? false : null);
+        }
+        catch (DataAccessException rootException){
+            // we should log it
             rootException.printStackTrace();
             throw new UnknownException();
         }
