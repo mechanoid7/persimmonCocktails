@@ -61,7 +61,7 @@ public class FriendsDaoImpl implements FriendsDao {
 
     @Override
     public List<FoundPersonsResponseDto> searchPersonsByNameSubstringWithoutFriends(Long personId, String substring, Long pageNumber) {
-        return jdbcTemplate.query(sqlGetListUsersBySubstringWithoutFriends, foundPersonMapper, personId, personId, personId,
+        return jdbcTemplate.query(sqlGetListUsersBySubstringWithoutFriends, foundPersonMapper, personId, personId, personId, personId,
                 substring.toLowerCase(), pageNumber * personsPerPage, personsPerPage);
     }
 
