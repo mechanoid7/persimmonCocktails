@@ -33,7 +33,6 @@ public class IngredientService {
         this.imageDao = imageDao;
     }
 
-
     public IngredientWithCategory readIngredientId(Long ingredientId) {
         IngredientWithCategory ingredient = ingredientDao.read(ingredientId);
         if (ingredient == null) throw new NotFoundException("Ingredient");
@@ -108,7 +107,6 @@ public class IngredientService {
                 .filter(IngredientWithCategory::isActive)
                 .map(ResponseIngredientDto::toDto)
                 .collect(Collectors.toList());
-
     }
 
     public ResponseIngredientDto readActiveIngredientId(Long ingredientId) {
