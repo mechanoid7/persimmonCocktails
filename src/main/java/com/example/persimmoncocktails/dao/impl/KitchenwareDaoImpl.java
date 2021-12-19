@@ -70,7 +70,6 @@ public class KitchenwareDaoImpl implements KitchenwareDao {
         } catch (DuplicateKeyException e) {
             throw new DuplicateException("Kitchenware");
         } catch (DataAccessException rootException) {
-            // we should log it
             rootException.printStackTrace();
             throw new UnknownException();
         }
@@ -83,7 +82,6 @@ public class KitchenwareDaoImpl implements KitchenwareDao {
         } catch (EmptyResultDataAccessException emptyE) {
             return null;
         } catch (DataAccessException rootException) {
-            // we should log it
             rootException.printStackTrace();
             throw new UnknownException();
         }
@@ -96,7 +94,6 @@ public class KitchenwareDaoImpl implements KitchenwareDao {
         } catch (EmptyResultDataAccessException emptyE) {
             return null;
         } catch (DataAccessException rootException) {
-            // we should log it
             rootException.printStackTrace();
             throw new UnknownException();
         }
@@ -104,7 +101,6 @@ public class KitchenwareDaoImpl implements KitchenwareDao {
 
     @Override
     public void update(Kitchenware kitchenware) {
-        // we should consider changing way to modify rows
         try {
             jdbcTemplate.update(sqlUpdateKitchenware,
                     kitchenware.getName(),
@@ -113,7 +109,6 @@ public class KitchenwareDaoImpl implements KitchenwareDao {
                     kitchenware.isActive(),
                     kitchenware.getKitchenwareId());
         } catch (DataAccessException rootException) {
-            // we should log it
             rootException.printStackTrace();
             throw new UnknownException();
         }
@@ -148,6 +143,6 @@ public class KitchenwareDaoImpl implements KitchenwareDao {
     @Override
     public List<KitchenwareNameDto> findActiveKitchenwareByPrefixLimitedAmount(String prefix, Integer amountOfKitchenwareToReturnWhileSearchingByPrefix) {
         return jdbcTemplate.query(sqlFindActiveKitchenwareByPrefixLimitedAmount, kitchenwareNameMapper,
-                prefix+"%", amountOfKitchenwareToReturnWhileSearchingByPrefix);
+                prefix + "%", amountOfKitchenwareToReturnWhileSearchingByPrefix);
     }
 }

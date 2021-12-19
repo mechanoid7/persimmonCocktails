@@ -64,7 +64,6 @@ public class IngredientDaoImpl implements IngredientDao {
         } catch (DuplicateKeyException e) {
             throw new DuplicateException("Ingredient");
         } catch (DataAccessException rootException) {
-            // we should log it
             rootException.printStackTrace();
             throw new UnknownException();
         }
@@ -80,7 +79,6 @@ public class IngredientDaoImpl implements IngredientDao {
                     ingredient.isActive(),
                     ingredient.getIngredientId());
         } catch (DataAccessException rootException) {
-            // we should log it
             rootException.printStackTrace();
             throw new UnknownException();
         }
@@ -103,7 +101,6 @@ public class IngredientDaoImpl implements IngredientDao {
         } catch (EmptyResultDataAccessException emptyE) {
             return null;
         } catch (DataAccessException rootException) {
-            // we should log it
             rootException.printStackTrace();
             throw new UnknownException();
         }
@@ -116,7 +113,6 @@ public class IngredientDaoImpl implements IngredientDao {
         } catch (EmptyResultDataAccessException emptyE) {
             return null;
         } catch (DataAccessException rootException) {
-            // we should log it
             rootException.printStackTrace();
             throw new UnknownException();
         }
@@ -145,6 +141,6 @@ public class IngredientDaoImpl implements IngredientDao {
 
     @Override
     public List<IngredientNameDto> findActiveIngredientsByPrefixLimitedAmount(String prefix, int limit) {
-        return jdbcTemplate.query(sqlFindActiveIngredientsByPrefixLimitedAmount, ingredientNameMapper, prefix+"%", limit);
+        return jdbcTemplate.query(sqlFindActiveIngredientsByPrefixLimitedAmount, ingredientNameMapper, prefix + "%", limit);
     }
 }

@@ -27,7 +27,7 @@ public class StockController {
     }
 
     @GetMapping("/getPersonalStockIngredient/{ingredientId}")
-    public StockInfoDto readStockIngredientById(@PathVariable ("ingredientId") Long ingredientId) {
+    public StockInfoDto readStockIngredientById(@PathVariable("ingredientId") Long ingredientId) {
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         return stockService.getStockIngredient(personId, ingredientId);
     }
@@ -48,6 +48,12 @@ public class StockController {
     public void addIngredient(@RequestBody RequestAddStockIngredientDto stockIngredients) {
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         stockService.addIngredient(stockIngredients, personId);
+    }
+
+    @PostMapping("/add-ingredientId")
+    public void addIngredientId(@RequestBody RequestStockIngredientIdDto stockIngredient) {
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        stockService.addIngredientId(stockIngredient, personId);
     }
 
     @GetMapping("/search/{substring}")

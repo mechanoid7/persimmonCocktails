@@ -61,8 +61,8 @@ public class FriendshipInvitationDaoImpl implements FriendshipInvitationDao {
     @Override
     public Long getPagesAmountFriendshipInvitations(Long personId) {
         try {
-            return (long) Math.ceil((double)jdbcTemplate.queryForObject(sqlGetPersonFriendshipInvitationsAmountPages, Long.class, personId)/personsPerPage);
-        } catch (NullPointerException e){
+            return (long) Math.ceil((double) jdbcTemplate.queryForObject(sqlGetPersonFriendshipInvitationsAmountPages, Long.class, personId) / personsPerPage);
+        } catch (NullPointerException e) {
             throw new UnknownException("Failed to get the number of friendship invitations from the database.");
         }
     }

@@ -1,6 +1,5 @@
 package com.example.persimmoncocktails.controllers;
 
-import com.example.persimmoncocktails.dtos.ingredient.IngredientNameDto;
 import com.example.persimmoncocktails.dtos.kitchenware.*;
 import com.example.persimmoncocktails.exceptions.TooShortParameterException;
 import com.example.persimmoncocktails.models.kitchenware.KitchenwareCategory;
@@ -72,7 +71,6 @@ public class KitchenwareController {
         kitchenwareService.updateKitchenwareCategory(updateKitchenwareCategoryDto.getKitchenwareId(),
                 updateKitchenwareCategoryDto.getKitchenwareCategoryId());
     }
-
 
     @PreAuthorize("hasAuthority('content:update')")
     @PatchMapping("/deactivate/{kitchenwareId}")

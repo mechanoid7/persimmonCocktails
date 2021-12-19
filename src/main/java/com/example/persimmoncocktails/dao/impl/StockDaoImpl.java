@@ -3,18 +3,13 @@ package com.example.persimmoncocktails.dao.impl;
 import com.example.persimmoncocktails.dao.StockDao;
 import com.example.persimmoncocktails.dtos.cocktail.BasicCocktailDto;
 import com.example.persimmoncocktails.dtos.cocktail.FullCocktailDto;
-import com.example.persimmoncocktails.dtos.stock.RequestStockSearchIngredientDto;
-import com.example.persimmoncocktails.dtos.stock.StockInfoDto;
-import com.example.persimmoncocktails.dtos.stock.RequestAddStockIngredientDto;
-import com.example.persimmoncocktails.dtos.stock.RequestStockUpdateDto;
+import com.example.persimmoncocktails.dtos.stock.*;
 import com.example.persimmoncocktails.exceptions.UnknownException;
 
 import com.example.persimmoncocktails.mappers.stock.StockFilterMapper;
 import com.example.persimmoncocktails.mappers.stock.StockIngredientMapper;
 import com.example.persimmoncocktails.mappers.stock.StockIngredientsMapper;
 import com.example.persimmoncocktails.mappers.stock.StockMapper;
-import com.example.persimmoncocktails.models.ingredient.IngredientWithCategory;
-import com.example.persimmoncocktails.models.kitchenware.KitchenwareWithCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -44,6 +39,9 @@ public class StockDaoImpl implements StockDao {
     @Value("${sql_add_ingredient}")
     private String sqlInsertNewIngredient;
 
+    @Value("${sql_add_ingredient_id}")
+    private String sqlInsertNewIngredientId;
+
     @Value("${sqlReadStockByPersonId}")
     private String sqlReadStockByPersonId;
 
@@ -70,7 +68,6 @@ public class StockDaoImpl implements StockDao {
         } catch (EmptyResultDataAccessException emptyE) {
             return null;
         } catch (DataAccessException rootException) {
-            // we should log it
             rootException.printStackTrace();
             throw new UnknownException();
         }
@@ -81,6 +78,16 @@ public class StockDaoImpl implements StockDao {
     public void addIngredient(RequestAddStockIngredientDto requestAddStockIngredientDto, Long personId) {
         try {
             jdbcTemplate.update(sqlInsertNewIngredient, personId, requestAddStockIngredientDto.getIngredientId(), requestAddStockIngredientDto.getAmount(), requestAddStockIngredientDto.getMeasureType());
+        } catch (DataAccessException rootException) {
+            rootException.printStackTrace();
+            throw new UnknownException();
+        }
+    }
+
+    @Override
+    public void addIngredientId(RequestStockIngredientIdDto requestStockIngredientIdDto, Long personId) {
+        try {
+            jdbcTemplate.update(sqlInsertNewIngredientId, personId, requestStockIngredientIdDto.getIngredientId());
         } catch (DataAccessException rootException) {
             rootException.printStackTrace();
             throw new UnknownException();
@@ -105,7 +112,7 @@ public class StockDaoImpl implements StockDao {
 
     @Override
     public List<RequestStockSearchIngredientDto> searchIngredientByNameSubstring(Long personId, String substring, Long pageNumber) {
-        return jdbcTemplate.query(sqlGetListOfIngredientsBySubstring, stockMapper, personId,substring.toLowerCase(), pageNumber * ingredientsPerPage, ingredientsPerPage);
+        return jdbcTemplate.query(sqlGetListOfIngredientsBySubstring, stockMapper, personId, substring.toLowerCase(), pageNumber * ingredientsPerPage, ingredientsPerPage);
     }
 
     @Override
@@ -117,5 +124,4 @@ public class StockDaoImpl implements StockDao {
     public StockInfoDto getStockInfoDto(Long personId) {
         return new StockInfoDto();
     }
-
 }

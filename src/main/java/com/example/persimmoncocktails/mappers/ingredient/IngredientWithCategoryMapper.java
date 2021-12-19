@@ -20,10 +20,9 @@ public class IngredientWithCategoryMapper implements RowMapper<IngredientWithCat
         String urlMiddle = rs.getString("url_middle");
         String urlThumb = rs.getString("url_thumb");
         Long imageId = rs.getLong("photo_id");
-        if(!rs.wasNull()){
+        if (!rs.wasNull()) {
             image = new ImageResponseDto(imageId, urlFull, urlMiddle, urlThumb);
-        }
-        else{
+        } else {
             imageId = null;
         }
 

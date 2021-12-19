@@ -3,11 +3,9 @@ package com.example.persimmoncocktails.services;
 import com.example.persimmoncocktails.dao.*;
 import com.example.persimmoncocktails.dtos.cocktail.*;
 import com.example.persimmoncocktails.exceptions.*;
-import com.example.persimmoncocktails.models.cocktail.Cocktail;
 import com.example.persimmoncocktails.models.cocktail.CocktailCategory;
 import com.example.persimmoncocktails.models.ingredient.IngredientWithCategory;
 import com.example.persimmoncocktails.models.kitchenware.KitchenwareWithCategory;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -33,7 +31,6 @@ import java.util.stream.Collectors;
 })
 public class CocktailService {
     private final CocktailDao cocktailDao;
-    private final PersonDao personDao;
     private final ImageDao imageDao;
     private final KitchenwareDao kitchenwareDao;
     private final IngredientDao ingredientDao;
@@ -236,7 +233,6 @@ public class CocktailService {
                     sqlSelect.append("d.description ");
                     break;
             }
-//            values.add(cocktailSelect.getSortBy().toLowerCase());
         } else {
             sqlSelect.append("d.dish_id ");
         }
@@ -247,7 +243,6 @@ public class CocktailService {
         sqlSelect.append("OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
         values.add(pageNumber * cocktailsPerPage);
         values.add(cocktailsPerPage);
-//        System.out.println("SQL: " + sqlSelect);
         return new SqlSearchRequest(sqlSelect.toString(), values);
     }
 

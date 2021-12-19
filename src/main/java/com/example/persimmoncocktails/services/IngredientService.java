@@ -59,7 +59,7 @@ public class IngredientService {
 
     public void updatePhoto(Long ingredientId, Long photoId) {
         if (!ingredientDao.existsById(ingredientId)) throw new NotFoundException("Ingredient");
-        if(!imageDao.isExistsById(photoId)) throw new NotFoundException("Photo");
+        if (!imageDao.isExistsById(photoId)) throw new NotFoundException("Photo");
         Ingredient ingredient = ingredientDao.read(ingredientId).toIngredient();
         ingredient.setPhotoId(photoId);
         ingredientDao.update(ingredient);
@@ -98,7 +98,7 @@ public class IngredientService {
     public void activate(Long ingredientId) {
         if (!ingredientDao.existsById(ingredientId)) throw new NotFoundException("Ingredient");
         IngredientWithCategory ingredient = ingredientDao.read(ingredientId);
-        if (!ingredient.isActive()) throw new StateException("This item is activate already");
+        if (ingredient.isActive()) throw new StateException("This item is activate already");
         ingredient.setActive(true);
         ingredientDao.update(ingredient.toIngredient());
     }
