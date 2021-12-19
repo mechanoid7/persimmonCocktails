@@ -9,7 +9,6 @@ import org.springframework.context.annotation.PropertySource;
 import javax.crypto.SecretKey;
 
 @Data
-//@AllArgsConstructor
 @PropertySource("classpath:var/security.properties")
 @Configuration
 public class JwtConfig {

@@ -33,7 +33,7 @@ public class FriendshipInvitationController {
     }
 
     @GetMapping("/friendship-invitations")
-    public List<FriendshipInvitationResponseDto>  getPersonFriendshipInvitations(@RequestParam("page") Long pageNumber){ /// @RequestBody Long pageNumber
+    public List<FriendshipInvitationResponseDto>  getPersonFriendshipInvitations(@RequestParam("page") Long pageNumber){
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         return friendshipInvitationService.getPersonFriendshipInvitations(personId, pageNumber);
     }

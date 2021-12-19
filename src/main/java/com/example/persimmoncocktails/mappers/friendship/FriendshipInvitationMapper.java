@@ -12,12 +12,12 @@ public class FriendshipInvitationMapper implements RowMapper<FriendshipInvitatio
     @Override
     public FriendshipInvitationResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
         Long photoId = rs.getLong("photo_id");
-        if(rs.wasNull()) photoId = null;
+        if (rs.wasNull()) photoId = null;
         Long blogId = rs.getLong("blog_id");
-        if(rs.wasNull()) blogId = null;
+        if (rs.wasNull()) blogId = null;
         LocalDateTime localDateTime = null;
         Timestamp timestamp = rs.getTimestamp("datetime");
-        if(timestamp != null) localDateTime = timestamp.toLocalDateTime();
+        if (timestamp != null) localDateTime = timestamp.toLocalDateTime();
         return new FriendshipInvitationResponseDto(rs.getLong("person_id"),
                 rs.getString("name"),
                 rs.getString("message"),

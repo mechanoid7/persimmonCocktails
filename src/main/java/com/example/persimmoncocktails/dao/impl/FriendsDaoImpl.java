@@ -67,7 +67,6 @@ public class FriendsDaoImpl implements FriendsDao {
 
     @Override
     public void removeFriendById(Long personIdInitiator, Long friendId) {
-        // there may be a subscription installation
         jdbcTemplate.update(sqlDeleteFriend, personIdInitiator, friendId, friendId, personIdInitiator);
     }
 

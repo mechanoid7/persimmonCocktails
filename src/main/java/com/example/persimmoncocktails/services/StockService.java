@@ -2,7 +2,6 @@ package com.example.persimmoncocktails.services;
 
 import com.example.persimmoncocktails.dao.StockDao;
 import com.example.persimmoncocktails.dtos.stock.*;
-import com.example.persimmoncocktails.exceptions.IncorrectNameFormat;
 import com.example.persimmoncocktails.exceptions.IncorrectRangeNumberFormat;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,8 +34,8 @@ public class StockService {
     }
 
     public List<RequestStockSearchIngredientDto> searchIngredientByNameSubstring(Long personId, String substring, Long pageNumber) {
-        if (pageNumber<0) throw new IncorrectRangeNumberFormat("of page");
-        return stockDao.searchIngredientByNameSubstring(personId,"%"+substring+"%", pageNumber);
+        if (pageNumber < 0) throw new IncorrectRangeNumberFormat("of page");
+        return stockDao.searchIngredientByNameSubstring(personId, "%" + substring + "%", pageNumber);
     }
 
     public String buildSqlRequest(RequestStockIngredientSelectDto ingredientSelect) {
@@ -44,15 +43,15 @@ public class StockService {
                 "from stock s " +
                 "inner join ingredient i on i.ingredient_id = s.ingredient_id " +
                 "inner join ingredient_category ic on i.ingredient_category_id = ic.ingredient_category_id where ";
-        if(ingredientSelect.getCategoryName() != null) {
-            sqlSelect += "ic.name= '"+ingredientSelect.getCategoryName()+"' and ";
+        if (ingredientSelect.getCategoryName() != null) {
+            sqlSelect += "ic.name= '" + ingredientSelect.getCategoryName() + "' and ";
         }
         if (ingredientSelect.getName() != null) { // search by name
             sqlSelect += "LOWER(i.name) LIKE '%" + ingredientSelect.getName().toLowerCase() + "%' AND ";
         }
         sqlSelect += "1=1 ORDER BY ";
 
-        if (ingredientSelect.getSortBy() != null){ //sort
+        if (ingredientSelect.getSortBy() != null) { //sort
             sqlSelect += ingredientSelect.getSortBy().toLowerCase() + " ";
         } else {
             sqlSelect += "i.ingredient_id ";
@@ -62,7 +61,7 @@ public class StockService {
             sqlSelect += "desc ";
         }
         sqlSelect += "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY ";
-        System.out.println("SQL: "+sqlSelect);
+        System.out.println("SQL: " + sqlSelect);
         return sqlSelect;
     }
 

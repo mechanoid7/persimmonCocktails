@@ -10,7 +10,6 @@ import com.example.persimmoncocktails.exceptions.NotFoundException;
 import com.example.persimmoncocktails.models.kitchenware.Kitchenware;
 import com.example.persimmoncocktails.models.kitchenware.KitchenwareCategory;
 import com.example.persimmoncocktails.models.kitchenware.KitchenwareWithCategory;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
