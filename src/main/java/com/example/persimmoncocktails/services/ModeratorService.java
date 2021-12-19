@@ -148,6 +148,7 @@ public class ModeratorService {
                 person.setPassword(hashPassword(newPassword));
                 person.setIsActive(true);
                 personDao.update(person);
+                personDao.activatePersonByPersonId(person.getPersonId());
                 updatePerson = true;
                 break;
             }
