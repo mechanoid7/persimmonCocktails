@@ -4,7 +4,6 @@ import com.example.persimmoncocktails.dao.ModeratorDao;
 import com.example.persimmoncocktails.dao.PersonDao;
 import com.example.persimmoncocktails.dtos.auth.RestorePasswordDataDto;
 import com.example.persimmoncocktails.dtos.person.ModeratorResponseDto;
-import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
 import com.example.persimmoncocktails.exceptions.*;
 import com.example.persimmoncocktails.models.Person;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,15 +45,15 @@ public class ModeratorService {
     }
 
     public void updateName(Long personId, String name) {
-        if(!moderatorDao.existsById(personId)) throw new NotFoundException("Moderator");
-        if(!AuthorizationService.nameIsValid(name)) throw new IncorrectNameFormat();
+        if (!moderatorDao.existsById(personId)) throw new NotFoundException("Moderator");
+        if (!AuthorizationService.nameIsValid(name)) throw new IncorrectNameFormat();
         Person person = personDao.read(personId);
         person.setName(name);
         personDao.update(person);
     }
 
     public void updatePhotoId(Long personId, Long photoId) {
-        if(!moderatorDao.existsById(personId)) throw new NotFoundException("Moderator");
+        if (!moderatorDao.existsById(personId)) throw new NotFoundException("Moderator");
         Person person = personDao.read(personId);
         person.setPhotoId(photoId);
         try {
@@ -66,7 +65,7 @@ public class ModeratorService {
 
     public ModeratorResponseDto readModeratorById(Long personId) {
         Person person = personDao.read(personId);
-        if(person == null) throw new NotFoundException("Moderator");
+        if (person == null) throw new NotFoundException("Moderator");
         return ModeratorResponseDto.toDto(person);
     }
 
@@ -80,7 +79,7 @@ public class ModeratorService {
         if (!passwordIsValid(newPassword)) throw new IncorrectPasswordFormat();
         Person person = personDao.read(personId);
         if (person != null &&
-                passwordEncoder.matches(oldPassword, person.getPassword())){ // compare old password input and DB
+                passwordEncoder.matches(oldPassword, person.getPassword())) { // compare old password input and DB
             person.setPassword(passwordEncoder.encode(newPassword));
             personDao.update(person);
         } else {
@@ -109,7 +108,7 @@ public class ModeratorService {
             personDao.create(person);
             person.setPersonId(personDao.readByEmail(email).getPersonId()); // set personId for current object
 
-        } else if (Objects.equals(person.getRoleId(), roleModeratorId)){ // if user exists and have moderator role
+        } else if (Objects.equals(person.getRoleId(), roleModeratorId)) { // if user exists and have moderator role
             person.setName(name);
             personDao.update(person);
         } else { // if user exists and haven't moderator role

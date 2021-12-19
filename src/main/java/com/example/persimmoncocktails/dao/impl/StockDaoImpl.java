@@ -10,8 +10,6 @@ import com.example.persimmoncocktails.mappers.stock.StockFilterMapper;
 import com.example.persimmoncocktails.mappers.stock.StockIngredientMapper;
 import com.example.persimmoncocktails.mappers.stock.StockIngredientsMapper;
 import com.example.persimmoncocktails.mappers.stock.StockMapper;
-import com.example.persimmoncocktails.models.ingredient.IngredientWithCategory;
-import com.example.persimmoncocktails.models.kitchenware.KitchenwareWithCategory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -70,7 +68,6 @@ public class StockDaoImpl implements StockDao {
         } catch (EmptyResultDataAccessException emptyE) {
             return null;
         } catch (DataAccessException rootException) {
-            // we should log it
             rootException.printStackTrace();
             throw new UnknownException();
         }
@@ -115,7 +112,7 @@ public class StockDaoImpl implements StockDao {
 
     @Override
     public List<RequestStockSearchIngredientDto> searchIngredientByNameSubstring(Long personId, String substring, Long pageNumber) {
-        return jdbcTemplate.query(sqlGetListOfIngredientsBySubstring, stockMapper, personId,substring.toLowerCase(), pageNumber * ingredientsPerPage, ingredientsPerPage);
+        return jdbcTemplate.query(sqlGetListOfIngredientsBySubstring, stockMapper, personId, substring.toLowerCase(), pageNumber * ingredientsPerPage, ingredientsPerPage);
     }
 
     @Override
@@ -127,5 +124,4 @@ public class StockDaoImpl implements StockDao {
     public StockInfoDto getStockInfoDto(Long personId) {
         return new StockInfoDto();
     }
-
 }

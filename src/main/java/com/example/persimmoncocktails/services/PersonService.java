@@ -8,7 +8,6 @@ import com.example.persimmoncocktails.exceptions.NotFoundException;
 import com.example.persimmoncocktails.exceptions.WrongCredentialsException;
 import com.example.persimmoncocktails.models.Person;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 

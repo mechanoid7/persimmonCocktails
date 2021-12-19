@@ -27,7 +27,7 @@ public class StockController {
     }
 
     @GetMapping("/getPersonalStockIngredient/{ingredientId}")
-    public StockInfoDto readStockIngredientById(@PathVariable ("ingredientId") Long ingredientId) {
+    public StockInfoDto readStockIngredientById(@PathVariable("ingredientId") Long ingredientId) {
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         return stockService.getStockIngredient(personId, ingredientId);
     }

@@ -135,7 +135,6 @@ public class CocktailDaoImpl implements CocktailDao {
         } catch (EmptyResultDataAccessException emptyE) {
             return null;
         } catch (DataAccessException rootException) {
-            // we should log it
             rootException.printStackTrace();
             throw new UnknownException();
         }
@@ -148,7 +147,6 @@ public class CocktailDaoImpl implements CocktailDao {
         } catch (EmptyResultDataAccessException emptyE) {
             return null;
         } catch (DataAccessException rootException) {
-            // we should log it
             rootException.printStackTrace();
             throw new UnknownException();
         }
@@ -234,8 +232,6 @@ public class CocktailDaoImpl implements CocktailDao {
     @Override
     public List<BasicCocktailDto> searchFilterSort(SqlSearchRequest searchRequest) {
         return jdbcTemplate.query(searchRequest.getRequest(), cocktailMapper, searchRequest.getValues().toArray());
-
-//        return jdbcTemplate.query(sqlRequest, cocktailMapper, pageNumber * cocktailsPerPage, cocktailsPerPage);
     }
 
     @Override
@@ -243,7 +239,6 @@ public class CocktailDaoImpl implements CocktailDao {
         try {
             return jdbcTemplate.queryForObject(searchRequest.getRequest(), Integer.class, searchRequest.getValues().toArray());
         } catch (DataAccessException rootException) {
-            // we should log it
             rootException.printStackTrace();
             throw new UnknownException();
         }
@@ -256,7 +251,6 @@ public class CocktailDaoImpl implements CocktailDao {
         } catch (EmptyResultDataAccessException emptyE) {
             throw new NotFoundException("Cocktail");
         } catch (DataAccessException rootException) {
-            // we should log it
             rootException.printStackTrace();
             throw new UnknownException();
         }
@@ -269,7 +263,6 @@ public class CocktailDaoImpl implements CocktailDao {
         } catch (EmptyResultDataAccessException emptyE) {
             throw new NotFoundException("Cocktail");
         } catch (DataAccessException rootException) {
-            // we should log it
             rootException.printStackTrace();
             throw new UnknownException();
         }
@@ -282,7 +275,6 @@ public class CocktailDaoImpl implements CocktailDao {
         } catch (EmptyResultDataAccessException emptyE) {
             throw new NotFoundException("Cocktail");
         } catch (DataAccessException rootException) {
-            // we should log it
             rootException.printStackTrace();
             throw new UnknownException();
         }
@@ -424,7 +416,6 @@ public class CocktailDaoImpl implements CocktailDao {
             return jdbcTemplate.queryForObject(sqlAmountOfCocktails, Integer.class, showActive ? true : null, showInactive ? false : null);
         }
         catch (DataAccessException rootException){
-            // we should log it
             rootException.printStackTrace();
             throw new UnknownException();
         }

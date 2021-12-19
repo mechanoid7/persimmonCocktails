@@ -9,7 +9,6 @@ import com.example.persimmoncocktails.mappers.person.RestorePasswordMapper;
 import com.example.persimmoncocktails.mappers.person.PersonMapper;
 import com.example.persimmoncocktails.models.Person;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.dao.DataAccessException;
@@ -17,7 +16,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -31,7 +29,6 @@ public class PersonDaoImpl implements PersonDao {
     private final PersonMapper personMapper = new PersonMapper();
     private final RestorePasswordMapper restorePasswordMapper = new RestorePasswordMapper();
     private final JdbcTemplate jdbcTemplate;
-    private final PasswordEncoder passwordEncoder;
 
     @Value("${sql_person_with_such_id_exists}")
     private String sqlPersonWithSuchIdExists;
@@ -58,12 +55,6 @@ public class PersonDaoImpl implements PersonDao {
     @Value("${sql_person_deactivate_person}")
     private String sqlDeactivatePerson;
 
-    @Autowired
-    public PersonDaoImpl(PasswordEncoder passwordEncoder, JdbcTemplate jdbcTemplate) {
-        this.passwordEncoder = passwordEncoder;
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
     @Override
     public boolean existsById(Long personId) {
         return Boolean.TRUE.equals(jdbcTemplate.queryForObject(sqlPersonWithSuchIdExists, Boolean.class, personId));
@@ -77,7 +68,6 @@ public class PersonDaoImpl implements PersonDao {
         } catch (DuplicateKeyException e) {
             throw new DuplicateException("Person");
         } catch (DataAccessException rootException) {
-            // we should log it
             rootException.printStackTrace();
             throw new UnknownException();
         }
@@ -88,10 +78,8 @@ public class PersonDaoImpl implements PersonDao {
         try {
             return jdbcTemplate.queryForObject(sqlReadPersonById, personMapper, personId);
         } catch (EmptyResultDataAccessException emptyE) {
-//            throw new NotFoundException("Person");
             return null;
         } catch (DataAccessException rootException) {
-            // we should log it
             rootException.printStackTrace();
             throw new UnknownException();
         }
@@ -102,10 +90,8 @@ public class PersonDaoImpl implements PersonDao {
         try {
             return jdbcTemplate.queryForObject(sqlReadPersonByEmail, personMapper, email);
         } catch (EmptyResultDataAccessException emptyE) {
-//            throw new NotFoundException("Person");
             return null;
         } catch (DataAccessException rootException) {
-            // we should log it
             rootException.printStackTrace();
             throw new UnknownException();
         }
@@ -113,14 +99,12 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public void update(Person person) { // update person data
-        // we should consider changing way to modify rows
         try {
             jdbcTemplate.update(sqlUpdatePerson, person.getName(), person.getEmail(), person.getPassword(),
                     person.getPhotoId(), person.getBlogId(), person.getRoleId(), person.getPersonId());
         } catch (DataIntegrityViolationException dataIntegrityViolationException) {
             throw new NotFoundException("Person");
         } catch (DataAccessException rootException) {
-            // we should log it
             rootException.printStackTrace();
             throw new UnknownException();
         }
@@ -131,7 +115,6 @@ public class PersonDaoImpl implements PersonDao {
         try {
             jdbcTemplate.update(sqlDeletePerson, personId);
         } catch (DataAccessException rootException) {
-            // we should log it
             rootException.printStackTrace();
             throw new UnknownException();
         }

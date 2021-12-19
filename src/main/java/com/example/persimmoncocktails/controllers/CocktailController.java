@@ -104,7 +104,7 @@ public class CocktailController {
                 cocktailService.searchFilterSort(searchRequestObject, pageNumber),
                 null
         );
-        if(calculatePagesAmount) result.setAmountOfPages(cocktailService.amountOfResultPages(searchRequestObject));
+        if (calculatePagesAmount) result.setAmountOfPages(cocktailService.amountOfResultPages(searchRequestObject));
         return result;
     }
 
@@ -121,13 +121,13 @@ public class CocktailController {
             @RequestParam("page") Long pageNumber) {
         RequestCocktailSelectDto searchRequestObject =
                 new RequestCocktailSelectDto(searchRequest, sortBy, dishType, dishCategoryId,
-                sortDirection, ingredients, true, false,
+                        sortDirection, ingredients, true, false,
                         showMatchStock);
         CocktailsSearchResultDto result = new CocktailsSearchResultDto(
                 cocktailService.searchFilterSort(searchRequestObject, pageNumber),
                 null
         );
-        if(calculatePagesAmount) result.setAmountOfPages(cocktailService.amountOfResultPages(searchRequestObject));
+        if (calculatePagesAmount) result.setAmountOfPages(cocktailService.amountOfResultPages(searchRequestObject));
         return result;
     }
 

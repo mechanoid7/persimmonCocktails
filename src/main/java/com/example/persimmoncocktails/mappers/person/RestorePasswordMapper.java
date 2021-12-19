@@ -8,12 +8,12 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-public class RestorePasswordMapper  implements RowMapper<RestorePasswordDataDto> {
+public class RestorePasswordMapper implements RowMapper<RestorePasswordDataDto> {
     @Override
     public RestorePasswordDataDto mapRow(ResultSet rs, int rowNum) throws SQLException {
         Timestamp timestamp = rs.getTimestamp("time");
         LocalDateTime localDateTime;
-        if(rs.wasNull()) {
+        if (rs.wasNull()) {
             localDateTime = null;
         } else localDateTime = timestamp.toLocalDateTime();
 

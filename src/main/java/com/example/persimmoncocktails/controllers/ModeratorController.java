@@ -57,7 +57,7 @@ public class ModeratorController {
     }
 
     @PostMapping(path = "/create-password")
-    public void recoverPassword(@RequestBody RequestCreatePasswordDataDto requestCreatePasswordData) { // get id, personId from email link
+    public void recoverPassword(@RequestBody RequestCreatePasswordDataDto requestCreatePasswordData) {
         moderatorService.createPassword(
                 requestCreatePasswordData.getId(),
                 requestCreatePasswordData.getPersonId(),
@@ -65,7 +65,7 @@ public class ModeratorController {
     }
 
     @PostMapping(path = "/change-status")
-    @PreAuthorize("hasRole('ROLE_ADMIN')") // admin can change
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void changeStatus(@RequestBody Long personId) {
         moderatorService.changeStatus(personId);
     }

@@ -5,7 +5,6 @@ import com.example.persimmoncocktails.dtos.image.ImageResponseDto;
 import com.example.persimmoncocktails.mappers.image.ImageMapper;
 import com.example.persimmoncocktails.models.image.ImageResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;

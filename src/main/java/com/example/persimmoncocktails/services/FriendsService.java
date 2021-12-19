@@ -9,8 +9,6 @@ import com.example.persimmoncocktails.exceptions.IncorrectNameFormat;
 import com.example.persimmoncocktails.exceptions.IncorrectRangeNumberFormat;
 import com.example.persimmoncocktails.exceptions.NotFoundException;
 import com.example.persimmoncocktails.exceptions.WrongCredentialsException;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -55,7 +53,8 @@ public class FriendsService {
     public List<FriendResponseDto> getListFriendsBySubstring(Long personId, String substring, Long pageNumber) {
         if (!personDao.existsById(personId)) throw new NotFoundException("Person");
         if (pageNumber < 0) throw new IncorrectRangeNumberFormat("of page");
-        if (substring.equals("")) return getPersonFriends(personId, pageNumber); // return list of friends without search
+        if (substring.equals(""))
+            return getPersonFriends(personId, pageNumber); // return list of friends without search
         if (!AuthorizationService.nameIsValid(substring)) throw new IncorrectNameFormat();
         return friendsDao.getListFriendByNameSubstring(personId, "%" + substring + "%", pageNumber);
     }
@@ -78,11 +77,11 @@ public class FriendsService {
 
     public Long numberOfPagesPersonsBySubstringWithoutFriends(Long personId, String substring) {
         if (!personDao.existsById(personId)) throw new NotFoundException("Person");
-        return friendsDao.getNumberOfPagePersonsBySubstringWithoutFriends(personId, "%"+substring+"%");
+        return friendsDao.getNumberOfPagePersonsBySubstringWithoutFriends(personId, "%" + substring + "%");
     }
 
     public Long numberOfPagesFriendsBySubstring(Long personId, String substring) {
         if (!personDao.existsById(personId)) throw new NotFoundException("Person");
-        return friendsDao.getNumberOfPageFriends(personId, "%"+substring+"%");
+        return friendsDao.getNumberOfPageFriends(personId, "%" + substring + "%");
     }
 }
