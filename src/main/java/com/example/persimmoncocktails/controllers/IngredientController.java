@@ -73,7 +73,6 @@ public class IngredientController {
                 updateIngredientCategoryDto.getIngredientCategoryId());
     }
 
-
     @PreAuthorize("hasAuthority('content:update')")
     @PatchMapping("/deactivate/{ingredientId}")
     public void deactivateIngredient(@PathVariable Long ingredientId) {
@@ -87,7 +86,7 @@ public class IngredientController {
     }
 
     @GetMapping("/active/search-by-prefix")
-    public List<IngredientNameDto> getIngredientsByPrefixOfName(@RequestParam String prefix) {
+    public List<IngredientWithCategory> getIngredientsByPrefixOfName(@RequestParam String prefix) {
         int minLengthLimit = 2;
         if (Strings.isEmpty(prefix) || prefix.length() < minLengthLimit)
             throw new TooShortParameterException("prefix", minLengthLimit);

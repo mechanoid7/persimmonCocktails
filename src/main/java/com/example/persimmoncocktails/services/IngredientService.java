@@ -2,7 +2,6 @@ package com.example.persimmoncocktails.services;
 
 import com.example.persimmoncocktails.dao.ImageDao;
 import com.example.persimmoncocktails.dao.IngredientDao;
-import com.example.persimmoncocktails.dtos.ingredient.IngredientNameDto;
 import com.example.persimmoncocktails.dtos.ingredient.RequestIngredientDto;
 import com.example.persimmoncocktails.dtos.ingredient.ResponseIngredientDto;
 import com.example.persimmoncocktails.exceptions.IncorrectNameFormat;
@@ -118,7 +117,7 @@ public class IngredientService {
         return ResponseIngredientDto.toDto(ingredient);
     }
 
-    public List<IngredientNameDto> findActiveIngredientsByPrefix(String prefix) {
+    public List<IngredientWithCategory> findActiveIngredientsByPrefix(String prefix) {
         return ingredientDao.findActiveIngredientsByPrefixLimitedAmount(prefix, amountOfIngredientsToReturnWhileSearchingByPrefix);
     }
 }
