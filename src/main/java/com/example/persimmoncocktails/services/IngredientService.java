@@ -71,8 +71,8 @@ public class IngredientService {
             throw new NotFoundException("IngredientCategory");
         Ingredient ingredient = new Ingredient(null,
                 requestIngredientDto.getName(),
-                requestIngredientDto.getPhotoId(),
                 requestIngredientDto.getIngredientCategoryId(),
+                requestIngredientDto.getPhotoId(),
                 true
         );
         ingredientDao.create(ingredient);
