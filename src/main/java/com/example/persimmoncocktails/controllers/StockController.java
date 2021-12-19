@@ -75,4 +75,10 @@ public class StockController {
                 new RequestStockIngredientSelectDto(
                         personId, searchRequest, sortBy, ingredientCategoryId, ingredientCategoryName, sortDirection), pageNumber);
     }
+
+    @GetMapping("/ingredients-in-stock")
+    public List<RequestStockIngredientIdDto> getIdOfIngredientsInStock() {
+        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
+        return stockService.getIdOfIngredientsInStock(personId);
+    }
 }

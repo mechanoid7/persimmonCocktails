@@ -73,4 +73,8 @@ public class StockService {
         if (pageNumber < 0) throw new IncorrectRangeNumberFormat("of page");
         return stockDao.searchFilterSort(buildSqlRequest(ingredientSelect), pageNumber);
     }
+
+    public List<RequestStockIngredientIdDto> getIdOfIngredientsInStock(Long personId) {
+        return stockDao.getIdOfIngredientsInStock(personId);
+    }
 }
