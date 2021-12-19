@@ -9,6 +9,8 @@ public interface StockDao {
 
     void addIngredient(RequestAddStockIngredientDto requestAddStockIngredientDto, Long personId);
 
+    void addIngredientId(RequestStockIngredientIdDto requestStockIngredientIdDto, Long personId);
+
     void delete(Long ingredientId, Long personId);
 
     void update(Long personId, RequestStockUpdateDto requestStockUpdateDto);

@@ -21,6 +21,10 @@ public class StockService {
         stockDao.addIngredient(stockIngredients, personId);
     }
 
+    public void addIngredientId(RequestStockIngredientIdDto stockIngredient, Long personId) {
+        stockDao.addIngredientId(stockIngredient, personId);
+    }
+
     public void update(Long personId, RequestStockUpdateDto requestStockUpdateDto) {
         stockDao.update(personId, requestStockUpdateDto);
     }
