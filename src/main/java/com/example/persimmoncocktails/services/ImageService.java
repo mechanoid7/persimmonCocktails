@@ -41,10 +41,11 @@ public class ImageService {
     }
 
     public ImageResponse upload(MultipartFile multipartFile) throws IOException {
-        if (multipartFile.getSize()>31457280) throw new FileTooLargeException("30mb");
+        if (multipartFile.getSize() > 31457280) throw new FileTooLargeException("30mb");
         List<String> accessExtension = new ArrayList<>(List.of("jpg", "png", "bmp", "gif", "tif", "webp", "heic"));
-        if (!accessExtension.contains(Objects.requireNonNull(FilenameUtils.getExtension(multipartFile.getOriginalFilename())).toLowerCase())) throw new InvalidImageExtensionException();
-        
+        if (!accessExtension.contains(Objects.requireNonNull(FilenameUtils.getExtension(multipartFile.getOriginalFilename())).toLowerCase()))
+            throw new InvalidImageExtensionException();
+
         HttpPost post = new HttpPost("https://api.imgbb.com/1/upload?key=" + this.IMAGE_API_KEY);
         List<NameValuePair> urlParameters = new ArrayList<>();
         urlParameters.add(new BasicNameValuePair("image", Base64.getEncoder().encodeToString(multipartFile.getBytes())));
@@ -55,11 +56,10 @@ public class ImageService {
 
         try (CloseableHttpClient httpClient = HttpClients.createDefault(); CloseableHttpResponse response = httpClient.execute(post)) {
             HttpEntity res = response.getEntity();
-            if(response.getStatusLine().getStatusCode() == 200) {
+            if (response.getStatusLine().getStatusCode() == 200) {
                 responseString = EntityUtils.toString(res);
                 System.out.println(responseString);
-            }
-            else throw new IncorrectImage();
+            } else throw new IncorrectImage();
         }
 
         ImageResponse imageResponse = gson.fromJson(responseString, ImageResponse.class);
@@ -76,7 +76,6 @@ public class ImageService {
     }
 
     public ImageResponseDto getImageById(Long imageId) {
-//        if (!imageDao.isExistsById(imageId)) throw new NotFoundException("Image"); // removed so as not to spam the front with errors, the picture "not found" will be displayed in front
         if (imageDao.isExistsById(imageId)) {
             return imageDao.getById(imageId);
         } else return null;
@@ -85,12 +84,10 @@ public class ImageService {
     public void deleteImageById(Long imageId) {
         if (!imageDao.isExistsById(imageId)) throw new NotFoundException("Image");
         String deleteUrl = imageDao.deleteById(imageId);
-        // if need - code for deleting image from server
     }
 
     public void deleteImageByIdByOwner(Long imageId, Long personId) {
         if (!imageDao.isPersonHasImage(personId, imageId)) throw new NotFoundException("User image");
         String deleteUrl = imageDao.deleteByIdByOwner(imageId, personId);
-        // if need - code for deleting image from server
     }
 }

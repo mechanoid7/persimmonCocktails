@@ -82,7 +82,7 @@ public class CocktailController {
 
     @PreAuthorize("hasAuthority('inactive:read')")
     @GetMapping("/search")
-    public List<BasicCocktailDto> searchFilterSortCocktails(
+    public CocktailsSearchResultDto searchFilterSortCocktails(
             @RequestParam(value = "search", required = false) String searchRequest,
             @RequestParam(value = "sort-by", required = false) String sortBy,
             @RequestParam(value = "dish-type", required = false) String dishType,
@@ -91,23 +91,44 @@ public class CocktailController {
             @RequestParam(value = "ingredients", required = false) List<Long> ingredients,
             @RequestParam(value = "show-active", required = false) Boolean showActive,
             @RequestParam(value = "show-inactive", required = false) Boolean showInactive,
+            @RequestParam(value = "show-match-stock", required = false) Boolean showMatchStock,
+            @RequestParam(value = "calculate-pages-amount", required = true) Boolean calculatePagesAmount,
             @RequestParam("page") Long pageNumber) {
-        return cocktailService.searchFilterSort(new RequestCocktailSelectDto(searchRequest, sortBy, dishType,
-                dishCategoryId, sortDirection, ingredients, showActive == null ? true : showActive,
-                showInactive == null ? true : showInactive), pageNumber);
+        RequestCocktailSelectDto searchRequestObject =
+                new RequestCocktailSelectDto(searchRequest, sortBy, dishType,
+                        dishCategoryId, sortDirection, ingredients,
+                        showActive == null ? true : showActive,
+                        showInactive == null ? true : showInactive,
+                        showMatchStock);
+        CocktailsSearchResultDto result = new CocktailsSearchResultDto(
+                cocktailService.searchFilterSort(searchRequestObject, pageNumber),
+                null
+        );
+        if (calculatePagesAmount) result.setAmountOfPages(cocktailService.amountOfResultPages(searchRequestObject));
+        return result;
     }
 
     @GetMapping("/active/search")
-    public List<BasicCocktailDto> restrictedSearchFilterSort(
+    public CocktailsSearchResultDto restrictedSearchFilterSort(
             @RequestParam(value = "search", required = false) String searchRequest,
             @RequestParam(value = "sort-by", required = false) String sortBy,
             @RequestParam(value = "dish-type", required = false) String dishType,
             @RequestParam(value = "dish-category-id", required = false) Long dishCategoryId,
             @RequestParam(value = "sort-direction", required = false) Boolean sortDirection,
             @RequestParam(value = "ingredients", required = false) List<Long> ingredients,
+            @RequestParam(value = "calculate-pages-amount", required = true) Boolean calculatePagesAmount,
+            @RequestParam(value = "show-match-stock", required = false) Boolean showMatchStock,
             @RequestParam("page") Long pageNumber) {
-        return cocktailService.searchFilterSort(new RequestCocktailSelectDto(searchRequest, sortBy, dishType, dishCategoryId,
-                sortDirection, ingredients, true, false), pageNumber);
+        RequestCocktailSelectDto searchRequestObject =
+                new RequestCocktailSelectDto(searchRequest, sortBy, dishType, dishCategoryId,
+                        sortDirection, ingredients, true, false,
+                        showMatchStock);
+        CocktailsSearchResultDto result = new CocktailsSearchResultDto(
+                cocktailService.searchFilterSort(searchRequestObject, pageNumber),
+                null
+        );
+        if (calculatePagesAmount) result.setAmountOfPages(cocktailService.amountOfResultPages(searchRequestObject));
+        return result;
     }
 
     @GetMapping("/labels")

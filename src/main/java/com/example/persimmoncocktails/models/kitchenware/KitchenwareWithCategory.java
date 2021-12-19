@@ -1,6 +1,5 @@
 package com.example.persimmoncocktails.models.kitchenware;
 
-import com.example.persimmoncocktails.models.kitchenware.KitchenwareCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

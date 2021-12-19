@@ -23,7 +23,7 @@ public class FriendshipInvitationService {
         if (!personDao.existsById(personIdReceiver)) throw new NotFoundException("Person receiver");
         if (personIdInitiator.equals(personIdReceiver))
             throw new WrongCredentialsException("The user cannot invite himself to become friends.");
-        if (friendshipInvitationDao.friendshipInvitationPairExists(personIdInitiator, personIdReceiver)){
+        if (friendshipInvitationDao.friendshipInvitationPairExists(personIdInitiator, personIdReceiver)) {
             throw new DuplicateException("friendship invitation");
         }
         friendshipInvitationDao.addFriendshipInvitation(personIdInitiator, personIdReceiver, massage);

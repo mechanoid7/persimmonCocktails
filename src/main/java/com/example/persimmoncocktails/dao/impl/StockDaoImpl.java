@@ -71,7 +71,6 @@ public class StockDaoImpl implements StockDao {
         } catch (EmptyResultDataAccessException emptyE) {
             return null;
         } catch (DataAccessException rootException) {
-            // we should log it
             rootException.printStackTrace();
             throw new UnknownException();
         }
@@ -116,7 +115,7 @@ public class StockDaoImpl implements StockDao {
 
     @Override
     public List<RequestStockSearchIngredientDto> searchIngredientByNameSubstring(Long personId, String substring, Long pageNumber) {
-        return jdbcTemplate.query(sqlGetListOfIngredientsBySubstring, stockMapper, personId,substring.toLowerCase(), pageNumber * ingredientsPerPage, ingredientsPerPage);
+        return jdbcTemplate.query(sqlGetListOfIngredientsBySubstring, stockMapper, personId, substring.toLowerCase(), pageNumber * ingredientsPerPage, ingredientsPerPage);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.example.persimmoncocktails.mappers.kitchenware;
 
-import com.example.persimmoncocktails.dtos.ingredient.IngredientNameDto;
 import com.example.persimmoncocktails.dtos.kitchenware.KitchenwareNameDto;
 
 import org.springframework.jdbc.core.RowMapper;

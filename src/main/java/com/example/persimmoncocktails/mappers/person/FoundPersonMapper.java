@@ -10,9 +10,9 @@ public class FoundPersonMapper implements RowMapper<FoundPersonsResponseDto> {
     @Override
     public FoundPersonsResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
         Long photoId = rs.getLong("photo_id");
-        if(rs.wasNull()) photoId = null;
+        if (rs.wasNull()) photoId = null;
         Long blogId = rs.getLong("blog_id");
-        if(rs.wasNull()) blogId = null;
+        if (rs.wasNull()) blogId = null;
         return new FoundPersonsResponseDto(rs.getLong("person_id"),
                 rs.getString("name"),
                 photoId,

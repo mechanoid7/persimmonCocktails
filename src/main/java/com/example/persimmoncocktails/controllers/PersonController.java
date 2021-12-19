@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @RestController
 @PreAuthorize("isAuthenticated")
 @RequestMapping("/person")
@@ -58,7 +59,6 @@ public class PersonController {
     }
 
     @PatchMapping("/change-password")
-    @PreAuthorize("hasRole('ROLE_CLIENT')")
     public void changePasswordPerson(@RequestBody RequestChangePasswordDataDto requestChangePasswordData) {
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         personService.changePassword(personId,
@@ -89,7 +89,7 @@ public class PersonController {
         return friendsService.numberOfPagesPersonsBySubstringWithoutFriends(personId, substring);
     }
 
-    @GetMapping("/friends") // deprecated
+    @GetMapping("/friends")
     public List<FriendResponseDto> getSelfFriends(@RequestParam("page") Long pageNumber) {
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         return friendsService.getPersonFriends(personId, pageNumber);
