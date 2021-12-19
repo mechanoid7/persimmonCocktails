@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@PreAuthorize("isAuthenticated")
 @RequestMapping("/moderator")
 public class ModeratorController {
 
@@ -33,6 +32,7 @@ public class ModeratorController {
     }
 
     @GetMapping("/{personId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModeratorResponseDto getModeratorById(@PathVariable Long personId) {
         return moderatorService.readModeratorById(personId);
     }
