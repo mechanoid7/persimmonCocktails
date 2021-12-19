@@ -98,7 +98,7 @@ public class IngredientService {
     public void activate(Long ingredientId) {
         if (!ingredientDao.existsById(ingredientId)) throw new NotFoundException("Ingredient");
         IngredientWithCategory ingredient = ingredientDao.read(ingredientId);
-        if (!ingredient.isActive()) throw new StateException("This item is activate already");
+        if (ingredient.isActive()) throw new StateException("This item is activate already");
         ingredient.setActive(true);
         ingredientDao.update(ingredient.toIngredient());
     }
