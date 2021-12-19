@@ -6,10 +6,7 @@ import com.example.persimmoncocktails.dtos.cocktail.FullCocktailDto;
 import com.example.persimmoncocktails.dtos.stock.*;
 import com.example.persimmoncocktails.exceptions.UnknownException;
 
-import com.example.persimmoncocktails.mappers.stock.StockFilterMapper;
-import com.example.persimmoncocktails.mappers.stock.StockIngredientMapper;
-import com.example.persimmoncocktails.mappers.stock.StockIngredientsMapper;
-import com.example.persimmoncocktails.mappers.stock.StockMapper;
+import com.example.persimmoncocktails.mappers.stock.*;
 import com.example.persimmoncocktails.models.ingredient.IngredientWithCategory;
 import com.example.persimmoncocktails.models.kitchenware.KitchenwareWithCategory;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +34,7 @@ public class StockDaoImpl implements StockDao {
     private final StockIngredientsMapper stockIngredientsMapper = new StockIngredientsMapper();
     private final StockFilterMapper stockFilterMapper = new StockFilterMapper();
     private final StockIngredientMapper stockIngredientMapper = new StockIngredientMapper();
+    private final StockIngredientsIdMapper stockIngredientsIdMapper = new StockIngredientsIdMapper();
 
     @Value("${sql_add_ingredient}")
     private String sqlInsertNewIngredient;
@@ -58,6 +56,9 @@ public class StockDaoImpl implements StockDao {
 
     @Value("${sqlReadStockIngredient}")
     private String sqlGetStockIngredient;
+
+    @Value("${sql_get_id_of_ingredients_in_stock}")
+    private String getSqlGetStockIngredientsId;
 
     @Value("15")
     private Long ingredientsPerPage;
@@ -128,4 +129,8 @@ public class StockDaoImpl implements StockDao {
         return new StockInfoDto();
     }
 
+    @Override
+    public List<RequestStockIngredientIdDto> getIdOfIngredientsInStock(Long personId) {
+        return jdbcTemplate.query(getSqlGetStockIngredientsId, stockIngredientsIdMapper, personId);
+    }
 }

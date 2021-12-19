@@ -24,4 +24,6 @@ public interface StockDao {
     List<StockInfoDto> searchFilterSort(String sqlRequest, Long pageNumber);
 
     StockInfoDto getStockInfoDto(Long personId);
+
+    List<RequestStockIngredientIdDto> getIdOfIngredientsInStock(Long personId);
 }
