@@ -166,7 +166,7 @@ public class ModeratorService {
     }
 
     private String generatePasswordCreateLink(String id, Long personId) {
-        return siteUrl + "/moderator/create-password?id=" + id + "&nn=" + personId;
+        return siteUrl + "/moderator/create-password/" + id + "/" + personId;
     }
 
     public void changeStatus(Long personId) {
