@@ -15,7 +15,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/ingredient")
-@PreAuthorize("isAuthenticated")
 @RequiredArgsConstructor
 public class IngredientController {
     private final IngredientService ingredientService;
@@ -26,16 +25,17 @@ public class IngredientController {
         return ingredientService.readIngredientId(ingredientId);
     }
 
+    @PreAuthorize("isAuthenticated")
     @GetMapping("/active")
     public List<ResponseIngredientDto> getAllActiveIngredient() {
         return ingredientService.readAllActiveIngredients();
     }
 
+    @PreAuthorize("isAuthenticated")
     @GetMapping("/active/{ingredientId}")
     public ResponseIngredientDto getActiveIngredientById(@PathVariable Long ingredientId) {
         return ingredientService.readActiveIngredientId(ingredientId);
     }
-
 
     @GetMapping
     public List<IngredientWithCategory> getAllIngredients() {
