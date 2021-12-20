@@ -113,7 +113,7 @@ public class KitchenwareService {
         return ResponseKitchenwareDto.toDto(kitchenware);
     }
 
-    public List<KitchenwareNameDto> findActiveKitchenwareByPrefix(String prefix) {
+    public List<KitchenwareWithCategory> findActiveKitchenwareByPrefix(String prefix) {
         return kitchenwareDao.findActiveKitchenwareByPrefixLimitedAmount(prefix, amountOfKitchenwareToReturnWhileSearchingByPrefix);
     }
 }

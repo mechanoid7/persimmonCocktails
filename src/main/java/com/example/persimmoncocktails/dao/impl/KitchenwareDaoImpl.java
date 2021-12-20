@@ -2,6 +2,7 @@ package com.example.persimmoncocktails.dao.impl;
 
 import com.example.persimmoncocktails.dao.KitchenwareDao;
 import com.example.persimmoncocktails.dtos.kitchenware.KitchenwareNameDto;
+import com.example.persimmoncocktails.dtos.kitchenware.ResponseKitchenwareDto;
 import com.example.persimmoncocktails.exceptions.DuplicateException;
 import com.example.persimmoncocktails.exceptions.UnknownException;
 import com.example.persimmoncocktails.mappers.kitchenware.KitchenwareCategoryMapper;
@@ -141,8 +142,8 @@ public class KitchenwareDaoImpl implements KitchenwareDao {
     }
 
     @Override
-    public List<KitchenwareNameDto> findActiveKitchenwareByPrefixLimitedAmount(String prefix, Integer amountOfKitchenwareToReturnWhileSearchingByPrefix) {
-        return jdbcTemplate.query(sqlFindActiveKitchenwareByPrefixLimitedAmount, kitchenwareNameMapper,
+    public List<KitchenwareWithCategory> findActiveKitchenwareByPrefixLimitedAmount(String prefix, Integer amountOfKitchenwareToReturnWhileSearchingByPrefix) {
+        return jdbcTemplate.query(sqlFindActiveKitchenwareByPrefixLimitedAmount, kitchenwareWithCategoryMapper,
                 prefix + "%", amountOfKitchenwareToReturnWhileSearchingByPrefix);
     }
 }
