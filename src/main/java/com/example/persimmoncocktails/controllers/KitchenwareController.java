@@ -85,7 +85,7 @@ public class KitchenwareController {
     }
 
     @GetMapping("/active/search-by-prefix")
-    public List<KitchenwareNameDto> getKitchenwareByPrefixOfName(@RequestParam String prefix) {
+    public List<KitchenwareWithCategory> getKitchenwareByPrefixOfName(@RequestParam String prefix) {
         int minLengthLimit = 2;
         if (Strings.isEmpty(prefix) || prefix.length() < minLengthLimit)
             throw new TooShortParameterException("prefix", minLengthLimit);
