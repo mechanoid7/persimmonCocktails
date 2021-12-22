@@ -48,6 +48,8 @@ public class IngredientDaoImpl implements IngredientDao {
     private String sqlReadIngredientWithCategoryByName;
     @Value("${sql_ingredients_with_category_used_in_dish_by_id}")
     private String getSqlReadAllIngredientsUsedByCocktail;
+    @Value("${sql_find_active_ingredients_by_prefix_limited_amount}")
+    private String sqlFindActiveIngredientsByPrefixLimitedAmount;
 
     @Override
     public void create(Ingredient ingredient) {
@@ -59,7 +61,6 @@ public class IngredientDaoImpl implements IngredientDao {
         } catch (DuplicateKeyException e) {
             throw new DuplicateException("Ingredient");
         } catch (DataAccessException rootException) {
-            // we should log it
             rootException.printStackTrace();
             throw new UnknownException();
         }
@@ -73,9 +74,8 @@ public class IngredientDaoImpl implements IngredientDao {
                     ingredient.getIngredientCategoryId(),
                     ingredient.getPhotoId(),
                     ingredient.isActive(),
-                    ingredient.getIngredientCategoryId());
+                    ingredient.getIngredientId());
         } catch (DataAccessException rootException) {
-            // we should log it
             rootException.printStackTrace();
             throw new UnknownException();
         }
@@ -98,7 +98,6 @@ public class IngredientDaoImpl implements IngredientDao {
         } catch (EmptyResultDataAccessException emptyE) {
             return null;
         } catch (DataAccessException rootException) {
-            // we should log it
             rootException.printStackTrace();
             throw new UnknownException();
         }
@@ -111,7 +110,6 @@ public class IngredientDaoImpl implements IngredientDao {
         } catch (EmptyResultDataAccessException emptyE) {
             return null;
         } catch (DataAccessException rootException) {
-            // we should log it
             rootException.printStackTrace();
             throw new UnknownException();
         }
@@ -136,5 +134,10 @@ public class IngredientDaoImpl implements IngredientDao {
     @Override
     public List<IngredientCategory> readAllIngredientCategories() {
         return jdbcTemplate.query(sqlReadAllIngredientCategories, ingredientCategoryMapper);
+    }
+
+    @Override
+    public List<IngredientWithCategory> findActiveIngredientsByPrefixLimitedAmount(String prefix, int limit) {
+        return jdbcTemplate.query(sqlFindActiveIngredientsByPrefixLimitedAmount, ingredientWithCategoryMapper, prefix + "%", limit);
     }
 }

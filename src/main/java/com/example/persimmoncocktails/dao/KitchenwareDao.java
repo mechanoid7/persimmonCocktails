@@ -1,5 +1,7 @@
 package com.example.persimmoncocktails.dao;
 
+import com.example.persimmoncocktails.dtos.kitchenware.KitchenwareNameDto;
+import com.example.persimmoncocktails.dtos.kitchenware.ResponseKitchenwareDto;
 import com.example.persimmoncocktails.models.kitchenware.KitchenwareCategory;
 import com.example.persimmoncocktails.models.kitchenware.KitchenwareWithCategory;
 import com.example.persimmoncocktails.models.kitchenware.Kitchenware;
@@ -26,4 +28,6 @@ public interface KitchenwareDao {
     List<KitchenwareWithCategory> readAllKitchenwaresUsedByCocktail(Long cocktailId);
 
     List<KitchenwareCategory> readAllKitchenwareCategories();
+
+    List<KitchenwareWithCategory> findActiveKitchenwareByPrefixLimitedAmount(String prefix, Integer amountOfKitchenwareToReturnWhileSearchingByPrefix);
 }

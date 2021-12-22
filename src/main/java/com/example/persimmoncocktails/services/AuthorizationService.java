@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 @Service
 @AllArgsConstructor
 @PropertySource("classpath:var/general.properties")
-public class AuthorizationService implements UserDetailsService{
+public class AuthorizationService implements UserDetailsService {
     PersonDao personDao;
     PasswordEncoder passwordEncoder;
 
@@ -47,13 +47,13 @@ public class AuthorizationService implements UserDetailsService{
     }
 
     public void registerUser(RequestRegistrationDataDto registrationData) {
-        if(!nameIsValid(registrationData.getName())){
+        if (!nameIsValid(registrationData.getName())) {
             throw new IncorrectNameFormat();
         }
-        if(!emailIsValid(registrationData.getEmail())){
+        if (!emailIsValid(registrationData.getEmail())) {
             throw new IncorrectEmailFormat();
         }
-        if(!passwordIsValid(registrationData.getPassword())){
+        if (!passwordIsValid(registrationData.getPassword())) {
             throw new IncorrectPasswordFormat();
         }
 
@@ -72,7 +72,7 @@ public class AuthorizationService implements UserDetailsService{
 
     public void forgotPassword(String email) { // send recover link on email
         Person person = personDao.readByEmail(email);
-        if(person != null) {
+        if (person != null) {
             String id = generateRandomString();
             String hashedId = hashPassword(id);
 
@@ -86,12 +86,11 @@ public class AuthorizationService implements UserDetailsService{
             this.emailSender.send(message);
 
             personDao.saveRecoverPasswordRequest(person.getPersonId(), LocalDateTime.now(), hashedId);
-        }
-        else throw new NotFoundException("Email");
+        } else throw new NotFoundException("Email");
     }
 
     public void recoverPassword(String id, Long personId, String newPassword) {
-        if(!passwordIsValid(newPassword)) throw new IncorrectPasswordFormat();
+        if (!passwordIsValid(newPassword)) throw new IncorrectPasswordFormat();
 
         List<RestorePasswordDataDto> dataDto = personDao.restorePassword(personId);
         LocalDateTime currentDateTime = LocalDateTime.now();
@@ -99,9 +98,9 @@ public class AuthorizationService implements UserDetailsService{
         if (dataDto.isEmpty()) throw new NotFoundException("Request for password restore");
 
         boolean updatePerson = false;
-        for (RestorePasswordDataDto dto : dataDto){
+        for (RestorePasswordDataDto dto : dataDto) {
             if (matchHash(id, dto.getId()) &&
-                    ChronoUnit.HOURS.between(dto.getLocalDateTime(), currentDateTime) < linkRestorePasswordLifetime){ // if id matched and the request has not timed out
+                    ChronoUnit.HOURS.between(dto.getLocalDateTime(), currentDateTime) < linkRestorePasswordLifetime) { // if id matched and the request has not timed out
                 Person person = personDao.read(dto.getPersonId());
                 person.setPassword(hashPassword(newPassword));
                 personDao.update(person);
@@ -126,8 +125,8 @@ public class AuthorizationService implements UserDetailsService{
         return matcher.find();
     }
 
-    public static boolean nameIsValid(String name){
-        String regex = "^[a-zA-Z0-9 ]{3,255}$";
+    public static boolean nameIsValid(String name) {
+        String regex = "^.{3,100}$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(name);
         return matcher.find();
@@ -137,11 +136,11 @@ public class AuthorizationService implements UserDetailsService{
         return passwordEncoder.encode(password);
     }
 
-    private String generatePasswordRecoveryLink(String id, Long personId){
-        return siteUrl+"/recover-password?id="+id+"&nn="+personId;
+    private String generatePasswordRecoveryLink(String id, Long personId) {
+        return siteUrl + "/recover-password/" + id + "/" + personId;
     }
 
-    public static String generateRandomString(){
+    public static String generateRandomString() {
         int leftLimit = 48; // numeral '0'
         int rightLimit = 122; // letter 'z'
         int targetStringLength = 40;
@@ -154,14 +153,14 @@ public class AuthorizationService implements UserDetailsService{
                 .toString();
     }
 
-    private boolean matchHash(String hash1, String hash2){
+    private boolean matchHash(String hash1, String hash2) {
         return passwordEncoder.matches(hash1, hash2);
     }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         Person person = personDao.readByEmail(s);
-        if(person == null) throw new UsernameNotFoundException(s);
+        if (person == null) throw new UsernameNotFoundException(s);
         return person;
     }
 }

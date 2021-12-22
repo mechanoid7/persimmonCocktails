@@ -1,6 +1,7 @@
 package com.example.persimmoncocktails.services;
 
 import com.example.persimmoncocktails.dao.KitchenwareDao;
+import com.example.persimmoncocktails.dtos.kitchenware.KitchenwareNameDto;
 import com.example.persimmoncocktails.dtos.kitchenware.RequestKitchenwareDto;
 import com.example.persimmoncocktails.dtos.kitchenware.ResponseKitchenwareDto;
 import com.example.persimmoncocktails.exceptions.StateException;
@@ -9,16 +10,25 @@ import com.example.persimmoncocktails.exceptions.NotFoundException;
 import com.example.persimmoncocktails.models.kitchenware.Kitchenware;
 import com.example.persimmoncocktails.models.kitchenware.KitchenwareCategory;
 import com.example.persimmoncocktails.models.kitchenware.KitchenwareWithCategory;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@PropertySource("classpath:var/general.properties")
 public class KitchenwareService {
     KitchenwareDao kitchenwareDao;
+    @Value("${amount_of_kitchenware}")
+    private Integer amountOfKitchenwareToReturnWhileSearchingByPrefix;
+
+    @Autowired
+    public KitchenwareService(KitchenwareDao kitchenwareDao) {
+        this.kitchenwareDao = kitchenwareDao;
+    }
 
     public KitchenwareWithCategory readKitchenwareId(Long kitchenwareId) {
         KitchenwareWithCategory kitchenware = kitchenwareDao.read(kitchenwareId);
@@ -101,5 +111,9 @@ public class KitchenwareService {
         KitchenwareWithCategory kitchenware = readKitchenwareId(kitchenwareId);
         if(!kitchenware.isActive()) throw new NotFoundException("Kitchenware");
         return ResponseKitchenwareDto.toDto(kitchenware);
+    }
+
+    public List<KitchenwareWithCategory> findActiveKitchenwareByPrefix(String prefix) {
+        return kitchenwareDao.findActiveKitchenwareByPrefixLimitedAmount(prefix, amountOfKitchenwareToReturnWhileSearchingByPrefix);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.persimmoncocktails.services;
 
+import com.example.persimmoncocktails.dao.ImageDao;
 import com.example.persimmoncocktails.dao.IngredientDao;
 import com.example.persimmoncocktails.dtos.ingredient.RequestIngredientDto;
 import com.example.persimmoncocktails.dtos.ingredient.ResponseIngredientDto;
@@ -9,18 +10,28 @@ import com.example.persimmoncocktails.exceptions.StateException;
 import com.example.persimmoncocktails.models.ingredient.Ingredient;
 import com.example.persimmoncocktails.models.ingredient.IngredientCategory;
 import com.example.persimmoncocktails.models.ingredient.IngredientWithCategory;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@PropertySource("classpath:var/general.properties")
 public class IngredientService {
 
-    IngredientDao ingredientDao;
+    private final IngredientDao ingredientDao;
+    private final ImageDao imageDao;
+    @Value("${amount_of_ingredients}")
+    public Integer amountOfIngredientsToReturnWhileSearchingByPrefix;
 
+    @Autowired
+    public IngredientService(IngredientDao ingredientDao, ImageDao imageDao) {
+        this.ingredientDao = ingredientDao;
+        this.imageDao = imageDao;
+    }
 
     public IngredientWithCategory readIngredientId(Long ingredientId) {
         IngredientWithCategory ingredient = ingredientDao.read(ingredientId);
@@ -46,7 +57,7 @@ public class IngredientService {
 
     public void updatePhoto(Long ingredientId, Long photoId) {
         if (!ingredientDao.existsById(ingredientId)) throw new NotFoundException("Ingredient");
-        // check photoId
+        if (!imageDao.isExistsById(photoId)) throw new NotFoundException("Photo");
         Ingredient ingredient = ingredientDao.read(ingredientId).toIngredient();
         ingredient.setPhotoId(photoId);
         ingredientDao.update(ingredient);
@@ -58,8 +69,8 @@ public class IngredientService {
             throw new NotFoundException("IngredientCategory");
         Ingredient ingredient = new Ingredient(null,
                 requestIngredientDto.getName(),
-                requestIngredientDto.getPhotoId(),
                 requestIngredientDto.getIngredientCategoryId(),
+                requestIngredientDto.getPhotoId(),
                 true
         );
         ingredientDao.create(ingredient);
@@ -85,7 +96,7 @@ public class IngredientService {
     public void activate(Long ingredientId) {
         if (!ingredientDao.existsById(ingredientId)) throw new NotFoundException("Ingredient");
         IngredientWithCategory ingredient = ingredientDao.read(ingredientId);
-        if (!ingredient.isActive()) throw new StateException("This item is activate already");
+        if (ingredient.isActive()) throw new StateException("This item is activate already");
         ingredient.setActive(true);
         ingredientDao.update(ingredient.toIngredient());
     }
@@ -96,12 +107,15 @@ public class IngredientService {
                 .filter(IngredientWithCategory::isActive)
                 .map(ResponseIngredientDto::toDto)
                 .collect(Collectors.toList());
-
     }
 
     public ResponseIngredientDto readActiveIngredientId(Long ingredientId) {
         IngredientWithCategory ingredient = readIngredientId(ingredientId);
         if (!ingredient.isActive()) throw new NotFoundException("Ingredient");
         return ResponseIngredientDto.toDto(ingredient);
+    }
+
+    public List<IngredientWithCategory> findActiveIngredientsByPrefix(String prefix) {
+        return ingredientDao.findActiveIngredientsByPrefixLimitedAmount(prefix, amountOfIngredientsToReturnWhileSearchingByPrefix);
     }
 }

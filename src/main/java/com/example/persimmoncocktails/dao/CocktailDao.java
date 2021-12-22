@@ -1,9 +1,6 @@
 package com.example.persimmoncocktails.dao;
 
-import com.example.persimmoncocktails.dtos.cocktail.BasicCocktailDto;
-import com.example.persimmoncocktails.dtos.cocktail.FullCocktailDto;
-import com.example.persimmoncocktails.dtos.cocktail.RequestCocktailUpdate;
-import com.example.persimmoncocktails.dtos.cocktail.RequestCreateCocktail;
+import com.example.persimmoncocktails.dtos.cocktail.*;
 import com.example.persimmoncocktails.models.cocktail.CocktailCategory;
 
 import java.util.List;
@@ -29,7 +26,9 @@ public interface CocktailDao {
 
     Long getLikes(Long dishId);
 
-    List<BasicCocktailDto> searchFilterSort(String sqlRequest, Long pageNumber);
+    List<BasicCocktailDto> searchFilterSort(SqlSearchRequest searchRequest);
+
+    Integer amountOfResults(SqlSearchRequest searchRequest);
 
     boolean cocktailIsActive(Long dishId);
 
@@ -57,6 +56,8 @@ public interface CocktailDao {
 
     void addKitchenware(Long cocktailId, Long kitchenwareId);
 
+    void updateImage(Long cocktailId, Long imageId);
+
     void removeKitchenware(Long cocktailId, Long kitchenwareId);
 
     Boolean hasIngredient(Long cocktailId, Long ingredientId);
@@ -64,4 +65,6 @@ public interface CocktailDao {
     void addIngredient(Long cocktailId, Long ingredientId);
 
     void removeIngredient(Long cocktailId, Long ingredientId);
+
+    Integer amountOfCocktails(boolean showActive, boolean showInactive);
 }

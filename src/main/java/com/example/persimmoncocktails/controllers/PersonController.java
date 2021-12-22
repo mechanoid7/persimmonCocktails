@@ -3,6 +3,7 @@ package com.example.persimmoncocktails.controllers;
 import com.example.persimmoncocktails.dtos.auth.RequestChangePasswordDataDto;
 import com.example.persimmoncocktails.dtos.friend.FoundPersonsResponseDto;
 import com.example.persimmoncocktails.dtos.friend.FriendResponseDto;
+import com.example.persimmoncocktails.dtos.friend.RequestDeleteFriendDto;
 import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
 import com.example.persimmoncocktails.services.FriendsService;
 import com.example.persimmoncocktails.services.PersonService;
@@ -12,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @RestController
 @PreAuthorize("isAuthenticated")
 @RequestMapping("/person")
@@ -57,7 +59,6 @@ public class PersonController {
     }
 
     @PatchMapping("/change-password")
-    @PreAuthorize("hasRole('ROLE_CLIENT')")
     public void changePasswordPerson(@RequestBody RequestChangePasswordDataDto requestChangePasswordData) {
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         personService.changePassword(personId,
@@ -88,7 +89,7 @@ public class PersonController {
         return friendsService.numberOfPagesPersonsBySubstringWithoutFriends(personId, substring);
     }
 
-    @GetMapping("/friends") // deprecated
+    @GetMapping("/friends")
     public List<FriendResponseDto> getSelfFriends(@RequestParam("page") Long pageNumber) {
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
         return friendsService.getPersonFriends(personId, pageNumber);
@@ -113,9 +114,9 @@ public class PersonController {
     }
 
     @DeleteMapping("/friends/delete")
-    public void deleteFriend(@RequestBody Long friendId) {
+    public void deleteFriend(@RequestBody RequestDeleteFriendDto deleteFriend) {
         Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
-        friendsService.removeFriendById(personId, friendId);
+        friendsService.removeFriendById(personId, deleteFriend.getPersonId());
     }
 
     @PostMapping("/friends/add")

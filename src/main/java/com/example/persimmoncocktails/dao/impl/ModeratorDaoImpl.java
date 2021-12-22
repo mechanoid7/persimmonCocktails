@@ -18,6 +18,8 @@ public class ModeratorDaoImpl implements ModeratorDao {
 
     @Value("${sql_moderator_get_all}")
     private String sqlGetAllModerators;
+    @Value("${sql_moderator_with_such_id_exists}")
+    private String sqlMethodWithSuchIdExists;
 
     private final JdbcTemplate jdbcTemplate;
     private final PersonMapper personMapper = new PersonMapper();
@@ -25,5 +27,10 @@ public class ModeratorDaoImpl implements ModeratorDao {
     @Override
     public List<Person> getAllModerators() {
         return jdbcTemplate.query(sqlGetAllModerators, personMapper);
+    }
+
+    @Override
+    public boolean existsById(Long personId) {
+        return Boolean.TRUE.equals(jdbcTemplate.queryForObject(sqlMethodWithSuchIdExists, Boolean.class, personId));
     }
 }

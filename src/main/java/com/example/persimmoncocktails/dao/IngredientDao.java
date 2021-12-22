@@ -27,4 +27,6 @@ public interface IngredientDao {
     List<IngredientWithCategory> readAllIngredientsUsedByCocktail(Long cocktailId);
 
     List<IngredientCategory> readAllIngredientCategories();
+
+    List<IngredientWithCategory> findActiveIngredientsByPrefixLimitedAmount(String prefix, int limit);
 }

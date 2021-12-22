@@ -10,7 +10,7 @@ public class IngredientCategoryMapper implements RowMapper<IngredientCategory> {
     @Override
     public IngredientCategory mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new IngredientCategory(
-                rs.getLong("ingredient_category_id"),
+                rs.getLong("ingridient_category_id"),
                 rs.getString("name"));
     }
 }

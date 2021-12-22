@@ -1,9 +1,7 @@
 package com.example.persimmoncocktails.controllers;
 
 import com.example.persimmoncocktails.dtos.auth.*;
-import com.example.persimmoncocktails.dtos.person.ModeratorResponseDto;
-import com.example.persimmoncocktails.dtos.person.PersonResponseDto;
-import com.example.persimmoncocktails.dtos.person.RequestPersonIdDto;
+import com.example.persimmoncocktails.dtos.person.*;
 import com.example.persimmoncocktails.services.ModeratorService;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@PreAuthorize("isAuthenticated")
 @RequestMapping("/moderator")
 public class ModeratorController {
 
@@ -35,22 +32,21 @@ public class ModeratorController {
     }
 
     @GetMapping("/{personId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ModeratorResponseDto getModeratorById(@PathVariable Long personId) {
         return moderatorService.readModeratorById(personId);
     }
 
     @PatchMapping("/update-name")
-    @PreAuthorize("hasPermission('moderator:update')")
-    public void updateName(@RequestParam String name) {
-        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
-        moderatorService.updateName(personId, name);
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void updateName(@RequestBody UpdateNameForModeratorRequestDto dto) {
+        moderatorService.updateName(dto.getPersonId(), dto.getName());
     }
 
     @PatchMapping("/update-photo")
-    @PreAuthorize("hasPermission('moderator:update')")
-    public void updatePhoto(@RequestParam Long photoId) {
-        Long personId = (Long) (SecurityContextHolder.getContext().getAuthentication().getDetails());
-        moderatorService.updatePhotoId(personId, photoId);
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void updatePhoto(@RequestBody UpdatePhotoForModeratorRequestDto dto) {
+        moderatorService.updatePhotoId(dto.getPersonId(), dto.getPhotoId());
     }
 
     @PatchMapping("/change-password")
@@ -61,7 +57,7 @@ public class ModeratorController {
     }
 
     @PostMapping(path = "/create-password")
-    public void recoverPassword(@RequestBody RequestCreatePasswordDataDto requestCreatePasswordData) { // get id, personId from email link
+    public void recoverPassword(@RequestBody RequestCreatePasswordDataDto requestCreatePasswordData) {
         moderatorService.createPassword(
                 requestCreatePasswordData.getId(),
                 requestCreatePasswordData.getPersonId(),
@@ -69,7 +65,7 @@ public class ModeratorController {
     }
 
     @PostMapping(path = "/change-status")
-    @PreAuthorize("hasRole('ROLE_ADMIN')") // admin can change
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void changeStatus(@RequestBody Long personId) {
         moderatorService.changeStatus(personId);
     }

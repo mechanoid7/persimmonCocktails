@@ -11,13 +11,13 @@ public class KitchenwareWithCategoryMapper implements RowMapper<KitchenwareWithC
     @Override
     public KitchenwareWithCategory mapRow(ResultSet rs, int rowNum) throws SQLException {
         Long photoId = rs.getLong("photo_id");
-        if(rs.wasNull()) photoId = null;
+        if (rs.wasNull()) photoId = null;
         Long kitchenwareCategoryId = rs.getLong("kitchenware_category_id");
-        if(rs.wasNull()) kitchenwareCategoryId = null;
+        if (rs.wasNull()) kitchenwareCategoryId = null;
         String kitchenwareCategoryName = rs.getString("kitchenware_category_name");
-        if(rs.wasNull()) kitchenwareCategoryName = null;
+        if (rs.wasNull()) kitchenwareCategoryName = null;
         KitchenwareCategory kitchenwareCategory = null;
-        if(kitchenwareCategoryId != null && kitchenwareCategoryName != null)
+        if (kitchenwareCategoryId != null && kitchenwareCategoryName != null)
             kitchenwareCategory = new KitchenwareCategory(kitchenwareCategoryId, kitchenwareCategoryName);
         return new KitchenwareWithCategory(
                 rs.getLong("kitchenware_id"),
